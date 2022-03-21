@@ -1,0 +1,4 @@
+cmake-build-debug/
+CMakeModules/
+venv/
+.idea/

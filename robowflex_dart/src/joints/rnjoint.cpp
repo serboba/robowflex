@@ -78,6 +78,8 @@ void RnJoint::sample(Eigen::Ref<Eigen::VectorXd> a) const
 {
     for (unsigned int i = 0; i < numDof_; ++i)
         a[i] = rng_.uniformReal(low_[i], high_[i]);
+
+
 }
 
 void RnJoint::sampleNear(Eigen::Ref<Eigen::VectorXd> a,                  //

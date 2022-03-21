@@ -18,17 +18,20 @@ using namespace robowflex::darts;
 ///
 
 StateSpace::StateSampler::StateSampler(const StateSpace *space)
-  : ompl::base::RealVectorStateSampler(space), joints_(space->joints_)
+        : ompl::base::RealVectorStateSampler(space), joints_(space->joints_)
 {
 }
 
 void StateSpace::StateSampler::sampleUniform(ompl::base::State *state)
 {
+
     auto *as = state->as<StateType>();
 
     for (const auto &joint : joints_)
         joint->sample(joint->getSpaceVars(as->data));
+
 }
+
 
 void StateSpace::StateSampler::sampleUniformNear(ompl::base::State *state, const ompl::base::State *near,
                                                  double distance)
@@ -75,6 +78,19 @@ void StateSpace::addGroup(const std::string &name, const std::string &group, std
     addGroupFromJoints(group, joints, cyclic);
 }
 
+/*
+void StateSpace::setGroupIndices(const std::vector<std::vector<int>> group_indices) {
+
+    grouped_indices = group_indices;
+}
+
+
+std::vector<std::vector<int>> StateSpace::getGroupIndices()
+{
+    return grouped_indices;
+
+}
+*/
 void StateSpace::addGroupFromJoints(const std::string &group_name,
                                     const std::vector<dart::dynamics::Joint *> &joints, std::size_t cyclic)
 {
@@ -138,9 +154,9 @@ void StateSpace::addGroupFromJoints(const std::string &group_name,
                     low[i] = alow;
                     high[i] = ahigh;
                     low[3 + i] =
-                        std::max({free->getPositionLowerLimit(3 + i), world_->getWorkspaceLowConst()[i]});
+                            std::max({free->getPositionLowerLimit(3 + i), world_->getWorkspaceLowConst()[i]});
                     high[3 + i] =
-                        std::min({free->getPositionUpperLimit(3 + i), world_->getWorkspaceHighConst()[i]});
+                            std::min({free->getPositionUpperLimit(3 + i), world_->getWorkspaceHighConst()[i]});
                 }
                 auto j = std::make_shared<RnJoint>(this, free, 6, 0, low, high);
                 addJoint(group_name, j);
@@ -153,9 +169,9 @@ void StateSpace::addGroupFromJoints(const std::string &group_name,
                 for (std::size_t i = 0; i < 3; ++i)
                 {
                     low[i] =
-                        std::max({free->getPositionLowerLimit(3 + i), world_->getWorkspaceLowConst()[i]});
+                            std::max({free->getPositionLowerLimit(3 + i), world_->getWorkspaceLowConst()[i]});
                     high[i] =
-                        std::min({free->getPositionUpperLimit(3 + i), world_->getWorkspaceHighConst()[i]});
+                            std::min({free->getPositionUpperLimit(3 + i), world_->getWorkspaceHighConst()[i]});
                 }
 
                 addJoint(group_name, std::make_shared<RnJoint>(this, free, 3, 3, low, high));
@@ -167,7 +183,7 @@ void StateSpace::addGroupFromJoints(const std::string &group_name,
     }
 
     registerDefaultProjection(
-        std::make_shared<ompl::base::RealVectorRandomLinearProjectionEvaluator>(this, 2));
+            std::make_shared<ompl::base::RealVectorRandomLinearProjectionEvaluator>(this, 2));
 }
 
 void StateSpace::addJoint(const std::string &group_name, const JointPtr &joint)
@@ -270,6 +286,7 @@ bool StateSpace::satisfiesBounds(const ompl::base::State *state) const
     return true;
 }
 
+
 double StateSpace::distance(const ompl::base::State *state1, const ompl::base::State *state2) const
 {
     const auto &as1 = state1->as<StateType>();
@@ -280,12 +297,12 @@ double StateSpace::distance(const ompl::base::State *state1, const ompl::base::S
     {
         const auto &v1 = joint->getSpaceVarsConst(as1->data);
         const auto &v2 = joint->getSpaceVarsConst(as2->data);
-
         d += joint->distance(v1, v2);
     }
 
     return d;
 }
+
 
 double StateSpace::getMaximumExtent() const
 {
@@ -301,6 +318,7 @@ bool StateSpace::equalStates(const ompl::base::State *state1, const ompl::base::
     return distance(state1, state2) <= 1e-8;
 }
 
+
 void StateSpace::interpolate(const ompl::base::State *from, const ompl::base::State *to, double t,
                              ompl::base::State *state) const
 {
@@ -315,8 +333,10 @@ void StateSpace::interpolate(const ompl::base::State *from, const ompl::base::St
         auto vs = joint->getSpaceVars(as->data);
 
         joint->interpolate(vf, vt, t, vs);
+
     }
 }
+
 
 ompl::base::StateSamplerPtr StateSpace::allocDefaultStateSampler() const
 {

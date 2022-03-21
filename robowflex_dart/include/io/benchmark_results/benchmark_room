@@ -1,0 +1,132 @@
+OMPL version 
+Experiment maze_Benchmarks
+1 experiment properties
+sampler_id INTEGER = 0
+Running on serboba-G3
+Starting at 2022-03-21 02:07:15
+<<<|
+Properties of the state space 'RealVectorSpace0'
+  - signature: 2 1 8 
+  - dimension: 8
+  - extent: 20.8
+  - sanity checks for state space passed
+  - probability of valid states: 0.042
+  - average length of a valid motion: 0.518358
+  - average number of samples drawn per second: sampleUniform()=220237 sampleUniformNear()=98278.3 sampleGaussian()=1.59469e+06
+Settings for the state space 'RealVectorSpace0'
+  - state validity check resolution: 1%
+  - valid segment count factor: 1
+  - state space:
+Real vector state space 'RealVectorSpace0' of dimension 8 with bounds: 
+  - min: -1.1 -1.5 -0.1 -1.5 0 0 -1.5 -3 
+  - max: 0.96 0.05 1.9 0.05 1.57 1.57 3 3 
+
+Declared parameters:
+longest_valid_segment_fraction = 0.01
+projection.cellsize.0 = 0.0781227
+projection.cellsize.1 = 0.0659509
+projection.cellsize.2 = 0.0757468
+projection.cellsize_factor = 0
+valid_segment_count_factor = 1
+Valid state sampler named uniform with parameters:
+nr_attempts = 100
+Planner LBKPIECE1 specs:
+Multithreaded:                 No
+Reports approximate solutions: No
+Can optimize solutions:        No
+Aware of the following parameters: border_fraction min_valid_path_fraction range
+Declared parameters for planner LBKPIECE1:
+border_fraction = 0.9
+min_valid_path_fraction = 0.5
+range = 4.16
+Start states:
+RealVectorState [0 0 0 0 0 0 0 0]
+0 goal states, threshold = 2.22045e-16, memory address = 0x561fe8f60c30
+Optimization Objective: Iso Manipo @0x561fed515fd0
+Optimization Threshold: 0
+Average state cost: 0
+There are 0 solutions
+
+Properties of benchmarked planners:
+Planner RRTConnect specs:
+Multithreaded:                 No
+Reports approximate solutions: No
+Can optimize solutions:        No
+Aware of the following parameters: intermediate_states range
+|>>>
+<<<|
+Architecture:        x86_64
+CPU op-mode(s):      32-bit, 64-bit
+Byte Order:          Little Endian
+CPU(s):              8
+On-line CPU(s) list: 0-7
+Thread(s) per core:  2
+Core(s) per socket:  4
+Socket(s):           1
+NUMA node(s):        1
+Vendor ID:           GenuineIntel
+CPU family:          6
+Model:               158
+Model name:          Intel(R) Core(TM) i5-8300H CPU @ 2.30GHz
+Stepping:            10
+CPU MHz:             4002.947
+CPU max MHz:         4000,0000
+CPU min MHz:         800,0000
+BogoMIPS:            4599.93
+Virtualization:      VT-x
+L1d cache:           32K
+L1i cache:           32K
+L2 cache:            256K
+L3 cache:            8192K
+NUMA node0 CPU(s):   0-7
+Flags:               fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp md_clear flush_l1d
+|>>>
+18439168526508094593 is the random seed
+10 seconds per run
+10000 MB per run
+5 runs per planner
+51.1654 seconds spent to collect the data
+1 enum type
+status|Unknown status|Invalid start|Invalid goal|Unrecognized goal type|Timeout|Approximate solution|Exact solution|Crash|Unknown status
+1 planners
+geometric_RRTConnect
+8 common properties
+intermediate_states = 0
+longest_valid_segment_fraction = 0.01
+projection.cellsize.0 = 0.0781227
+projection.cellsize.1 = 0.0659509
+projection.cellsize.2 = 0.0757468
+projection.cellsize_factor = 0
+range = 4.16
+valid_segment_count_factor = 1
+23 properties for each run
+approx goal distance REAL
+approximate solution BOOLEAN
+correct solution BOOLEAN
+correct solution strict BOOLEAN
+graph motions INTEGER
+graph states INTEGER
+memory REAL
+simplification time REAL
+simplified correct solution BOOLEAN
+simplified correct solution strict BOOLEAN
+simplified solution clearance REAL
+simplified solution length REAL
+simplified solution segments INTEGER
+simplified solution smoothness REAL
+solution clearance REAL
+solution difference REAL
+solution length REAL
+solution segments INTEGER
+solution smoothness REAL
+solved BOOLEAN
+status ENUM
+time REAL
+valid segment fraction REAL
+5 runs
+4.0256; ; ; ; 243; 254; 261.668; ; ; ; ; ; ; ; ; ; ; ; ; 0; 4; 10.0523; 0.0207143; 
+4.18373; ; ; ; 239; 250; 262.078; ; ; ; ; ; ; ; ; ; ; ; ; 0; 4; 10.0608; 0.0206052; 
+4.27647; ; ; ; 239; 250; 262.078; ; ; ; ; ; ; ; ; ; ; ; ; 0; 4; 10.0853; 0.020311; 
+2.9641; 1; 1; 1; 211; 222; 262.078; 1.3056e-05; 1; 1; 0; 3.67924; 1; 0; 0; 0.1; 3.67924; 1; 0; 0; 5; 10.0849; 0.0179148; 
+4.84976; ; ; ; 175; 186; 262.078; ; ; ; ; ; ; ; ; ; ; ; ; 0; 4; 10.0894; 0.0150758; 
+.

@@ -205,6 +205,8 @@ namespace robowflex
                 void setPose(const Eigen::Ref<const Eigen::Vector3d> &position,
                              const Eigen::Quaterniond &rotation);
 
+                void setPose(const std::vector<double> &pose);
+
                 /** \brief Set the pose of the TSR.
                  *  \param[in] xp X-coordinate of position.
                  *  \param[in] yp Y-coordinate of position.
@@ -370,6 +372,7 @@ namespace robowflex
                 void print(std::ostream &out) const;
 
                 /** \} */
+                Eigen::Transform<double, 3, 1> getPoseFromWorld(const WorldPtr &world);
 
                 /** \brief Operations
                     \{ */
@@ -381,6 +384,7 @@ namespace robowflex
 
                 /** \} */
 
+                void setPose(Eigen::MatrixXd &pose_m);
             private:
                 /** \brief Fixes bounds so they are correct.
                  */
@@ -400,6 +404,7 @@ namespace robowflex
                  *  \return If (lower, upper) is bounded or not.
                  */
                 bool isRotConstrained(double lower, double upper) const;
+
             };
 
             /** \name Constructor and Initialization
@@ -473,6 +478,7 @@ namespace robowflex
             /** \brief Get the set of indices used for TSR computation.
              */
             const std::vector<std::size_t> &getIndices() const;
+
 
             /** \brief Get the set of output world indices used.
              */

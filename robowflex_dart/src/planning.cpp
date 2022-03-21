@@ -15,7 +15,9 @@
 #include <robowflex_dart/planning.h>
 #include <robowflex_dart/tsr.h>
 #include <robowflex_dart/world.h>
+#include <robowflex_dart/IsoStateSpace.h>
 
+#include <fstream>
 using namespace robowflex::darts;
 
 ///
@@ -151,7 +153,9 @@ bool TSRGoal::sample(const ompl::base::GoalLazySamples * /*gls*/, ompl::base::St
 
 double TSRGoal::distanceGoal(const ompl::base::State *state) const
 {
+
     auto &&as = toStateConst(state);
+
     auto &&x = Eigen::Map<const Eigen::VectorXd>(as->values, si_->getStateDimension());
     return tsr_->distanceWorldState(x);
 }
@@ -240,7 +244,13 @@ double JointRegionGoal::distanceGoal(const ompl::base::State *state) const
 /// PlanBuilder
 ///
 
-PlanBuilder::PlanBuilder(WorldPtr world) : rspace(std::make_shared<StateSpace>(world)), world(world)
+PlanBuilder::PlanBuilder(WorldPtr world, std::vector<std::vector<int>> grouped_indices) :
+rspace(std::make_shared<IsoStateSpace>(world,grouped_indices)), world(world),grouped_indices(grouped_indices)
+{
+}
+
+PlanBuilder::PlanBuilder(WorldPtr world) :
+        rspace(std::make_shared<StateSpace>(world)), world(world)
 {
 }
 
@@ -397,7 +407,7 @@ ompl::base::GoalPtr PlanBuilder::fromMessage(const std::string &robot_name,
     auto goal = getGoalFromMessage(robot_name, msg);
     setGoal(goal);
 
-    return goal;
+     return goal;
 }
 
 void PlanBuilder::addGroup(const std::string &skeleton, const std::string &name, std::size_t cyclic)
@@ -416,6 +426,12 @@ void PlanBuilder::setStartConfigurationFromWorld()
     rspace->getWorldState(world, start);
 }
 
+
+ Eigen::VectorXd PlanBuilder::getStartConfiguration(){
+    return start;
+}
+
+
 void PlanBuilder::setStartConfiguration(const Eigen::Ref<const Eigen::VectorXd> &q)
 {
     start = q;
@@ -425,6 +441,7 @@ void PlanBuilder::setStartConfiguration(const std::vector<double> &q)
 {
     setStartConfiguration(Eigen::Map<const Eigen::VectorXd>(q.data(), rspace->getDimension()));
 }
+
 
 void PlanBuilder::sampleStartConfiguration()
 {
@@ -510,14 +527,22 @@ void PlanBuilder::initialize()
 
 void PlanBuilder::setup()
 {
+
     ompl::base::ScopedState<> start_state(space);
     toState(start_state.get())->data = start;
     ss->setStartState(start_state);
     if (not goal_)
         throw std::runtime_error("No goal setup in PlanBuilder!");
     ss->setGoal(goal_);
-
     ss->setup();
+   /*  auto sd = goal_->isSatisfied(getGoalConfiguration({0.149419, -0.254163, -0.0798684, -0.807437,
+                                             0.232167, 0.809528,1.48288, 2.71711,-1.57  })->getState(0));
+*/
+   // std::cout << sd << std::endl;
+   // std::this_thread::sleep_for(std::chrono::milliseconds(200000));
+
+
+
 }
 
 void PlanBuilder::initializeConstrained()
@@ -528,10 +553,12 @@ void PlanBuilder::initializeConstrained()
     rinfo = std::make_shared<ompl::base::SpaceInformation>(rspace);
     rinfo->setStateValidityChecker(getSVCUnconstrained());
 
-    constraint = std::make_shared<TSRConstraint>(rspace, path_constraints);
+    auto patdsf = path_constraints.front();
+    constraint = std::make_shared<TSRConstraint>(rspace, path_constraints.front());
 
     auto pss = std::make_shared<ompl::base::ProjectedStateSpace>(rspace, constraint);
     space = pss;
+   // std::cout << pss->getName() << std::endl;
     info = std::make_shared<ompl::base::ConstrainedSpaceInformation>(pss);
 
     ss = std::make_shared<ompl::geometric::SimpleSetup>(info);
@@ -584,11 +611,11 @@ void PlanBuilder::setStateValidityChecker()
         // ss->setStateValidityChecker(std::make_shared<WorldValidityChecker>(info, 1));
         ss->setStateValidityChecker([&](const ompl::base::State *state) -> bool {
             const auto &as = toStateConst(state);
-
             world->lock();
             rspace->setWorldState(world, as);
             bool r = not world->inCollision();
             world->unlock();
+
             return r;
         });
     }
@@ -598,11 +625,11 @@ ompl::base::StateValidityCheckerFn PlanBuilder::getSVCUnconstrained()
 {
     return [&](const ompl::base::State *state) -> bool {
         const auto &as = fromUnconstrainedStateConst(state);
-
         world->lock();
         rspace->setWorldState(world, as);
         bool r = not world->inCollision();
         world->unlock();
+
         return r;
     };
 }
@@ -623,7 +650,7 @@ ompl::base::StateValidityCheckerFn PlanBuilder::getSVCConstrained()
 ompl::geometric::PathGeometric PlanBuilder::getSolutionPath(bool simplify, bool interpolate) const
 {
     if (simplify)
-        ss->simplifySolution();
+        ss->simplifySolution(60);
 
     auto path = ss->getSolutionPath();
     if (interpolate)

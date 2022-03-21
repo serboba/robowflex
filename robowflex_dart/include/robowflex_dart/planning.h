@@ -184,6 +184,9 @@ namespace robowflex
             WorldPtr world_;                       ///< World used.
             TSRSetPtr tsr_;                        ///< TSR set to sample from.
             ompl::base::StateSamplerPtr sampler_;  ///< State sampler.
+
+
+            std::vector<std::vector<int>> grouped_indices_;
         };
 
         /** \brief A joint space goal volume.
@@ -224,10 +227,13 @@ namespace robowflex
             /** \name Setup and Initialization.
                 \{ */
 
+
             /** \brief Constructor.
              *  \param[in] world World to use for planning.
              */
+
             PlanBuilder(WorldPtr world);
+            PlanBuilder(WorldPtr world,std::vector<std::vector<int>> grouped_indices);
 
             /** \brief Initialize OMPL structures. Only call this once all constraints, groups, and other
              * parameters have been set for the builder.
@@ -318,6 +324,8 @@ namespace robowflex
              */
             void addGroup(const std::string &robot, const std::string &name, std::size_t cyclic = 0);
 
+           // void setGroupIndices(const std::vector<std::vector<int>> group_indices);
+
             /** \brief Adds a TSR as a path constraint to the problem.
              *  \param[in] tsr Path constraint.
              */
@@ -347,6 +355,7 @@ namespace robowflex
             void sampleStartConfiguration();
 
             /** \} */
+            Eigen::VectorXd getStartConfiguration();
 
             /** \name Goals
                 \{ */
@@ -402,6 +411,7 @@ namespace robowflex
             ompl::geometric::PathGeometric getSolutionPath(bool simplify = true,
                                                            bool interpolate = true) const;
 
+
             /** \} */
 
             StateSpacePtr rspace{nullptr};             ///< Underlying Robot State Space.
@@ -409,12 +419,16 @@ namespace robowflex
             ompl::base::SpaceInformationPtr rinfo{nullptr};  ///< Underlying Space Information.
             ompl::base::SpaceInformationPtr info{nullptr};   ///< Actual Space Information.
             ompl::geometric::SimpleSetupPtr ss{nullptr};     ///< Simple Setup.
-            WorldPtr world;                                  ///< World used for planning.
 
+            WorldPtr world;///< World used for planning.
+
+            std::vector<std::vector<int>> grouped_indices;
             std::vector<TSRPtr> path_constraints;  ///< Path Constraints.
+
             TSRConstraintPtr constraint{nullptr};  ///< OMPL Constraint for Path Constraints.
 
             Eigen::VectorXd start;  ///< Start configuration.
+
 
             /** \brief Hyperparameter options.
              */
@@ -428,8 +442,8 @@ namespace robowflex
                     double lambda{5.0};  ///< Manifold lambda.
                 } constraints;
             } options;
-
         protected:
+
             ompl::base::GoalPtr goal_{nullptr};  ///< Desired goal.
 
             /** \brief Initialize when path constraints are present.
@@ -449,10 +463,12 @@ namespace robowflex
              */
             ompl::base::StateValidityCheckerFn getSVCUnconstrained();
 
+
             /** \brief Get a state validity checker for the unconstrained space.
              *  \return The state validity checker.
              */
             ompl::base::StateValidityCheckerFn getSVCConstrained();
+
         };
     }  // namespace darts
 }  // namespace robowflex

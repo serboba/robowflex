@@ -30,11 +30,27 @@ if (DART_LIBRARIES)
   find_package(ompl REQUIRED)
   if (ompl_LIBRARIES)
     include_directories(SYSTEM ${ompl_INCLUDE_DIRS})
+    include_directories(SYSTEM ${omplapp_INCLUDE_DIRS})
+    include_directories(SYSTEM ${omplappbase_INCLUDE_DIRS})
     list(APPEND LIBRARIES ${ompl_LIBRARIES})
+    list(APPEND LIBRARIES ${omplapp_LIBRARIES})
+    list(APPEND LIBRARIES ${omplappbase_LIBRARIES})
+
   else()
     include_directories(SYSTEM ${OMPL_INCLUDE_DIRS})
+    include_directories(SYSTEM ${OMPLAPP_INCLUDE_DIRS})
+    include_directories(SYSTEM ${OMPLAPPBASE_INCLUDE_DIRS})
+
     list(APPEND LIBRARIES ${OMPL_LIBRARIES})
+    list(APPEND LIBRARIES ${OMPLAPP_LIBRARIES})
+    list(APPEND LIBRARIES ${OMPLAPPBASE_LIBRARIES})
   endif (ompl_LIBRARIES)
+
+
+
+  find_package(PythonLibs REQUIRED)
+  include_directories(${PYTHON_INCLUDE_DIRS})
+  list(APPEND LIBRARIES ${PYTHON_LIBRARIES})
 
   find_package(TinyXML2 REQUIRED)
   include_directories(SYSTEM ${TINYXML2_INCLUDE_DIRS})
@@ -58,7 +74,8 @@ if (DART_LIBRARIES)
     INCLUDE_DIRS ${CMAKE_CURRENT_LIST_DIR}/include
     )
 
-  include_directories(SYSTEM ${CMAKE_CURRENT_LIST_DIR}/include ${catkin_INCLUDE_DIRS})
+  include_directories(SYSTEM ${CMAKE_CURRENT_LIST_DIR}/include ${catkin_INCLUDE_DIRS} )
+  include_directories(/home/serboba/rb_ws/src/omplapp-1.5.2-Source/src)
   link_directories(${catkin_LIBRARY_DIRS})
 
   add_library(${LIBRARY_NAME}
@@ -76,20 +93,27 @@ if (DART_LIBRARIES)
     src/joints/rnjoint.cpp
     src/joints/so2joint.cpp
     src/joints/so3joint.cpp
-    )
+          src/conversion_functions.cpp
+          src/IsoManipulationOptimization.cpp
+          src/Object.cpp
+          src/planningFunctions.cpp
+          src/point_collector.cpp
+          src/quaternion_factory.cpp
+          src/RRTnew.cpp
+          src/urdf_read.cpp
+          src/isospace.cpp
+          include/robowflex_dart/IsoStateSpace.h
+          src/ActionRobot.cpp
 
+    )
   set_target_properties(${LIBRARY_NAME} PROPERTIES VERSION ${${PROJECT_NAME}_VERSION})
   target_link_libraries(${LIBRARY_NAME} PUBLIC ${LIBRARIES})
 
-  add_script(fetch_plan)
-  add_script(fetch_pick)
-  add_script(fetch_ik)
-  add_script(fetch_bimanual)
-  add_script(fetch_lift)
-  add_script(fetch_robowflex_plan)
-  add_script(fetch_robowflex_planner)
-  add_script(gui_test)
-  add_script(tsr_helper)
+
+  add_script(solve_puzzle)
+  add_script(maze_with_fetch)
+  add_script(benchmark_main)
+  add_script(benchmark_room)
 
   install_scripts()
   install_library()

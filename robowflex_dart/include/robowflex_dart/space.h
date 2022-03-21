@@ -5,6 +5,8 @@
 
 #include <ompl/base/spaces/RealVectorStateSpace.h>
 
+#include <ompl/base/MotionValidator.h>
+#include <ompl/base/SpaceInformation.h>
 #include <robowflex_library/class_forward.h>
 
 #include <robowflex_dart/robot.h>
@@ -27,6 +29,8 @@ namespace robowflex
         /** \brief An OMPL state space for robowflex::darts::World. Can do motion planning for any of the
          * robots or structures in the world.
          */
+
+
         class StateSpace : public ompl::base::RealVectorStateSpace
         {
         public:
@@ -61,6 +65,8 @@ namespace robowflex
 
             private:
                 const std::vector<JointPtr> &joints_;  ///< Joints to sample from.
+             //   const std::vector<std::vector<int>> &groups_;
+
             };
 
             /** \brief State type for the robowflex::darts::StateSpace.
@@ -96,6 +102,9 @@ namespace robowflex
              *                    SO(2), SO(3)) into Rn spaces, where n is \a cyclic.
              */
             void addGroup(const std::string &name, const std::string &group, std::size_t cyclic = 0);
+
+
+         //   void setGroupIndices(const std::vector<std::vector<int>> group_indices);
 
             /** \brief Add a group to be planned for.
              *  \param[in] group_name Name of the new group.
@@ -237,18 +246,30 @@ namespace robowflex
             bool isMetricSpace() const override;
             void enforceBounds(ompl::base::State *state) const override;
             bool satisfiesBounds(const ompl::base::State *state) const override;
-            double distance(const ompl::base::State *state1, const ompl::base::State *state2) const override;
             double getMaximumExtent() const override;
             bool equalStates(const ompl::base::State *state1, const ompl::base::State *state2) const override;
-            void interpolate(const ompl::base::State *from, const ompl::base::State *to, double t,
-                             ompl::base::State *state) const override;
             ompl::base::StateSamplerPtr allocDefaultStateSampler() const override;
             ompl::base::State *allocState() const override;
             void freeState(ompl::base::State *state) const override;
 
+
+            std::vector<int> findIndex_Grouped(std::vector<double> &distances, double t) const;
+
             /** \} */
 
+
+            double distance(const ompl::base::State *state1, const ompl::base::State *state2) const override;
+            void interpolate(const ompl::base::State *from, const ompl::base::State *to, double t,
+                             ompl::base::State *state) const override;
+
+         //   std::vector<double> getDistances(const StateType *const rfrom, const StateType *const rto) const;
+         //   double distance(double v1, double v2) const;
+         //   int findIndex(std::vector<double> &distances, double t) const;
+         //   std::vector<std::vector<int>> getGroupIndices();
+
             void setMetricSpace(bool metric);
+
+
 
         protected:
             void addJoint(const std::string &group_name, const JointPtr &joint);
@@ -265,8 +286,13 @@ namespace robowflex
 
             ompl::RNG rng_;  ///< Random number generator.
 
+
             std::map<std::string, std::vector<JointPtr>> group_joints_;  ///< Joints belonging to a group.
             std::map<std::string, std::size_t> group_dimension_;         ///< Dimension of the group.
+
+        //    std::vector<std::vector<int>> grouped_indices;
+
+
         };
     }  // namespace darts
 }  // namespace robowflex
