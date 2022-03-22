@@ -42,6 +42,7 @@ void translateActions(std::vector<ActionP> &actions_, std::vector<Object> object
                 pos(obj.joints.joints.at(i).direction) = path_action.vals[i];
             else
                 rpy(obj.joints.joints.at(i).direction) = path_action.vals[i];
+            std::cout<<rpy << std::endl;
         }
         actions_robot.push_back(ActionR(pos,rpy,obj.link.name,path_action.group_index));
     }
@@ -62,7 +63,7 @@ void translateActions(std::vector<ActionP> &actions_, std::vector<Object> object
                 action_.rpy = action_.rpy - rpy_it;
 
                 pos_it += action_.pos;
-                rpy_it += action_.pos;
+                rpy_it += action_.rpy;
             }
         }
     }

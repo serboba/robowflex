@@ -69,7 +69,7 @@ int main(int argc, char **argv)
                                              abs_path +"envs/meshes/fetch4.srdf");
 
 
-    std::string env_name = "maze1";
+    std::string env_name = "maze2";
 
     auto maze_dart = darts::loadMoveItRobot(env_name,
                                             abs_path+ "envs/" +env_name + ".urdf",
@@ -114,7 +114,7 @@ int main(int argc, char **argv)
 
         std::this_thread::sleep_for(std::chrono::milliseconds(5000));
 
-        int i = 1;
+        int i = 0;
 
         while (i < actions_robot.size()) {
             if (plan_to_grasp(world, window, obj_[actions_robot[i].obj_index], surface_no, true, fetch_dart,

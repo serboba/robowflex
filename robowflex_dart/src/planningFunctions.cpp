@@ -6,10 +6,13 @@
 #include <ompl/geometric/planners/fmt/FMT.h>
 #include <ompl/geometric/planners/fmt/BFMT.h>
 #include <ompl/geometric/planners/informedtrees/BITstar.h>
+#include <ompl/geometric/planners/kpiece/LBKPIECE1.h>
+#include <ompl/geometric/planners/kpiece/BKPIECE1.h>
 
 #include <ompl/base/objectives/PathLengthOptimizationObjective.h>
 #include <ompl/base/objectives/MinimaxObjective.h>
 #include <ompl/base/objectives/StateCostIntegralObjective.h>
+#include <ompl/geometric/PathHybridization.h>
 
 #include <ompl/geometric/PathSimplifier.h>
 using namespace robowflex;
@@ -150,8 +153,8 @@ bool grasp(std::shared_ptr<darts::World> &world, darts::Window &window, Object &
 
     darts::PlanBuilder builder(world);
     builder.addGroup(robot_->getName(), GROUP_X);
-
     builder.setStartConfiguration(old_config);
+    std::cout << "oldconfig : " << old_config << std::endl;
     builder.initialize();
 
 
@@ -284,12 +287,34 @@ bool plan_to_move (std::shared_ptr<darts::World> &world,darts::Window &window,Ob
     if (solved == ompl::base::PlannerStatus::EXACT_SOLUTION )
     {
 
-//        auto opt_ = std::make_shared<ompl::base::MultiOptimizationObjective>(builder.info);
-//        auto ps = std::make_shared<ompl::geometric::PathSimplifier>(builder.info,builder.ss->getGoal(),opt_);
+        auto opt_ = std::make_shared<ompl::base::PathLengthOptimizationObjective>(builder.info);
+        auto ps = std::make_shared<ompl::geometric::PathSimplifier>(builder.info,builder.ss->getGoal(),opt_);
 
+        builder.ss->simplifySolution(10);
+        builder.ss->simplifySolution(10);
+        builder.ss->simplifySolution(10);
+        builder.ss->simplifySolution(10);
+        builder.ss->simplifySolution(10);
+      /*  ompl::geometric::PathGeometric path(builder.getSolutionPath());
+        ompl::geometric::PathHybridization phyb(builder.info);
+        ompl::geometric::PathGeometricPtr pptr = nullptr;
+
+        std::vector<ompl::base::State * > states = path.getStates();
+        pptr = std::make_shared<ompl::geometric::PathGeometric>(builder.info);
+        pptr->getStates() = states;
+
+        std::cout << pptr->getStateCount() << std::endl;
+        //phyb.recordPath(pptr,true);
+        phyb.computeHybridPath();
+        auto sdf = phyb.getHybridPath();
+        std::cout << sdf->getStateCount() << std::endl;
+
+        std::cout << pptr->getStateCount() << std::endl;
         RBX_INFO("Found solution!");
-
+*/
         window.animatePath(builder, builder.getSolutionPath());
+        std::cout << obj.actual_rotation << std::endl;
+        std::cout << action_.rpy << std::endl;
         obj.actual_position += action_.pos;
         obj.actual_rotation += action_.rpy;
 
@@ -330,3 +355,53 @@ bool plan_to_move_robot (std::shared_ptr<darts::World> &world,darts::Window &win
         return false;
     }
 }
+/*        std::cout << path.getStateCount() << std::endl;
+
+        int div = path.getStateCount()/4;
+        ompl::geometric::PathGeometric part1(builder.info);
+        ompl::geometric::PathGeometric part2(builder.info);
+        ompl::geometric::PathGeometric part3(builder.info);
+        ompl::geometric::PathGeometric part4(builder.info);
+
+        for(int i = 0; i < div; i++)
+        {
+            part1.append(path.getState(i));
+        }
+        for(int i = div; i<2*div; i++)
+        {
+            part2.append(path.getState(i));
+        }
+        for(int i = 2*div; i<3*div; i++)
+        {
+            part3.append(path.getState(i));
+        }
+        for(int i = 3*div; i<path.getStateCount(); i++)
+        {
+            part4.append(path.getState(i));
+        }
+
+
+        auto ps2 = builder.ss->getPathSimplifier();
+        std::cout <<" 1 : " << part1.getStateCount() << std::endl;
+        ps2->simplify(part1,10);
+        ps2->simplify(part1,10);
+        std::cout <<" 1 : " << part1.getStateCount() << std::endl;
+
+        std::cout <<" 2 : " << part2.getStateCount() << std::endl;
+        ps2->simplify(part2,10);
+        ps2->simplify(part2,10);
+        std::cout <<" 2 : " << part2.getStateCount() << std::endl;
+
+        std::cout <<" 3 : " << part3.getStateCount() << std::endl;
+        ps2->simplify(part3,10);
+        ps2->simplify(part3,10);
+        std::cout <<" 3 : " << part3.getStateCount() << std::endl;
+
+        std::cout <<" 4 : " << part4.getStateCount() << std::endl;
+        ps2->simplify(part4,10);
+        ps2->simplify(part4,10);
+        std::cout <<" 4 : " << part4.getStateCount() << std::endl;
+
+        std::cout <<" res : " << (part2.getStateCount() + part1.getStateCount()) << std::endl;
+        std::cout <<" res : " << (part3.getStateCount() + part4.getStateCount()) << std::endl;
+*/
