@@ -2,21 +2,12 @@
 // Created by serboba on 28.01.22.
 //
 
-
-#include <chrono>
 #include <thread>
 
-#include <ompl/geometric/SimpleSetup.h>
-
 #include <robowflex_library/builder.h>
-#include <robowflex_library/log.h>
-#include <robowflex_library/planning.h>
-#include <robowflex_library/robot.h>
 #include <robowflex_library/scene.h>
-#include <robowflex_library/tf.h>
 #include <robowflex_library/util.h>
 
-#include <robowflex_dart/gui.h>
 #include <robowflex_dart/planning.h>
 #include <robowflex_dart/robot.h>
 #include <robowflex_dart/space.h>
@@ -40,7 +31,7 @@
 #include <ompl/geometric/planners/prm/PRMstar.h>
 #include <ompl/geometric/PathGeometric.h>
 
- #include <robowflex_dart/RRTnew.h>
+#include <robowflex_dart/RRTnew.h>
 #include <robowflex_dart/urdf_read.h>
 #include <ompl/tools/benchmark/Benchmark.h>
 #include <robowflex_dart/IsoStateSpace.h>
@@ -67,7 +58,7 @@ void preRunEvent(const base::PlannerPtr & planner){
 
 }
 
-void benchmark(std::string robot_name,std::string urdf_name, std::string srdf_name){
+void benchmark(std::string robot_name,std::string urdf_name, std::string srdf_name, double time, int run_count){
     auto puzzle = robowflex::darts::loadMoveItRobot(robot_name,urdf_name,srdf_name);
 
     auto puzzle_name = puzzle->getName();
@@ -101,11 +92,9 @@ void benchmark(std::string robot_name,std::string urdf_name, std::string srdf_na
 
     builder.setup();
 
-    double runtime_limit = 10.0;
     double memory_limit = 10000.0;  // set high because memory usage is not always estimated correctly
-    int run_count = 5;
 
-    ompl::tools::Benchmark::Request request(runtime_limit, memory_limit,run_count);
+    ompl::tools::Benchmark::Request request(time, memory_limit,run_count);
 
     std::string b_name = "maze_Benchmarks";
     ompl::tools::Benchmark b(*builder.ss, b_name);
@@ -160,9 +149,23 @@ int main(int argc, char **argv)
     else
         env_name = "maze2"; // test in cpp
 
+    double time;
+    int run_count;
+
+    if(argc >3)
+    {
+        time = atof(argv[2]);
+        run_count = atoi(argv[3]);
+    }
+    else
+    {
+        time = 10.0;
+        run_count = 2;
+    }
     benchmark(env_name,
               abs_path +"envs/" + env_name+ "/" + "urdf/" + env_name + ".urdf",
-              abs_path +"envs/" + env_name+ "/" + "srdf/" + env_name + ".srdf");
+              abs_path +"envs/" + env_name+ "/" + "srdf/" + env_name + ".srdf",
+              time,run_count);
 
 
     return 0;
