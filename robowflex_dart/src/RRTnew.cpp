@@ -520,7 +520,7 @@ void ompl::geometric::RRTnew::shortcutPath(std::vector<ompl::base::State*> &main
     while(shortcut)
     {
 
-        for(int i = 1; i < mainPath.size(); i++)
+        for(size_t i = 1; i < mainPath.size(); i++)
         {
             ompl::base::State *subFrom = mainPath.at(i-1);
             ompl::base::State  *subTo = mainPath.at(i);
@@ -907,15 +907,13 @@ ompl::base::PlannerStatus ompl::geometric::RRTnew::solve(const base::PlannerTerm
 
                 auto path(std::make_shared<PathGeometric>(si_));
                 constructSolutionPath(*path,startMotion,goalMotion);
-
-                std::ofstream fs("mazeREP.txt");
-                path->printAsMatrix(fs);
+          //      std::ofstream fs("mazeREP.txt");
+          //      path->printAsMatrix(fs);
 
                 checkRepairPath(path->getStates());
 
-                std::ofstream fsx("mazeBF.txt");
-                path->printAsMatrix(fsx);
-
+          //      std::ofstream fsx("mazeBF.txt");
+          //      path->printAsMatrix(fsx);
 
                 simplifyPath(path->getStates());
 
@@ -924,7 +922,7 @@ ompl::base::PlannerStatus ompl::geometric::RRTnew::solve(const base::PlannerTerm
 */
                 if(getCostPath(path->getStates()) < bestCost_.value())
                 {
-                    std::cout << "we found better path :" << getCostPath(path->getStates()) << ", earlier : " << bestCost_.value() << std::endl;
+                    OMPL_DEBUG("Better path found, new path cost: %d, old path cost: %d", getCostPath(path->getStates()), int(bestCost_.value()));
                     std::vector<ompl::base::State *>().swap(best_path->getStates()); // free mem
                     best_path = path;
                     //bestCost_ = base::Cost(getCostPath(best_path->getStates()),0.0);
@@ -934,16 +932,14 @@ ompl::base::PlannerStatus ompl::geometric::RRTnew::solve(const base::PlannerTerm
                 }else
                 {
               //      std::cout << "worst path :" << getCostPath(path->getStates()) << ", best current : " << bestCost_.value() << std::endl;
-
                     std::vector<ompl::base::State *>().swap(path->getStates()); // free mem
                 }
 
                 if(ptc)
                 {
                     pdef_->addSolutionPath(best_path, false, 0.0, getName());
-                    std::ofstream f3("mazeRES.txt");
-                    best_path->printAsMatrix(f3);
-
+                    //std::ofstream f3("mazeRES.txt");
+                    //best_path->printAsMatrix(f3);
                     solved = true;
                     break;
                 }

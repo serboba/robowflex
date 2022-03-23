@@ -85,7 +85,7 @@ void benchmark(std::string robot_name,std::string urdf_name, std::string srdf_na
     builder.initialize();
 
     robowflex::darts::TSR::Specification goal_spec;
-    goal_spec.setFrame(puzzle_name, "link_0", "base_link");
+    goal_spec.setFrame(puzzle_name, "link_0_joint_0", "base_link");
     goal_spec.setPose(input_.goal_pose);            //  SET WANTED CUBE POSITION
     auto goal_tsr = std::make_shared<robowflex::darts::TSR>(world, goal_spec);
     auto goal = builder.getGoalTSR(goal_tsr);
@@ -153,28 +153,17 @@ void benchmark(std::string robot_name,std::string urdf_name, std::string srdf_na
 
 int main(int argc, char **argv)
 {
+    //TODO get multiple puzzles to benchmark as argument
+    std::string env_name;
+    if(argc > 1 )
+        env_name = std::string(argv[1]);
+    else
+        env_name = "maze2"; // test in cpp
 
-
-/*
-    benchmark("maze1",
-              "/home/serboba/rb_ws/devel/lib/robowflex_dart/envs/maze1.urdf",
-              "/home/serboba/rb_ws/devel/lib/robowflex_dart/envs/maze1.srdf");
-*/
-
-    std::string env_name = "maze2";
     benchmark(env_name,
-              abs_path+ "envs/" +env_name + ".urdf",
-              abs_path +"envs/"+ env_name + ".srdf");
+              abs_path +"envs/" + env_name+ "/" + "urdf/" + env_name + ".urdf",
+              abs_path +"envs/" + env_name+ "/" + "srdf/" + env_name + ".srdf");
 
-/*
-    benchmark("maze3",
-              "/home/serboba/rb_ws/devel/lib/robowflex_dart/envs/maze3.urdf",
-              "/home/serboba/rb_ws/devel/lib/robowflex_dart/envs/maze3.srdf");
-*/
 
-  /*  benchmark("maze_vertical",
-              "/home/serboba/rb_ws/devel/lib/robowflex_dart/envs/maze_vertical.urdf",
-              "/home/serboba/rb_ws/devel/lib/robowflex_dart/envs/maze_vertical.srdf");
-    */
     return 0;
 }
