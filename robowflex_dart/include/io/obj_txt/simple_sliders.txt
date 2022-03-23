@@ -1,4 +1,0 @@
-link_0_gr,base_link,32.0 32.0 0.2,0 0 0,0 0 0;
-link_1_gr,link_0_joint_0,0.2 0.2 1.6,0 0 0,0 0 0,link_0_joint_0,0 0 0.2,1.5708 0 0,prismatic,0 0 1.0,link_0_joint_1,0 0 0.2,0 0 0,prismatic,0 1 0;
-link_2_gr,link_0_joint_1,0.2 0.2 1.6,0 0 0,0 0 0,link_0_joint_0,0 0 0.2,1.5708 0 0,prismatic,0 0 1.0,link_0_joint_1,0 0 0.2,0 0 0,prismatic,0 1 0;
-link_3_gr,link_1_joint_0,0.2 0.2 1.6,0 0 0,0 0 0,link_1_joint_0,0 -1.0 0.2,0 1.5708 0,prismatic,0 0 1.0;

@@ -1,0 +1,181 @@
+<?xml version="1.0"?>
+  <robot name="maze2">
+    <link name="base_link"/>
+
+    <link name="table">
+      <visual>
+        <geometry>
+          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/maze2/meshes/maze2table.dae" scale = " 0.750 0.750 0.750"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+
+<material name = "">
+          <color rgba="0.87450980392 0.87450980392 0.87058823529 1.0"/>
+      </material>
+
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/maze2/meshes/maze2table.dae" scale = " 0.750 0.750 0.750"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0" />       
+       </collision>
+    </link>
+
+    <link name="link_0_joint_0">
+      <visual>
+        <geometry>
+          <box size="0.1 0.1 0.1"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+      <material name = "">
+          <color rgba="0.0 0.8 0.0 1.0"/>
+      </material>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.1 0.1 0.1"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0" />       
+       </collision>
+    </link>
+
+
+<link name ="cube_x"/>
+
+
+     <link name="link_1_joint_0">
+      <visual>
+        <geometry>
+          <box size="0.05 0.33 0.16"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0.0 0.0 0" />
+        <material name = "">
+          <color rgba="0.6901 0.2509 0.2509 1.0"/>
+      </material>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.05 0.33 0.16"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0.0 0.0 0" />
+       </collision>
+    </link>
+
+     <link name="link_t">
+      <visual>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <box size="0.05 0.035 0.025"/>
+        </geometry>
+             <material name = "">
+          <color rgba="0.0 0.8 0.0 1.0"/>
+      </material>
+      </visual>
+    </link>
+
+
+    <link name="link_2_joint_0">
+      <visual>
+        <geometry>
+          <box size="0.1 0.25 0.1"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+      <material name = "">
+          <color rgba="0.0 0.50196078431 1.0 1.0"/>
+      </material>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.1 0.25 0.1"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+      </collision>
+    </link>
+
+<link name ="obs_x"/>
+
+ <link name="cube_goal">
+      <visual>
+        <geometry>
+          <box size="0.1 0.1 0.1"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+      <material name = "">
+          <color rgba="0.0 0.8 0.0 0.4"/>
+      </material>
+      </visual>
+    </link>
+
+
+<joint name="table_j" type="fixed">
+    <origin rpy="0 0 0" xyz="0.9 -0.4 0.73" />
+    <parent link="base_link" />
+    <child link="table" />
+    <axis xyz="0 1 0" />
+  </joint>
+
+
+<joint name="goal" type="fixed">
+    <origin rpy="0 0 0" xyz="1.02 -0.75 0.87" />
+    <parent link="base_link" />
+    <child link="cube_goal" />
+  </joint>
+
+
+<joint name="link_0_joint_0" type="prismatic">
+    <origin rpy="0 0 0" xyz="0.30 -0.8 0.87" />
+    <parent link="base_link" />
+    <child link="cube_x" />
+   <axis xyz="1 0 0" />
+  <limit lower="-0.1" upper="0.85" effort="0.05" velocity="1.57"/>
+  </joint>
+
+
+<joint name="link_0_joint_1" type="prismatic">
+    <origin rpy="0 0 0" xyz="0.0 0 0.0" />
+    <parent link="cube_x" />
+    <child link="link_0_joint_0" />
+   <axis xyz="0 1 0" />
+  <limit lower="0.0" upper="1.05" effort="0.05" velocity="1.57"/>
+  </joint>
+
+
+
+    <joint name="link_1_joint_0" type="prismatic">
+        <origin rpy="0 0 0" xyz="0.45 -0.735 0.89"/>
+        <parent link="base_link"/>
+        <child link="link_1_joint_0"/>
+        <axis xyz="1 0 0"/>
+        <limit lower="-0.25" upper="0.5" effort="5" velocity="1.57"/>
+    </joint>
+
+ <joint name="door_joint2" type="fixed">
+        <origin rpy="0 0 0" xyz="0.0 -0.182 -0.028"/>
+        <parent link="link_1_joint_0"/>
+        <child link="link_t"/>
+    </joint>
+
+
+
+<joint name="link_2_joint_0" type="prismatic">
+    <origin rpy="0 0 0" xyz="0.95 -0.75 0.87" />
+    <parent link="base_link" />
+    <child link="obs_x" />
+   <axis xyz="1 0 0" />
+  <limit lower="-0.70" upper="0.20" effort="0.05" velocity="1.57"/>
+  </joint>
+
+
+<joint name="link_2_joint_1" type="prismatic">
+    <origin rpy="0 0 0" xyz="0.0 0 0.0" />
+    <parent link="obs_x" />
+    <child link="link_2_joint_0" />
+   <axis xyz="0 1 0" />
+  <limit lower="-0.1" upper="0.90" effort="0.05" velocity="1.57"/>
+  </joint>
+
+
+
+
+</robot>

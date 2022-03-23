@@ -111,6 +111,7 @@ if (DART_LIBRARIES)
 
 
   add_script(solve_puzzle)
+  add_script(solve_puzzle_animation)
   add_script(maze_with_fetch)
   add_script(benchmark_main)
   add_script(benchmark_room)

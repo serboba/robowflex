@@ -1,4 +1,8 @@
 //
+// Created by serboba on 23.03.22.
+//
+
+//
 // Created by serboba on 15.12.21.
 //
 
@@ -66,95 +70,76 @@ int main(int argc, char **argv)
     // Startup ROS
     ROS ros(argc, argv);
 
-
-    std::string env_name = "maze2";
+    std::string env_name;
+    if(argc > 1 )
+        env_name = std::string(argv[1]);
+    else
+        env_name = "maze2"; // test in cpp
 
     auto maze_dart = darts::loadMoveItRobot(env_name,
-                                            abs_path+ "envs/" +env_name + ".urdf",
-                                            abs_path +"envs/"+ env_name + ".srdf");
+                                            abs_path +"envs/" + env_name+ "/" + "urdf/" + env_name + ".urdf",
+                                            abs_path +"envs/" + env_name+ "/" + "srdf/" + env_name + ".srdf");
 
 
     auto maze_name = maze_dart->getName();
     auto world = std::make_shared<darts::World>();
     world->addRobot(maze_dart);
 
-    darts::Window window(world);
+
+    URDF_IO input_(env_name);
+
+    darts::PlanBuilder builder(world,input_.group_indices); // using my statespace
 
 
-
-    const auto &plan_solution_all = [&]() {
-
-        URDF_IO input_(env_name);
-
-        darts::PlanBuilder builder(world,input_.group_indices); // using my statespace
-
-
-        for(std::string group : input_.group_names) {
-            builder.addGroup(maze_name,group);
-        }
+    for(std::string group : input_.group_names) {
+        builder.addGroup(maze_name,group);
+    }
         // ADD ALL GROUPS THAT ARE NEEDED
 
-        builder.setStartConfigurationFromWorld();
+    builder.setStartConfigurationFromWorld();
 
-        builder.initialize();
-
-
-        darts::TSR::Specification goal_spec;
-        goal_spec.setFrame(maze_name, "link_0", "base_link");
-        goal_spec.setPose(input_.goal_pose);
-        goal_spec.print(std::cout);
-        auto goal_tsr = std::make_shared<darts::TSR>(world, goal_spec);
-        auto goal = builder.getGoalTSR(goal_tsr);
-
-        builder.setGoal(goal);
+    builder.initialize();
 
 
-        builder.ss->setOptimizationObjective(std::make_shared<ompl::base::IsoManipulationOptimization>(builder.info,input_.group_indices));
-        auto planner = std::make_shared<ompl::geometric::RRTnew>(builder.info,input_.group_indices,false,true); // last parameter is state isolation
+    darts::TSR::Specification goal_spec;
+    goal_spec.setFrame(maze_name, "link_0_joint_0", "base_link");
+    goal_spec.setPose(input_.goal_pose);
+    auto goal_tsr = std::make_shared<darts::TSR>(world, goal_spec);
+    auto goal = builder.getGoalTSR(goal_tsr);
+
+    builder.setGoal(goal);
+
+
+    builder.ss->setOptimizationObjective(std::make_shared<ompl::base::IsoManipulationOptimization>(builder.info,input_.group_indices));
+    auto planner = std::make_shared<ompl::geometric::RRTnew>(builder.info,input_.group_indices,false,true); // last parameter is state isolation
         //auto planner = std::make_shared<ompl::geometric::RRTstar>(builder.info);
         //auto planner = std::make_shared<ompl::geometric::BITstar>(builder.info);
         //auto planner = std::make_shared<ompl::geometric::RRTConnect>(builder.info,false);
 
-        builder.ss->setPlanner(planner);
-        builder.setup();
+    builder.ss->setPlanner(planner);
+    builder.setup();
 
-        builder.space->sanityChecks();
-        builder.rspace->sanityChecks();
+    builder.space->sanityChecks();
+    builder.rspace->sanityChecks();
 
-        goal->startSampling();
-        ompl::base::PlannerStatus solved = builder.ss->solve(30);
-        goal->stopSampling();
-
-
-
-        if (solved)
-        {
-            ompl::geometric::PathGeometric path(builder.getSolutionPath(false,false));
-
-            //path.interpolate() if not rrtnew
-
-            std::cout << "path" << std::endl;
-            std::cout << path.getStateCount() << std::endl;
-            std::string file_name = abs_path +"path_result/"+env_name + ".txt";
-            std::ofstream fs(file_name);
-            path.printAsMatrix(fs);
-
-           window.animatePath(builder, path,5,1);
+    goal->startSampling();
+    ompl::base::PlannerStatus solved = builder.ss->solve(10);
+    goal->stopSampling();
 
 
-       }
+    if (solved)
+    {
+        ompl::geometric::PathGeometric path(builder.getSolutionPath(false,false));
+            //path.interpolate() if not rrtnew maybe
+        std::string file_name = abs_path +"path_result/"+env_name + ".txt";
+        std::ofstream fs(file_name);
+        path.printAsMatrix(fs);
+        return 0;
+    }
         else
             RBX_WARN("No solution found");
-    };
+        return 1;
 
 
-    window.run([&] {
-
-     //   std::this_thread::sleep_for(std::chrono::milliseconds(200000));
-        plan_solution_all();
-
-    });
-
-    return 0;
 }
 

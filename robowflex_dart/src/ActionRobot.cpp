@@ -42,7 +42,6 @@ void translateActions(std::vector<ActionP> &actions_, std::vector<Object> object
                 pos(obj.joints.joints.at(i).direction) = path_action.vals[i];
             else
                 rpy(obj.joints.joints.at(i).direction) = path_action.vals[i];
-            std::cout<<rpy << std::endl;
         }
         actions_robot.push_back(ActionR(pos,rpy,obj.link.name,path_action.group_index));
     }
@@ -115,6 +114,5 @@ void getActionsFromPath(std::string filename,std::vector<std::vector<int>> group
         actions_.push_back(ActionP(actionGroup,action_vals));
 
     }
-    std::cout << "test"<<std::endl;
 }
 

@@ -154,7 +154,7 @@ bool grasp(std::shared_ptr<darts::World> &world, darts::Window &window, Object &
     darts::PlanBuilder builder(world);
     builder.addGroup(robot_->getName(), GROUP_X);
     builder.setStartConfiguration(old_config);
-    std::cout << "oldconfig : " << old_config << std::endl;
+    //std::cout << "oldconfig : " << old_config << std::endl;
     builder.initialize();
 
 
@@ -313,8 +313,6 @@ bool plan_to_move (std::shared_ptr<darts::World> &world,darts::Window &window,Ob
         RBX_INFO("Found solution!");
 */
         window.animatePath(builder, builder.getSolutionPath());
-        std::cout << obj.actual_rotation << std::endl;
-        std::cout << action_.rpy << std::endl;
         obj.actual_position += action_.pos;
         obj.actual_rotation += action_.rpy;
 

@@ -1,4 +1,0 @@
-cube1_gr1,cube1,0.5 0.5 0.75,0 0 0,0 0 0;
-cube_gr2,cube2,0.5 0.5 0.75,0 0 0,0 0 0;
-front_door_j,front_door,0.1 0.7 1.1,0 0 0,0.0 0.35 0,front_door_joint,1.30 -0.4 0.55,0 0 0,revolute,0 0 1;
-door_lock_j,door_lock,0.03 0.45 0.146,0 0 0,0 -0.15 0,door_lock_joint,1.22 0.45 0.90,0 0 0,revolute,1 0 0;

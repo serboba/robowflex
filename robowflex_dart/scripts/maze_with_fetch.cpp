@@ -72,8 +72,8 @@ int main(int argc, char **argv)
     std::string env_name = "maze2";
 
     auto maze_dart = darts::loadMoveItRobot(env_name,
-                                            abs_path+ "envs/" +env_name + ".urdf",
-                                            abs_path +"envs/"+ env_name + ".srdf");
+                                            abs_path +"envs/" + env_name+ "/" + "urdf/" + env_name + ".urdf",
+                                            abs_path +"envs/" + env_name+ "/" + "srdf/" + env_name + ".srdf");
 
     auto fetch_name = fetch_dart->getName();
     auto door_name = maze_dart->getName();
@@ -81,7 +81,7 @@ int main(int argc, char **argv)
     world->addRobot(fetch_dart);
     world->addRobot(maze_dart);
 
-    create_txt_from_urdf();
+    create_txt_from_urdf(env_name);
     std::vector<Object> obj_;
     read_obj_txt_file(env_name,obj_);
 

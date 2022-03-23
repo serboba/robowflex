@@ -85,7 +85,7 @@ ompl::base::Cost ompl::base::IsoManipulationOptimization::motionCost(const State
             }
         }
     }
-    std::cout<<"!!!!!!!!!!!!!!!!!!!!!!!!!!ttttttttttttt"<<std::endl;
+
     return Cost(double(action_cost));
   //  return Cost(double(action_cost),si_->distance(s1,s2));
 }

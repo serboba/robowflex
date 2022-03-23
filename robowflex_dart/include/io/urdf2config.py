@@ -9,7 +9,6 @@ def parse_urdf_file(root):
         joint_name = group.get('name')
         if(joint_name=="goal"):
             goal_pos = group.find("origin").get("xyz") +" "+ group.find("origin").get("rpy")
-            print(goal_pos)
             return goal_pos
 
     return -1
@@ -27,12 +26,8 @@ def parse_srdf_file(root):
     return groups
 
 def translate_into_txt(filename):
-    filename1 = 'envs/'+filename
-    srdf_name = filename1 +'.srdf'
-    urdf_name = filename1 +'.urdf'
-    print(srdf_name)
-    print(urdf_name)
-    print(os.getcwd())
+    srdf_name = 'envs/'+ filename + '/srdf/'+filename +'.srdf'
+    urdf_name = 'envs/'+ filename + '/urdf/'+filename +'.urdf'
     txt_file = []
 
     res = parse_srdf_file(ET.parse(srdf_name).getroot())

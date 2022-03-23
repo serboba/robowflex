@@ -1,0 +1,15 @@
+<robot name="simple_sliders">
+  <group name="link_0_gr">
+    <joint name="link_0_joint_0"></joint>
+    <joint name="link_0_joint_1"></joint>
+  </group>
+  <group name="link_1_gr">
+    <joint name="link_1_joint_0"></joint>
+  </group>
+  <group name="link_2_gr">
+    <joint name="link_2_joint_0"></joint>
+  </group>
+  <group name="link_3_gr">
+    <joint name="link_3_joint_0"></joint>
+  </group>
+</robot>

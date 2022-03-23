@@ -1,34 +1,29 @@
 import xml.etree.ElementTree as ET
 import shutil
 import os
+import sys
+
+def translate_into_txt(filename):
+    target_dir = os.getcwd() + '/envs/' + filename
+    f_new = filename+'.txt'
+    txt_file = []
+    urdf = target_dir+'/urdf/'+filename+'.urdf'
+    srdf = target_dir+'/srdf/'+filename+'.srdf'
+    txt_file = parse_file(urdf,srdf)
+    write_into_txt(txt_file,('obj_txt'+'/'+f_new))
 
 
-def translate_into_txt(target_dir):
-    target_dir = os.getcwd() + target_dir
-    for f in os.listdir(target_dir):
-        f_new_ = f.split('.')[0]
-
-        f_new = f_new_+'.txt'
-        txt_file = []
-        if(f.endswith('urdf')):
-            txt_file = parse_file(target_dir+'/'+f_new_)
-        else:
-            continue
-        if(len(txt_file)>=1):
-            write_into_txt(txt_file,('obj_txt'+'/'+f_new))
-
-
-def parse_file(root_name):
+def parse_file(urdf,srdf):
     #print(root_name)
     group_names = []
 
-    root = ET.parse(root_name+'.srdf').getroot()
+    root = ET.parse(srdf).getroot()
     for group in root.findall('group'):
         group_names.append(group.get('name'))
 
     #print(group_names)
 
-    root = ET.parse(root_name + '.urdf').getroot()
+    root = ET.parse(urdf).getroot()
 
     links = []
     for link in root.findall('link'):
@@ -98,10 +93,14 @@ def write_into_txt(file,name):
 
 
 
+if len(sys.argv) == 1:
+     sys.exit("NOT ENOUGH ARGS")
+
+
 os.chdir("../../..")
 os.chdir(os.getcwd()+"/src/robowflex/robowflex_dart/include/io/")
 
-translate_into_txt("/envs")
+translate_into_txt(str(sys.argv[1]))
 # def main():
 #     translate_into_txt("/envs")
 # if __name__ == "__main__":

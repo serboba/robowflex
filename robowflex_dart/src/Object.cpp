@@ -9,10 +9,10 @@ boost::filesystem::path pp(boost::filesystem::current_path().parent_path().paren
 const std::string abs_path = pp.string() + "/src/robowflex/robowflex_dart/include/io/";
 
 
-void create_txt_from_urdf(){
+void create_txt_from_urdf(std::string env_name){
     // RUN URDF2TXT
 
-    std::string script = "python " + abs_path + "urdf2txt.py ";
+    std::string script = "python " + abs_path + "urdf2txt.py "+ env_name;
     std::system(script.c_str());
     //std::system("python urdf2txt.py");
 

@@ -68,6 +68,6 @@ class Object {
 void read_obj_txt_file(std::string filename,std::vector<Object> &objects_);
 
 
-void create_txt_from_urdf();
+void create_txt_from_urdf(std::string env_name);
 
 #endif //ROBOWFLEX_DART_OBJECT_H
