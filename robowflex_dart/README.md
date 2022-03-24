@@ -10,13 +10,13 @@ For convenience, a helper class (`robowflex::darts::PlanBuilder`) makes it easy 
 
 There are a few example scripts to demonstrate the module, in the `scripts` directory.
 
-- solve_puzzle.cpp : Plan a manipulatable solution path with the LA-RRT(FRRT(?))-Connect. The environment must be in include/io/envs. The script can be run with ./solve_puzzle $environment_name$.
+- solve_puzzle.cpp : Plan a manipulatable solution path with the LA-RRT(FRRT(?))-Connect. The environment must be in include/io/envs. The script can be run with `./solve_puzzle <environment_name>`.
 
-- solve_puzzle_animation.cpp : Plan a manipulatable solution path with LA-RRT-Connect and animate it with Robowflex DART. The script can be run with ./solve_puzzle_animation $environment_name$.
+- solve_puzzle_animation.cpp : Plan a manipulatable solution path with LA-RRT-Connect and animate it with Robowflex DART. The script can be run with `./solve_puzzle_animation <environment_name>`.
 
-- maze_with_fetch.cpp : Constrained planning of the solution from the LA-RRT algorithm with a modified version of Fetch robot including x-y-axis movement and rotation (from RobowflexResources (link)). 
+- maze_with_fetch.cpp : Constrained planning of the solution from the LA-RRT algorithm with a modified version of Fetch robot including x-y-axis movement and rotation (from RobowflexResources (link)). The script can be run with `./maze_with_fetch <environment_name>`.
 
-- benchmark_main.cpp : Benchmarks a given environment with the specified algorithms in the .cpp file. The script can be run with ./benchmark_main $environment_name$ $time$ $run_count$.
+- benchmark_main.cpp : Benchmarks a given environment with the specified algorithms in the .cpp file. The script can be run with `./benchmark_main <environment_name> <time(in seconds)> <run_count>`.
 
 - benchmark_room.cpp - TODO FIX
 - escape_room.cpp - TODO FIX
@@ -85,10 +85,10 @@ git clone git:://github.com/ompl/ompl.git
 ```
 # Robowflex Puzzles
 
-Before you start running any script, you need to run the include/io/filepath_organizer.py script to adjust the mesh paths.
+Before you start running any script, you need to run the `include/io/filepath_organizer.py` script to adjust the mesh paths.
 
-Other environments can be added into the include/io/envs folder with the meshes-srdf-urdf file structure.
+Other environments can be added into the `include/io/envs` folder with the meshes-srdf-urdf file structure.
 
-Benchmarking results are saved as .db files inside include/io/db_files.
+Benchmarking results are saved as `.db` files inside `include/io/db_files`.
 
-Also, the solution paths are saved inside the include/io/path_result folder as a .txt file with the name of the solved environment.
+Also, the solution paths are saved inside the `include/io/path_result` folder as a .txt file with the name of the solved environment.
