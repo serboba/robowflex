@@ -56,7 +56,7 @@ void translateActions(std::vector<ActionP> &actions_, std::vector<Object> object
         pos_it.setZero();
         for(auto &action_ : actions_robot)
         {
-            if(action_.obj_index == i)
+            if(action_.obj_index == int(i))
             {
                 action_.pos = action_.pos - pos_it;
                 action_.rpy = action_.rpy - rpy_it;

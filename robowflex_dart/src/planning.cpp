@@ -649,12 +649,23 @@ ompl::base::StateValidityCheckerFn PlanBuilder::getSVCConstrained()
 
 ompl::geometric::PathGeometric PlanBuilder::getSolutionPath(bool simplify, bool interpolate) const
 {
-    if (simplify)
-        ss->simplifySolution(60);
-
     auto path = ss->getSolutionPath();
     if (interpolate)
+    {
         path.interpolate();
+      //  path.interpolate();
+       // path.interpolate();
+    }
+
+    if (simplify)
+    {
+        auto ps = ss->getPathSimplifier();
+        ps->simplify(path,10,true);
+       // ps->simplify(path,10,true);
+       // ps->simplify(path,10,true);
+    }
+//        ss->simplifySolution(60);
+//        ss->getPathSimplifier();
 
     return path;
 }

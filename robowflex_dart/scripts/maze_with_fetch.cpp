@@ -62,13 +62,18 @@ int main(int argc, char **argv)
     // Startup ROS
     ROS ros(argc, argv);
 
+    std::string env_name;
+    if(argc > 1 )
+        env_name = std::string(argv[1]);
+    else
+        env_name = "maze2"; // test in cpp
+
+
     /* NEVER CHANGE THIS ROBOT LOADING STRUCTURE */
     auto fetch_dart = darts::loadMoveItRobot("fetch",                                         //
                                              abs_path +"envs/fetch/urdf/fetch4.urdf",  //
                                              abs_path +"envs/fetch/srdf/fetch4.srdf");
 
-
-    std::string env_name = "maze2";
 
     auto maze_dart = darts::loadMoveItRobot(env_name,
                                             abs_path +"envs/" + env_name+ "/" + "urdf/" + env_name + ".urdf",
@@ -113,7 +118,7 @@ int main(int argc, char **argv)
 
         std::this_thread::sleep_for(std::chrono::milliseconds(5000));
 
-        int i = 0;
+        size_t i = 0;
 
         while (i < actions_robot.size())
         {

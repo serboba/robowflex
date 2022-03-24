@@ -117,7 +117,7 @@ int main(int argc, char **argv)
     builder.rspace->sanityChecks();
 
     goal->startSampling();
-    ompl::base::PlannerStatus solved = builder.ss->solve(10);
+    ompl::base::PlannerStatus solved = builder.ss->solve(1);
     goal->stopSampling();
 
 
@@ -128,12 +128,17 @@ int main(int argc, char **argv)
         std::string file_name = abs_path +"path_result/"+env_name + ".txt";
         std::ofstream fs(file_name);
         path.printAsMatrix(fs);
-        return 0;
+
     }
         else
+        {
             RBX_WARN("No solution found");
-        return 1;
+            std::string file_name = abs_path +"path_result/"+env_name + ".txt";
+            std::ofstream fs(file_name);
+        }
 
 
+
+    return 0;
 }
 

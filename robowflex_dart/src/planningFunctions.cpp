@@ -247,9 +247,12 @@ void translateActionToGoalRegion(Vector3d &position,Eigen::Quaterniond &rotation
 
 bool plan_to_move (std::shared_ptr<darts::World> &world,darts::Window &window,Object &obj, ActionR action_,
                             std::shared_ptr<darts::Robot> &robot_, std::shared_ptr<darts::Robot> &obj_robot_ ) {
+
     darts::PlanBuilder builder(world);
+
     builder.addGroup(robot_->getName(), GROUP_X);
     builder.addGroup(obj_robot_->getName(), obj.group_name);
+
     builder.setStartConfigurationFromWorld();
     auto idk = builder.getStartConfiguration();
     Eigen::VectorXd backup_state(int(world->getRobot(obj_robot_->getName())->getGroupJoints(obj.group_name).size()));
@@ -289,12 +292,14 @@ bool plan_to_move (std::shared_ptr<darts::World> &world,darts::Window &window,Ob
 
         auto opt_ = std::make_shared<ompl::base::PathLengthOptimizationObjective>(builder.info);
         auto ps = std::make_shared<ompl::geometric::PathSimplifier>(builder.info,builder.ss->getGoal(),opt_);
+        ompl::geometric::PathGeometric path(builder.getSolutionPath());
+//        builder.ss->simplifySolution(10);
+//        builder.ss->simplifySolution(10);
+//        builder.ss->simplifySolution(10);
+//        builder.ss->simplifySolution(10);
+//        builder.ss->simplifySolution(10);
+       // builder.ss->getPathSimplifier()->simplifyMax(path);
 
-        builder.ss->simplifySolution(10);
-        builder.ss->simplifySolution(10);
-        builder.ss->simplifySolution(10);
-        builder.ss->simplifySolution(10);
-        builder.ss->simplifySolution(10);
       /*  ompl::geometric::PathGeometric path(builder.getSolutionPath());
         ompl::geometric::PathHybridization phyb(builder.info);
         ompl::geometric::PathGeometricPtr pptr = nullptr;
@@ -312,7 +317,7 @@ bool plan_to_move (std::shared_ptr<darts::World> &world,darts::Window &window,Ob
         std::cout << pptr->getStateCount() << std::endl;
         RBX_INFO("Found solution!");
 */
-        window.animatePath(builder, builder.getSolutionPath());
+        window.animatePath(builder, path);
         obj.actual_position += action_.pos;
         obj.actual_rotation += action_.rpy;
 
