@@ -91,4 +91,4 @@ Other environments can be added into the include/io/envs folder with the meshes-
 
 Benchmarking results are saved as .db files inside include/io/db_files.
 
-Also, the solution path is saved in include/io/path_result with the name of the solved environment.
+Also, the solution paths are saved inside the include/io/path_result folder as a .txt file with the name of the solved environment.
