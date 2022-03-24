@@ -12,7 +12,7 @@ There are a few example scripts to demonstrate the module, in the `scripts` dire
 
 - solve_puzzle.cpp : Plan a manipulatable solution path with the LA-RRT(FRRT(?))-Connect. The environment must be in include/io/envs. The script can be run with ./solve_puzzle $environment_name$.
 
-- solve_puzzle_animation.cpp : Plan a manipulatable solution path with LA-RRT-Connect and animate it with Robowflex DART. The script can be run with ./solve_puzzle $environment_name$.
+- solve_puzzle_animation.cpp : Plan a manipulatable solution path with LA-RRT-Connect and animate it with Robowflex DART. The script can be run with ./solve_puzzle_animation $environment_name$.
 
 - maze_with_fetch.cpp : Constrained planning of the solution from the LA-RRT algorithm with a modified version of Fetch robot including x-y-axis movement and rotation (from RobowflexResources (link)). 
 
