@@ -28,12 +28,6 @@
 #include <ompl/geometric/planners/informedtrees/BITstar.h>
 #include <ompl/geometric/planners/informedtrees/ABITstar.h>
 #include <ompl/geometric/planners/informedtrees/AITstar.h>
-
-
-
-#include <algorithm>
-
-
 #include <robowflex_library/builder.h>
 #include <robowflex_library/detail/fetch.h>
 #include <robowflex_library/log.h>
@@ -76,13 +70,11 @@ int main(int argc, char **argv)
                                             abs_path +"envs/" + env_name+ "/" + "urdf/" + env_name + ".urdf",
                                             abs_path +"envs/" + env_name+ "/" + "srdf/" + env_name + ".srdf");
 
-
     auto maze_name = maze_dart->getName();
     auto world = std::make_shared<darts::World>();
     world->addRobot(maze_dart);
 
     darts::Window window(world);
-
 
 
     const auto &plan_solution_all = [&]() {
@@ -127,8 +119,6 @@ int main(int argc, char **argv)
         ompl::base::PlannerStatus solved = builder.ss->solve(10);
         goal->stopSampling();
 
-
-
         if (solved)
         {
             ompl::geometric::PathGeometric path(builder.getSolutionPath(false,false));
@@ -148,7 +138,6 @@ int main(int argc, char **argv)
         plan_solution_all();
     });
 
-    std::cout<<"??"<<std::endl;
     return 0;
 }
 

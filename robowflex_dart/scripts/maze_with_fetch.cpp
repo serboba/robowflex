@@ -53,7 +53,6 @@ boost::filesystem::path p(boost::filesystem::current_path().parent_path().parent
 const std::string abs_path = p.string() + "/src/robowflex/robowflex_dart/include/io/";
 
 
-static const std::string GROUP = "arm_with_torso";
 static const std::string GROUP_X = "arm_with_x_move";
 
 
@@ -65,8 +64,8 @@ int main(int argc, char **argv)
 
     /* NEVER CHANGE THIS ROBOT LOADING STRUCTURE */
     auto fetch_dart = darts::loadMoveItRobot("fetch",                                         //
-                                             abs_path +"envs/meshes/fetch4.urdf",  //
-                                             abs_path +"envs/meshes/fetch4.srdf");
+                                             abs_path +"envs/fetch/urdf/fetch4.urdf",  //
+                                             abs_path +"envs/fetch/srdf/fetch4.srdf");
 
 
     std::string env_name = "maze2";
@@ -88,8 +87,8 @@ int main(int argc, char **argv)
     /* NEVER CHANGE THIS ROBOT LOADING STRUCTURE UNTIL HERE !!!! */
     darts::Window window(world);
 
-    fetch_dart->setJoint("torso_lift_joint",0.25); // maze2 to avoid start collision
-    fetch_dart->setJoint("move_x_axis_joint",-0.10);
+   // fetch_dart->setJoint("torso_lift_joint",0.25); // maze2 to avoid start collision
+   // fetch_dart->setJoint("move_x_axis_joint",-0.10);
     Eigen::VectorXd start(11);
     start << 0.05, 1.32, 1.4, -0.2, 1.72, 0, 1.66, 0, 0.0,0.0,0.0;
     fetch_dart->setGroupState("arm_with_x_move",start);
@@ -116,19 +115,18 @@ int main(int argc, char **argv)
 
         int i = 0;
 
-        while (i < actions_robot.size()) {
-            if (plan_to_grasp(world, window, obj_[actions_robot[i].obj_index], surface_no, true, fetch_dart,
-                               start_config)) { // door1
-                if(plan_to_move(world, window, obj_[actions_robot[i].obj_index], actions_robot[i], fetch_dart,
-                                      maze_dart)){
-
+        while (i < actions_robot.size())
+        {
+            if (plan_to_grasp(world, window, obj_[actions_robot[i].obj_index], surface_no, true, fetch_dart,start_config))
+            {
+                if(plan_to_move(world, window, obj_[actions_robot[i].obj_index], actions_robot[i], fetch_dart, maze_dart))
+                {
                     builder.setStartConfigurationFromWorld();
                     start_config = builder.getStartConfiguration();
                     i++;
-                    }
+                }
             }
         }
-
 
         std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 

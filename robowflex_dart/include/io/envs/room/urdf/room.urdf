@@ -1,23 +1,22 @@
-<?xml version="1.0"?>
-  <robot name="escape_scene">
+<robot name="escape_scene">
     <link name="base_link"/>
 
     <link name="room">
       <visual>
         <geometry>
-          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room/meshes/room.dae" scale = " 0.4 0.4 0.3"/>
+          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room/meshes/room.dae" scale=" 0.4 0.4 0.3"/>
         </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0" />
-      <material name = "">
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+      <material name="">
         <color rgba="0.94901960784 0.94901960784 0.94901960784 1"/>
       </material>
       </visual>
 
       <collision>
         <geometry>
-          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room/meshes/room.dae" scale = " 0.4 0.4 0.3"/>
+          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room/meshes/room.dae" scale=" 0.4 0.4 0.3"/>
         </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0" />       
+        <origin rpy="0 0 0" xyz="0 0 0"/>       
        </collision>
     </link>
 
@@ -25,20 +24,20 @@
         <link name="shelf">
       <visual>
         <geometry>
-          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room/meshes/shelf.dae" scale = "0.042 0.05 0.04"/>
+          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room/meshes/shelf.dae" scale="0.042 0.05 0.04"/>
         </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0" />
+        <origin rpy="0 0 0" xyz="0 0 0"/>
       
-      <material name = "">
+      <material name="">
         <color rgba="0.729411 0.549019 0.388235 1"/>
       </material>
 
       </visual>
       <collision>
         <geometry>
-          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room/meshes/shelf.dae" scale = "0.042 0.05 0.04"/>
+          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room/meshes/shelf.dae" scale="0.042 0.05 0.04"/>
         </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0" />       
+        <origin rpy="0 0 0" xyz="0 0 0"/>       
        </collision>
     </link>
 
@@ -46,20 +45,20 @@
     <link name="desk">
       <visual>
         <geometry>
-          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room/meshes/desk2.dae" scale = "0.01 0.01 0.020"/>
+          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room/meshes/desk2.dae" scale="0.01 0.01 0.020"/>
         </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0" />
+        <origin rpy="0 0 0" xyz="0 0 0"/>
       
-    <material name = "">
+    <material name="">
         <color rgba="0.729411 0.549019 0.388235 1"/>
       </material>
 
       </visual>
       <collision>
         <geometry>
-          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room/meshes/desk2.dae" scale = "0.01 0.01 0.020"/>
+          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room/meshes/desk2.dae" scale="0.01 0.01 0.020"/>
         </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0" />       
+        <origin rpy="0 0 0" xyz="0 0 0"/>       
        </collision>
     </link>
 
@@ -68,20 +67,20 @@
     <link name="sofa">
       <visual>
         <geometry>
-          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room/meshes/sofa.dae" scale = "0.7 0.7 1"/>
+          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room/meshes/sofa.dae" scale="0.7 0.7 1"/>
         </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0" />
+        <origin rpy="0 0 0" xyz="0 0 0"/>
       
-      <material name = "">
+      <material name="">
         <color rgba="0.70196 0.8 1 1"/>
       </material>
 
       </visual>
       <collision>
         <geometry>
-          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room/meshes/sofa.dae" scale = "0.7 0.7 1"/>
+          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room/meshes/sofa.dae" scale="0.7 0.7 1"/>
         </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0" />       
+        <origin rpy="0 0 0" xyz="0 0 0"/>       
        </collision>
     </link>
 
@@ -90,8 +89,8 @@
         <geometry>
           <box size="0.5 0.5 0.75"/>
         </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0" />
-          <material name = "">
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+          <material name="">
           <color rgba="0.541176 0.156862 0.156862 1.0"/>
       </material>
       </visual>
@@ -99,7 +98,7 @@
         <geometry>
           <box size="0.5 0.5 0.75"/>
         </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0" />      
+        <origin rpy="0 0 0" xyz="0 0 0"/>      
        </collision>
     </link>
 
@@ -109,8 +108,8 @@
         <geometry>
           <box size="0.5 0.5 0.75"/>
         </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0" />
-       <material name = "">
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+       <material name="">
           <color rgba="0.541176 0.156862 0.156862 1.0"/>
       </material>
       </visual>
@@ -118,7 +117,7 @@
         <geometry>
           <box size="0.5 0.5 0.75"/>
         </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0" />      
+        <origin rpy="0 0 0" xyz="0 0 0"/>      
        </collision>
     </link>
 
@@ -127,8 +126,8 @@
         <geometry>
           <box size="0.1 0.7 1.1"/>
         </geometry>
-        <origin rpy="0 0 0" xyz="0.0 0.35 0" />
-        <material name = "">
+        <origin rpy="0 0 0" xyz="0.0 0.35 0"/>
+        <material name="">
           <color rgba="0.349019 0.470588 0.650980 1.0"/>
       </material>
       </visual>
@@ -136,7 +135,7 @@
         <geometry>
           <box size="0.1 0.7 1.1"/>
         </geometry>
-        <origin rpy="0 0 0" xyz="0.0 0.35 0" />     
+        <origin rpy="0 0 0" xyz="0.0 0.35 0"/>     
        </collision>
     </link>
 
@@ -144,9 +143,9 @@
      <link name="lock_part">
       <visual>
         <geometry>
-          <cylinder radius="0.03" length ="0.2"/>
+          <cylinder radius="0.03" length="0.2"/>
         </geometry>
-             <material name = "">
+             <material name="">
           <color rgba="1 1 1 1.0"/>
       </material>
       </visual>
@@ -158,8 +157,8 @@
         <geometry>
           <box size="0.03 0.45 0.146"/>
         </geometry>
-      <origin rpy="0 0 0" xyz="0 -0.15 0" />
-             <material name = "">
+      <origin rpy="0 0 0" xyz="0 -0.15 0"/>
+             <material name="">
           <color rgba="0.6901 0.2509 0.2509 1.0"/>
       </material>
       </visual>
@@ -167,48 +166,48 @@
         <geometry>
           <box size="0.03 0.45 0.146"/>
         </geometry>
-      <origin rpy="0 0 0" xyz="0 -0.15 0" />
+      <origin rpy="0 0 0" xyz="0 -0.15 0"/>
        </collision>
     </link>
 
 
-<link name ="cube1_y_axis"/>
-<link name ="cube2_y_axis"/>
+<link name="cube1_y_axis"/>
+<link name="cube2_y_axis"/>
 
 
   <joint name="cube1_joint" type="prismatic">
-      <origin rpy="0 0 0" xyz="0 0 0" />
-      <parent link="base_link" />
-      <child link="cube1_y_axis" />
-      <axis xyz="0 1 0" />
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <parent link="base_link"/>
+      <child link="cube1_y_axis"/>
+      <axis xyz="0 1 0"/>
       <limit lower="-1.10" upper="0.96" effort="0.05" velocity="1.57"/>
   </joint>
 
 
   <joint name="cube1_joint2" type="prismatic">
-      <origin rpy="0 0 0" xyz="0.95 0.1 0.375" />
-      <parent link="cube1_y_axis" />
-      <child link="cube1" />
-      <axis xyz="1 0 0" />
+      <origin rpy="0 0 0" xyz="0.95 0.1 0.375"/>
+      <parent link="cube1_y_axis"/>
+      <child link="cube1"/>
+      <axis xyz="1 0 0"/>
       <limit lower="-1.5" upper="0.05" effort="0.05" velocity="1.57"/>
   </joint>
 
 
 
   <joint name="cube2_joint" type="prismatic">
-      <origin rpy="0 0 0" xyz="0 0 0" />
-      <parent link="base_link" />
-      <child link="cube2_y_axis" />
-      <axis xyz="0 1 0" />
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <parent link="base_link"/>
+      <child link="cube2_y_axis"/>
+      <axis xyz="0 1 0"/>
       <limit lower="-0.1" upper="1.90" effort="0.05" velocity="1.57"/>
   </joint>
 
 
   <joint name="cube2_joint2" type="prismatic">
-      <origin rpy="0 0 0" xyz="0.95 -0.9 0.375" />
-      <parent link="cube2_y_axis" />
-      <child link="cube2" />
-      <axis xyz="1 0 0" />
+      <origin rpy="0 0 0" xyz="0.95 -0.9 0.375"/>
+      <parent link="cube2_y_axis"/>
+      <child link="cube2"/>
+      <axis xyz="1 0 0"/>
       <limit lower="-1.5" upper="0.05" effort="0.05" velocity="1.57"/>
   </joint>
 
@@ -242,17 +241,17 @@
 
 
 <joint name="room_j" type="fixed">
-    <origin rpy="0 0 -1.57" xyz="0 0 0.0" />
-    <parent link="base_link" />
-    <child link="room" />
-    <axis xyz="0 1 0" />
+    <origin rpy="0 0 -1.57" xyz="0 0 0.0"/>
+    <parent link="base_link"/>
+    <child link="room"/>
+    <axis xyz="0 1 0"/>
   </joint>
 
 <joint name="shelf_j" type="fixed">
-    <origin rpy="0 0 -1.57" xyz="1.1 0.9 0.0" />
-    <parent link="base_link" />
-    <child link="shelf" />
-    <axis xyz="0 1 0" />
+    <origin rpy="0 0 -1.57" xyz="1.1 0.9 0.0"/>
+    <parent link="base_link"/>
+    <child link="shelf"/>
+    <axis xyz="0 1 0"/>
   </joint>
 
 

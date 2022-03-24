@@ -1,23 +1,22 @@
-<?xml version="1.0"?>
-  <robot name="maze1">
+<robot name="maze1">
     <link name="base_link"/>
 
     <link name="table">
       <visual>
         <geometry>
-          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/maze1/meshes/maze1.dae" scale = " 0.50 0.50 0.50"/>
+          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/maze1/meshes/maze1.dae" scale=" 0.50 0.50 0.50"/>
         </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0" />
+        <origin rpy="0 0 0" xyz="0 0 0"/>
 
-<material name = "">
+<material name="">
   <color rgba="0.87450980392 0.87450980392 0.87058823529 1.0"/>
       </material>
       </visual>
       <collision concave="yes" name="collision_mesh_2">
         <geometry>
-          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/maze1/meshes/maze1.dae" scale = " 0.50 0.50 0.50"/>
+          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/maze1/meshes/maze1.dae" scale=" 0.50 0.50 0.50"/>
         </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0" />       
+        <origin rpy="0 0 0" xyz="0 0 0"/>       
        </collision>
     </link>
 
@@ -26,8 +25,8 @@
         <geometry>
           <box size="0.1 0.1 0.1"/>
         </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0" />
-      <material name = "">
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+      <material name="">
           <color rgba="0.0 0.8 0.0 1.0"/>
       </material>
       </visual>
@@ -35,7 +34,7 @@
         <geometry>
           <box size="0.1 0.1 0.1"/>
         </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0" />       
+        <origin rpy="0 0 0" xyz="0 0 0"/>       
        </collision>
     </link>
 
@@ -45,8 +44,8 @@
         <geometry>
           <box size="0.08 0.08 0.08"/>
         </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0" />
-      <material name = "">
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+      <material name="">
           <color rgba="0.0 0.8 0.0 0.4"/>
       </material>
       </visual>
@@ -59,8 +58,8 @@
         <geometry>
           <box size="0.03 0.5 0.173"/>
         </geometry>
-        <origin rpy="0 0 0" xyz="0.0 0.25 0" />
-        <material name = "">
+        <origin rpy="0 0 0" xyz="0.0 0.25 0"/>
+        <material name="">
           <color rgba="0.6901 0.2509 0.2509 1.0"/>
       </material>
       </visual>
@@ -68,17 +67,17 @@
         <geometry>  
           <box size="0.03 0.5 0.173"/>
         </geometry>
-        <origin rpy="0 0 0" xyz="0.0 0.25 0" />       
+        <origin rpy="0 0 0" xyz="0.0 0.25 0"/>       
        </collision>
     </link>
 
      <link name="link_2_joint_0">
       <visual>
-      <origin rpy="0 0 0" xyz="0 -0.225 0" />
+      <origin rpy="0 0 0" xyz="0 -0.225 0"/>
         <geometry>
           <box size="0.03 0.5 0.173"/>
         </geometry>
-             <material name = "">
+             <material name="">
           <color rgba="0.6901 0.2509 0.2509 1.0"/>
       </material>
       </visual>
@@ -86,17 +85,17 @@
         <geometry>  
           <box size="0.03 0.5 0.173"/>
         </geometry>
-        <origin rpy="0 0 0" xyz="0 -0.225 0" />
+        <origin rpy="0 0 0" xyz="0 -0.225 0"/>
        </collision>
     </link>
 
      <link name="link_3_joint_0">
       <visual>
-      <origin rpy="0 0 0" xyz="0 0.225 0" />
+      <origin rpy="0 0 0" xyz="0 0.225 0"/>
         <geometry>
           <box size="0.03 0.45 0.173"/>
         </geometry>
-             <material name = "">
+             <material name="">
           <color rgba="0.6901 0.2509 0.2509 1.0"/>
       </material>
       </visual>
@@ -104,42 +103,42 @@
         <geometry>  
           <box size="0.03 0.45 0.173"/>
         </geometry>
-        <origin rpy="0 0 0" xyz="0 0.225 0" />
+        <origin rpy="0 0 0" xyz="0 0.225 0"/>
        </collision>
     </link>
 
 
-  <link name ="cube_x"/>
+  <link name="cube_x"/>
 
 <joint name="table_j" type="fixed">
-    <origin rpy="0 0 0" xyz="0.75 -0.6 0.23" />
-    <parent link="base_link" />
-    <child link="table" />
+    <origin rpy="0 0 0" xyz="0.75 -0.6 0.23"/>
+    <parent link="base_link"/>
+    <child link="table"/>
   </joint>
 
 
 
 <joint name="goal" type="fixed">
-    <origin rpy="0 0 0" xyz="0.5 -0.25 0.75" />
-    <parent link="base_link" />
-    <child link="cube2" />
+    <origin rpy="0 0 0" xyz="0.5 -0.25 0.75"/>
+    <parent link="base_link"/>
+    <child link="cube2"/>
   </joint>
 
 
 <joint name="link_0_joint_0" type="prismatic">
-    <origin rpy="0 0 0" xyz="0.50 -0.8 0.75" />
-    <parent link="base_link" />
-    <child link="cube_x" />
-   <axis xyz="0 1 0" />
+    <origin rpy="0 0 0" xyz="0.50 -0.8 0.75"/>
+    <parent link="base_link"/>
+    <child link="cube_x"/>
+   <axis xyz="0 1 0"/>
   <limit lower="0.0" upper="0.65" effort="0.05" velocity="1.57"/>
   </joint>
 
 
 <joint name="link_0_joint_1" type="prismatic">
-    <origin rpy="0 0 0" xyz="0.0 0 0.0" />
-    <parent link="cube_x" />
-    <child link="link_0_joint_0" />
-   <axis xyz="1 0 0" />
+    <origin rpy="0 0 0" xyz="0.0 0 0.0"/>
+    <parent link="cube_x"/>
+    <child link="link_0_joint_0"/>
+   <axis xyz="1 0 0"/>
   <limit lower="-0.2" upper="0.7" effort="0.05" velocity="1.57"/>
   </joint>
 
