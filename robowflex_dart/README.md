@@ -9,8 +9,18 @@ For convenience, a helper class (`robowflex::darts::PlanBuilder`) makes it easy 
 # Scripts
 
 There are a few example scripts to demonstrate the module, in the `scripts` directory.
-- `fetch_plan.cpp`: Plan for 1 to 4 Fetch robots. Demonstrates how to do multi-robot planning by cloning robots (`robowflex::darts::Robot::clone()`) and adding more groups to the planning group.
-- `fetch_robowflex_plan.cpp`: Constrained planning for a Fetch robot, where that Fetch robot is loaded via `robowflex_library` as a _MoveIt_ robot.
+
+- solve_puzzle.cpp : Plan a manipulatable solution path with the LA-RRT(FRRT(?))-Connect. The environment must be in include/io/envs. The script can be run with ./solve_puzzle $environment_name$.
+
+- solve_puzzle_animation.cpp : Plan a manipulatable solution path with LA-RRT-Connect and animate it with Robowflex DART. The script can be run with ./solve_puzzle $environment_name$.
+
+- maze_with_fetch.cpp : Constrained planning of the solution from the LA-RRT algorithm with a modified version of Fetch robot including x-y-axis movement and rotation (from RobowflexResources (link)). 
+
+- benchmark_main.cpp : Benchmarks a given environment with the specified algorithms in the .cpp file. The script can be run with ./benchmark_main $environment_name$ $time$ $run_count$.
+
+- benchmark_room.cpp - TODO FIX
+- escape_room.cpp - TODO FIX
+
 
 # Installation Instructions
 
@@ -73,4 +83,12 @@ Or clone from the repository:
 ```sh
 git clone git:://github.com/ompl/ompl.git
 ```
-# rb_ws
+# Robowflex Puzzles
+
+Before you start running any script, you need to run the include/io/filepath_organizer.py script to adjust the mesh paths.
+
+Other environments can be added into the include/io/envs folder with the meshes-srdf-urdf file structure.
+
+Benchmarking results are saved as .db files inside include/io/db_files.
+
+Also, the solution path is saved in include/io/path_result with the name of the solved environment.
