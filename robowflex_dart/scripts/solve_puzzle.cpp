@@ -63,12 +63,18 @@ int main(int argc, char **argv)
 {
     // Startup ROS
     ROS ros(argc, argv);
-
+    double time;
     std::string env_name;
+
     if(argc > 1 )
+    {
         env_name = std::string(argv[1]);
-    else
+        time = atof(argv[2]);
+    }
+    else{
         env_name = "maze2"; // test in cpp
+        time = 10;
+    }
 
     auto maze_dart = darts::loadMoveItRobot(env_name,
                                             abs_path +"envs/" + env_name+ "/" + "urdf/" + env_name + ".urdf",
@@ -117,7 +123,7 @@ int main(int argc, char **argv)
     builder.rspace->sanityChecks();
 
     goal->startSampling();
-    ompl::base::PlannerStatus solved = builder.ss->solve(1);
+    ompl::base::PlannerStatus solved = builder.ss->solve(time);
     goal->stopSampling();
 
 

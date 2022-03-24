@@ -133,7 +133,7 @@ void benchmark(std::string robot_name,std::string urdf_name, std::string srdf_na
 
     std::string db_output = abs_path + "db_files/"+robot_name+".db";
 
-    std::string output = "python " + abs_path + "ompl_benchmark_statistics.py " + result_filename + " -d " + db_output;
+    std::string output = "python3 " + abs_path + "ompl_benchmark_statistics.py " + result_filename + " -d " + db_output;
     std::system(output.c_str());
 
 }
