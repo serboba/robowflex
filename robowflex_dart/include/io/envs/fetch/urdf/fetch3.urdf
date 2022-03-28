@@ -626,28 +626,34 @@
   </joint>
 
 
+  <link name="move_x_axis"/>
   <link name="move_y_axis"/>
+  <link name="rotate_z_axis"/>
 
-  <joint name="move_y_axis_joint" type="prismatic">
+ <joint name="move_x_axis_joint" type="prismatic">
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <parent link="move_x_axis"/>
     <child link="move_y_axis"/>
-    <axis xyz="0 1 0"/>
-    <limit effort="10000" lower="-3.0" upper="3.0" velocity="20"/>
-  </joint>
-
-
-<link name="move_x_axis"/>
-
-  <joint name="move_x_axis_joint" type="prismatic">
-    <origin rpy="0 0 0" xyz="0 0 0"/>
-    <parent link="move_x_axis"/>
-    <child link="base_link"/>
     <axis xyz="1 0 0"/>
-    <limit effort="10000" lower="-1.5" upper="3.0" velocity="20"/>
+    <limit effort="10" lower="-5.0" upper="5.0" velocity="20"/>
   </joint>
 
+  <joint name="move_y_axis_joint" type="prismatic">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="move_y_axis"/>
+    <child link="rotate_z_axis"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="10" lower="-5.0" upper="5.0" velocity="20"/>
+  </joint>
 
+  
+  <joint name="rotate_z_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="rotate_z_axis"/>
+    <child link="base_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" lower="-3.14" upper="3.14" velocity="20"/>
+  </joint>
 
 
 </robot>

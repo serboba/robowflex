@@ -107,7 +107,7 @@ void benchmark(std::string robot_name,std::string urdf_name, std::string srdf_na
             [](const base::PlannerPtr &planner, tools::Benchmark::RunProperties &run) { postRunEvent(planner, run); });
 
 
-    auto rrt_new1 =std::make_shared<geometric::RRTnew>(builder.ss->getSpaceInformation(),input_.group_indices,false,true);
+    auto rrt_new1 =std::make_shared<geometric::RRTnew>(builder.ss->getSpaceInformation(),input_.group_indices,true);
     rrt_new1->setName("LA-RRT");
     b.addPlanner(rrt_new1);
 

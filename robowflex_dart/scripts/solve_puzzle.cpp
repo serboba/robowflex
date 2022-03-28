@@ -72,7 +72,7 @@ int main(int argc, char **argv)
         time = atof(argv[2]);
     }
     else{
-        env_name = "maze2"; // test in cpp
+        env_name = "maze3"; // test in cpp
         time = 10;
     }
 
@@ -111,7 +111,7 @@ int main(int argc, char **argv)
 
 
     builder.ss->setOptimizationObjective(std::make_shared<ompl::base::IsoManipulationOptimization>(builder.info,input_.group_indices));
-    auto planner = std::make_shared<ompl::geometric::RRTnew>(builder.info,input_.group_indices,false,true); // last parameter is state isolation
+    auto planner = std::make_shared<ompl::geometric::RRTnew>(builder.info,input_.group_indices,true); // bool parameter is state isolation
         //auto planner = std::make_shared<ompl::geometric::RRTstar>(builder.info);
         //auto planner = std::make_shared<ompl::geometric::BITstar>(builder.info);
         //auto planner = std::make_shared<ompl::geometric::RRTConnect>(builder.info,false);

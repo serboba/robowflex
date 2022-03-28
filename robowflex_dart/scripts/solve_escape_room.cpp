@@ -1,4 +1,8 @@
 //
+// Created by serboba on 25.03.22.
+//
+
+//
 // Created by serboba on 15.12.21.
 //
 
@@ -69,52 +73,87 @@ int main(int argc, char **argv)
     }
     else
     {
-        env_name = "room2"; // test in cpp
-        time = 10;
+        env_name = "room2"; // room or room2
+        time = 500;
     }
+
+    auto fetch_dart = darts::loadMoveItRobot("fetch",                                         //
+                                             abs_path +"envs/fetch/urdf/fetch3.urdf",  //
+                                             abs_path +"envs/fetch/srdf/fetch3.srdf");
+
     auto maze_dart = darts::loadMoveItRobot(env_name,
                                             abs_path +"envs/" + env_name+ "/" + "urdf/" + env_name + ".urdf",
                                             abs_path +"envs/" + env_name+ "/" + "srdf/" + env_name + ".srdf");
 
+
     auto maze_name = maze_dart->getName();
     auto world = std::make_shared<darts::World>();
+    world->addRobot(fetch_dart);
     world->addRobot(maze_dart);
 
-    darts::Window window(world);
 
+    world->getRobot("fetch")->setJoint("torso_lift_joint",0.05);
+    world->getRobot("fetch")->setJoint("shoulder_pan_joint",1.32);
+    world->getRobot("fetch")->setJoint("shoulder_lift_joint",1.4);
+    world->getRobot("fetch")->setJoint("upperarm_roll_joint",-0.2);
+    world->getRobot("fetch")->setJoint("elbow_flex_joint",1.72);
+    world->getRobot("fetch")->setJoint("forearm_roll_joint",0);
+    world->getRobot("fetch")->setJoint("wrist_flex_joint",1.66);
+    world->getRobot("fetch")->setJoint("wrist_roll_joint",0);
+
+    if(env_name == "room2")  // start position is outside the room
+    {
+        world->getRobot("fetch")->setJoint("move_x_axis_joint",2.2);
+        world->getRobot("fetch")->setJoint("move_y_axis_joint",-1.0);
+    }
+
+    darts::Window window(world);
 
     const auto &plan_solution_all = [&]() {
 
         URDF_IO input_(env_name);
 
-        darts::PlanBuilder builder(world,input_.group_indices); // using my statespace
 
+        int lastIndex = input_.group_indices.back().back();
+        std::vector<int> robot_gr = {lastIndex+1,lastIndex+2};
+        input_.group_indices.push_back(robot_gr);
+
+        int goal_index = input_.group_indices.size()-1;
+
+        darts::PlanBuilder builder(world,input_.group_indices); // using my statespace
 
         for(std::string group : input_.group_names) {
             builder.addGroup(maze_name,group);
         }
+
+        builder.addGroup("fetch","move_robot");
         // ADD ALL GROUPS THAT ARE NEEDED
 
         builder.setStartConfigurationFromWorld();
-
         builder.initialize();
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(200000));
+        std::this_thread::sleep_for(std::chrono::milliseconds(5000));
 
         darts::TSR::Specification goal_spec;
-        goal_spec.setFrame(maze_name, "link_0_joint_0", "base_link");
+        goal_spec.setFrame("fetch", "base_link", "move_x_axis");
         goal_spec.setPose(input_.goal_pose);
+
         auto goal_tsr = std::make_shared<darts::TSR>(world, goal_spec);
         auto goal = builder.getGoalTSR(goal_tsr);
 
         builder.setGoal(goal);
 
+//
+//        std::vector<double> goal_config = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,-0.4 }; // y axis first, x axis second
+//        auto goal = builder.getGoalConfiguration(goal_config);
+//        builder.setGoal(goal);
+
 
         builder.ss->setOptimizationObjective(std::make_shared<ompl::base::IsoManipulationOptimization>(builder.info,input_.group_indices));
-        auto planner = std::make_shared<ompl::geometric::RRTnew>(builder.info,input_.group_indices,false,true); // last parameter is state isolation
-        //auto planner = std::make_shared<ompl::geometric::RRTstar>(builder.info);
-        //auto planner = std::make_shared<ompl::geometric::BITstar>(builder.info);
-        //auto planner = std::make_shared<ompl::geometric::RRTConnect>(builder.info,false);
+        auto planner = std::make_shared<ompl::geometric::RRTnew>(builder.info,input_.group_indices,true,goal_index); // last parameter is state isolation
+//      auto planner = std::make_shared<ompl::geometric::RRTstar>(builder.info);
+//      auto planner = std::make_shared<ompl::geometric::BITstar>(builder.info);
+//      auto planner = std::make_shared<ompl::geometric::RRTConnect>(builder.info,false);
 
         builder.ss->setPlanner(planner);
         builder.setup();
@@ -134,14 +173,14 @@ int main(int argc, char **argv)
             std::string file_name = abs_path +"path_result/"+env_name + ".txt";
             std::ofstream fs(file_name);
             path.printAsMatrix(fs);
-            window.animatePath(builder, path,1,1);
+            window.animatePath(builder, path,3,1);
         }
         else
             RBX_WARN("No solution found");
     };
 
     window.run([&] {
-     //   std::this_thread::sleep_for(std::chrono::milliseconds(200000));
+        //   std::this_thread::sleep_for(std::chrono::milliseconds(200000));
         plan_solution_all();
     });
 

@@ -43,22 +43,19 @@
 #include "ompl/tools/config/SelfConfig.h"
 #include "ompl/util/String.h"
 
-ompl::geometric::RRTnew::RRTnew(const base::SpaceInformationPtr &si, std::vector<std::vector<int>> gr_indices, bool addIntermediateStates,
-                                bool useIsolation)
-        : base::Planner(si, addIntermediateStates ? "RRTnewIntermediate" : "RRTnew")
+ompl::geometric::RRTnew::RRTnew(const base::SpaceInformationPtr &si, std::vector<std::vector<int>> gr_indices,
+                                bool useIsolation, int goalIndex)
+        : base::Planner(si, "RRTnew")
 {
     specs_.recognizedGoal = base::GOAL_SAMPLEABLE_REGION;
     specs_.directed = true;
     group_indices = gr_indices;
 
     Planner::declareParam<double>("range", this, &RRTnew::setRange, &RRTnew::getRange, "0.:1.:10000.");
-    Planner::declareParam<bool>("intermediate_states", this, &RRTnew::setIntermediateStates,
-                                &RRTnew::getIntermediateStates, "0,1");
-
     connectionPoint_ = std::make_pair<base::State *, base::State *>(nullptr, nullptr);
     distanceBetweenTrees_ = std::numeric_limits<double>::infinity();
-    addIntermediateStates_ = addIntermediateStates;
     useIsolation_ = useIsolation;
+    goalIndex_ = goalIndex;
     addPlannerProgressProperty("best cost DOUBLE", [this] { return bestCostProgressProperty(); });
     addPlannerProgressProperty("iterations INTEGER", [this] { return numIterationsProperty(); });
 }
@@ -492,6 +489,8 @@ int ompl::geometric::RRTnew::pathDefrag(std::vector<ompl::base::State *> &mainPa
 int ompl::geometric::RRTnew::getCostPath(std::vector<ompl::base::State * > &states_)
 {
 
+    if(states_.size()<2)
+        return 1;
     int prev_index = getChangedIndex(states_.at(0),states_.at(1));
     int cost = 1;
     for (size_t i = 1; i < states_.size()-1 ; ++i) {
@@ -588,7 +587,7 @@ void ompl::geometric::RRTnew::simplifyActionIntervals(std::vector<ompl::base::St
 
     for(size_t i = simplifiedPath.size()-1 ; i > 0 ; i--)
     {
-        if(getChangedIndex(simplifiedPath.at(i),simplifiedPath.at(i-1)) != 0) // goal group 0, fetch 4
+        if(getChangedIndex(simplifiedPath.at(i),simplifiedPath.at(i-1)) != goalIndex_)
         {
             si_->freeState(simplifiedPath.at(i));
             simplifiedPath.erase(simplifiedPath.begin()+i);
