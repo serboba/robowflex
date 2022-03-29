@@ -89,8 +89,8 @@ class IsoStateSpace : public robowflex::darts::StateSpace
         const auto &rto = to->as<StateSpace::StateType>();
         auto *rstate = state->as<StateSpace::StateType>();
 
-       /*
-         std::cout << "fromB: ";
+
+    /*     std::cout << "fromB: ";
          for(int i = 0; i < dimension_; i++)
              std::cout << rfrom->values[i] << ", ";
          std::cout << std::endl;
@@ -100,12 +100,18 @@ class IsoStateSpace : public robowflex::darts::StateSpace
          std::cout << std::endl;
 
          std::cout << "t : " << t <<std::endl;
-         */
+*/
 
         if(t>= 1)
         {
             for (int i = 0; i < dimension_; i++) {
                 rstate->values[i] = rto->values[i];
+            }
+        }
+        else if(t == 0)
+        {
+            for (int i = 0; i < dimension_; i++) {
+                rstate->values[i] = rfrom->values[i];
             }
         }
         else
@@ -140,7 +146,7 @@ class IsoStateSpace : public robowflex::darts::StateSpace
             }
 
         }
-        /*
+/*
         std::cout << "t : " << t << std::endl;
 
         std::cout << "from: ";
@@ -156,7 +162,7 @@ class IsoStateSpace : public robowflex::darts::StateSpace
         for(int i = 0; i < dimension_; i++)
             std::cout << rstate->values[i] << ", ";
         std::cout <<"\n" << std::endl;
-        */
+*/
 
     }
 

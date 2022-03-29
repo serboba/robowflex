@@ -33,8 +33,8 @@ namespace ompl
         {
         public:
             /** \brief Constructor */
-            RRTnew(const base::SpaceInformationPtr &si, std::vector<std::vector<int>> group_indices ,bool addIntermediateStates = false,
-                   bool useIsolation = false);
+            RRTnew(const base::SpaceInformationPtr &si, std::vector<std::vector<int>> group_indices,
+                   bool useIsolation = false, int goalIndex = 0);
 
             ~RRTnew() override;
 
@@ -181,6 +181,7 @@ namespace ompl
             /** \brief Flag indicating whether intermediate states are added to the built tree of motions */
             bool addIntermediateStates_;
             bool useIsolation_;
+            int goalIndex_;
             /** \brief The random number generator */
             RNG rng_;
 
