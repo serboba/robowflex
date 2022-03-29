@@ -38,7 +38,9 @@ def parse_file(root_name):
     tree = ET.ElementTree(root)
 
     #srdf_name = root_name.split('/')[0]+'/'+robot_name+".srdf"
-    srdf_name = robot_name+".srdf" # todo change output file path, je nach dem wo file geschrieben werden soll
+    srdf_name = root_name.replace(robot_name + '/urdf/' + robot_name + '.urdf',
+                                  robot_name + '/srdf/' + robot_name + '.srdf')
+    # srdf_name = robot_name+".srdf" # todo change output file path, je nach dem wo file geschrieben werden soll
     tree.write(srdf_name,pretty_print=True)
 
 
