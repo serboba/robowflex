@@ -14,12 +14,20 @@ def fix_paths():
             tree = ET.parse(urdf_name)
             for mesh in tree.findall('link/visual/geometry/mesh'):
                 mesh_name = mesh.get('filename')
-                mesh_name = mesh_path + mesh_name.split('/')[-1]
-                mesh.set("filename",mesh_name)
+                second_last = mesh_name.split('/')[-2]
+                if second_last == 'stl' or second_last == 'dae' or second_last == 'obj':
+                    mesh_name = mesh_path + second_last + '/' + mesh_name.split('/')[-1]
+                else:
+                    mesh_name = mesh_path + mesh_name.split('/')[-1]
+                mesh.set("filename", mesh_name)
 
             for mesh in tree.findall('link/collision/geometry/mesh'):
                 mesh_name = mesh.get('filename')
-                mesh_name =  mesh_path + mesh_name.split('/')[-1]
+                second_last = mesh_name.split('/')[-2]
+                if second_last == 'stl' or second_last == 'dae' or second_last == 'obj':
+                    mesh_name = mesh_path + second_last + '/' + mesh_name.split('/')[-1]
+                else:
+                    mesh_name = mesh_path + mesh_name.split('/')[-1]
                 mesh.set("filename", mesh_name)
 
             tree.write(urdf_name)
