@@ -1,4 +1,8 @@
 //
+// Created by serboba on 31.03.22.
+//
+
+//
 // Created by serboba on 09.02.22.
 //
 
@@ -79,53 +83,21 @@ void preRunEvent(const base::PlannerPtr & planner){
 }
 
 void benchmark(){
-
-
-    std::string env_name = "room0";
-    std::string fetch_name;
-
-    if(env_name == "room0" || env_name == "room1")
-        fetch_name = "fetch3";
-
-    else if(env_name =="room2")
-        fetch_name = "fetch2";
-
     auto fetch_dart = robowflex::darts::loadMoveItRobot("fetch",                                         //
-                                                        abs_path +"envs/fetch/urdf/" + fetch_name + ".urdf",
-                                                        abs_path +"envs/fetch/srdf/" + "fetch3" + ".srdf");
+                                                        abs_path +"meshes/fetch3.urdf",  //
+                                                        abs_path +"meshes/fetch3.srdf");
+
+    auto door_dart = robowflex::darts::loadMoveItRobot("escape_scene",
+                                                       abs_path+"envs/room1/urdf/room1.urdf",
+                                                       abs_path+"envs/room1/srdf/room1.srdf");
 
 
-    auto room_dart = robowflex::darts::loadMoveItRobot("a1",
-                                                       abs_path +"envs/" + env_name+ "/" + "urdf/" + env_name + ".urdf",
-                                                       abs_path +"envs/" + env_name+ "/" + "srdf/" + env_name + ".srdf");
-
-
-    auto world = std::make_shared<robowflex::darts::World>(); // achtung, world->robots_ is std map, automatically sorts robots by their names
-    world->addRobot(room_dart);
+    auto world = std::make_shared<robowflex::darts::World>();
+    world->addRobot(door_dart);
     world->addRobot(fetch_dart);
 
-
-    world->getRobot("fetch")->setJoint("torso_lift_joint",0.05);
-    world->getRobot("fetch")->setJoint("shoulder_pan_joint",1.32);
-    world->getRobot("fetch")->setJoint("shoulder_lift_joint",1.4);
-    world->getRobot("fetch")->setJoint("upperarm_roll_joint",-0.2);
-    world->getRobot("fetch")->setJoint("elbow_flex_joint",1.72);
-    world->getRobot("fetch")->setJoint("forearm_roll_joint",0);
-    world->getRobot("fetch")->setJoint("wrist_flex_joint",1.66);
-    world->getRobot("fetch")->setJoint("wrist_roll_joint",0);
-
-
+    std::string env_name = "room1";
     URDF_IO input_(env_name);
-
-    if(env_name == "room2" || env_name == "room3")  // start position is outside the room
-    {
-        world->getRobot("fetch")->setJoint("move_x_axis_joint",2.2);
-        world->getRobot("fetch")->setJoint("move_y_axis_joint",-1.0);
-    }else if(env_name=="room1")
-    {
-        world->getRobot("fetch")->setJoint("move_y_axis_joint",0.7);
-        world->getRobot("fetch")->setJoint("move_x_axis_joint",-0.6);
-    }
 
 
     int lastIndex = input_.group_indices.back().back();
@@ -137,22 +109,37 @@ void benchmark(){
     robowflex::darts::PlanBuilder builder(world,input_.group_indices); // using my statespace
 
     for(std::string group : input_.group_names) {
-        builder.addGroup("a1",group);
+        builder.addGroup("escape_scene",group);
     }
 
     builder.addGroup("fetch","move_robot");
+
+    world->getRobot("fetch")->setJoint("torso_lift_joint",0.05);
+    world->getRobot("fetch")->setJoint("shoulder_pan_joint",1.32);
+    world->getRobot("fetch")->setJoint("shoulder_lift_joint",1.4);
+    world->getRobot("fetch")->setJoint("upperarm_roll_joint",-0.2);
+    world->getRobot("fetch")->setJoint("elbow_flex_joint",1.72);
+    world->getRobot("fetch")->setJoint("forearm_roll_joint",0);
+    world->getRobot("fetch")->setJoint("wrist_flex_joint",1.66);
+    world->getRobot("fetch")->setJoint("wrist_roll_joint",0);
+
+    world->getRobot("fetch")->setJoint("move_y_axis_joint",0.7);
+    world->getRobot("fetch")->setJoint("move_x_axis_joint",-0.6);
 
     builder.setStartConfigurationFromWorld();
     builder.initialize();
 
     robowflex::darts::TSR::Specification goal_spec;
     goal_spec.setFrame("fetch", "base_link", "move_x_axis");
-    goal_spec.setPose(input_.goal_pose);            //  SET WANTED ROBOT POSITION (inside urdf)
-
+    goal_spec.setPose(input_.goal_pose);            //  SET WANTED CUBE POSITION
     auto goal_tsr = std::make_shared<robowflex::darts::TSR>(world, goal_spec);
     auto goal = builder.getGoalTSR(goal_tsr);
 
+
     builder.setGoal(goal);
+
+
+    //builder.space->setLongestValidSegmentFraction(0.01);
 
     builder.space->sanityChecks();
     builder.rspace->sanityChecks();
@@ -177,15 +164,18 @@ void benchmark(){
             [](const base::PlannerPtr &planner, tools::Benchmark::RunProperties &run) { postRunEvent(planner, run); });
 
 
-    auto rrt_new1 =std::make_shared<geometric::RRTnew>(builder.ss->getSpaceInformation(),input_.group_indices,true,goal_index);
-    rrt_new1->setName("LA-RRT");
-    b.addPlanner(rrt_new1);
-
 
 //    b.addPlanner(std::make_shared<geometric::RRTConnect>(builder.ss->getSpaceInformation()));
 //    b.addPlanner(std::make_shared<geometric::RRTstar>(builder.ss->getSpaceInformation()));
 
+
+
+    /*
       //b.addPlanner(std::make_shared<geometric::LBTRRT>(builder.ss->getSpaceInformation()));
+      auto lbtrrt =std::make_shared<geometric::LBTRRT>(builder.ss->getSpaceInformation());
+      lbtrrt->setRange(0.1);
+      b.addPlanner(lbtrrt);
+  */
 
 //    b.addPlanner(std::make_shared<geometric::ABITstar>(builder.ss->getSpaceInformation()));
 //    b.addPlanner(std::make_shared<geometric::AITstar>(builder.ss->getSpaceInformation()));
@@ -196,6 +186,11 @@ void benchmark(){
 //    b.addPlanner(std::make_shared<geometric::BFMT>(builder.ss->getSpaceInformation()));
 
 
+     auto rrt_new1 =std::make_shared<geometric::RRTnew>(builder.ss->getSpaceInformation(),input_.group_indices,true,4);
+     rrt_new1->setName("LA-RRT");
+     b.addPlanner(rrt_new1);
+
+
     b.addExperimentParameter("sampler_id", "INTEGER", "0"); // ?
     b.benchmark(request);
 
@@ -204,7 +199,7 @@ void benchmark(){
 
     std::string db_output = abs_path + "db_files/benchmark_room.db";
 
-    std::string output = "python3 " + abs_path + "ompl_benchmark_statistics.py " + result_filename + " -d " + db_output;
+    std::string output = "python " + abs_path + "ompl_benchmark_statistics.py " + result_filename + " -d " + db_output;
     std::system(output.c_str());
 
 }

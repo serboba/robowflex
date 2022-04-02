@@ -72,7 +72,7 @@ int main(int argc, char **argv)
         time = atof(argv[2]);
     }
     else{
-        env_name = "maze3"; // test in cpp
+        env_name = "maze2"; // test in cpp
         time = 10;
     }
 

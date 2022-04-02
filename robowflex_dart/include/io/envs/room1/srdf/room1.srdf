@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<robot name="room1">
+
+
+    <group name="link_gr_0">
+     <joint name="link_0_joint_0" />
+     <joint name="link_0_joint_1" />
+     </group>  
+
+    <group name="link_gr_1">
+     <joint name="link_1_joint_0" />
+     <joint name="link_1_joint_1"/>
+    </group>  
+
+
+    <group name="link_gr_2">
+     <joint name="link_2_joint_0" />
+     </group>
+
+
+    <group name="link_gr_3">
+     <joint name="link_3_joint_0" />
+     </group>  
+
+
+
+    <disable_collisions link1="base_link" link2="desk" reason="default" />
+    <disable_collisions link1="base_link" link2="shelf" reason="default" />
+    <disable_collisions link1="base_link" link2="lock_part" reason="default" />
+    <disable_collisions link1="base_link" link2="room" reason="default" />
+     <disable_collisions link1="base_link" link2="link_2_joint_0" reason="default" />
+    <disable_collisions link1="base_link" link2="link_0_joint_0" reason="default" />
+    <disable_collisions link1="base_link" link2="link_1_joint_0" reason="default" />
+    <disable_collisions link1="base_link" link2="link_3_joint_0" reason="default" />
+    <disable_collisions link1="base_link" link2="sofa" reason="default" />
+   
+    <disable_collisions link1="base_link" link2="cube1_y_axis" reason="default"/>
+    <disable_collisions link1="base_link" link2="cube2_y_axis" reason="default"/>
+    <disable_collisions link1="link_2_joint_0" link2="cube1_y_axis" reason="default"/>
+    <disable_collisions link1="link_2_joint_0" link2="cube2_y_axis" reason="default"/>
+    <disable_collisions link1="room" link2="cube1_y_axis" reason="default"/>
+    <disable_collisions link1="room" link2="cube2_y_axis" reason="default"/>
+
+    <disable_collisions link1="room" link2="sofa" reason="default"/>
+
+    <disable_collisions link1="room" link2="lock_part" reason="default" />
+    <disable_collisions link1="link_3_joint_0" link2="lock_part" reason="default" />
+
+
+
+
+
+    
+
+</robot>

@@ -184,6 +184,9 @@ bool grasp(std::shared_ptr<darts::World> &world, darts::Window &window, Object &
     if (solved == ompl::base::PlannerStatus::EXACT_SOLUTION){
 
         RBX_INFO("Found solution!");
+        builder.ss->simplifySolution(10);
+        builder.ss->simplifySolution(10);
+        builder.ss->simplifySolution(10);
         window.animatePath(builder,  builder.getSolutionPath());
         return true;
     }else{

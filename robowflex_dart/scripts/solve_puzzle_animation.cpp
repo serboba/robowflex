@@ -69,7 +69,7 @@ int main(int argc, char **argv)
     }
     else
     {
-        env_name = "room2"; // test in cpp
+        env_name = "maze2"; // test in cpp
         time = 10;
     }
     auto maze_dart = darts::loadMoveItRobot(env_name,
@@ -99,7 +99,6 @@ int main(int argc, char **argv)
 
         builder.initialize();
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(200000));
 
         darts::TSR::Specification goal_spec;
         goal_spec.setFrame(maze_name, "link_0_joint_0", "base_link");
@@ -111,7 +110,7 @@ int main(int argc, char **argv)
 
 
         builder.ss->setOptimizationObjective(std::make_shared<ompl::base::IsoManipulationOptimization>(builder.info,input_.group_indices));
-        auto planner = std::make_shared<ompl::geometric::RRTnew>(builder.info,input_.group_indices,false,true); // last parameter is state isolation
+        auto planner = std::make_shared<ompl::geometric::RRTnew>(builder.info,input_.group_indices,true); // last parameter is state isolation
         //auto planner = std::make_shared<ompl::geometric::RRTstar>(builder.info);
         //auto planner = std::make_shared<ompl::geometric::BITstar>(builder.info);
         //auto planner = std::make_shared<ompl::geometric::RRTConnect>(builder.info,false);

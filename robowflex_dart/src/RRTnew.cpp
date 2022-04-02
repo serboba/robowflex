@@ -899,7 +899,6 @@ ompl::base::PlannerStatus ompl::geometric::RRTnew::solve(const base::PlannerTerm
             Motion *startMotion = tgi.start ? tgi.xmotion : addedMotion;
             Motion *goalMotion = tgi.start ? addedMotion : tgi.xmotion;
 
-
             /* if we connected the trees in a valid way (start and goal pair is valid)*/
             if (gsc == REACHED && goal->isStartGoalPairValid(startMotion->root, goalMotion->root) )
             {

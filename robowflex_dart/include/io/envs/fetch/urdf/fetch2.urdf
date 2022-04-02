@@ -634,7 +634,7 @@
     <parent link="move_x_axis"/>
     <child link="move_y_axis"/>
     <axis xyz="1 0 0"/>
-    <limit effort="10" lower="-1.1" upper="2.1" velocity="20"/>
+    <limit effort="10" lower="-1.1" upper="2.25" velocity="20"/>
   </joint>
 
   <joint name="move_y_axis_joint" type="prismatic">
@@ -642,7 +642,7 @@
     <parent link="move_y_axis"/>
     <child link="base_link"/>
     <axis xyz="0 1 0"/>
-    <limit effort="10" lower="-1.0" upper="1.1" velocity="20"/>
+    <limit effort="10" lower="-1.1" upper="1.1" velocity="20"/>
   </joint>
 
   

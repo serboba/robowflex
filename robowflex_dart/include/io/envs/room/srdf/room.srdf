@@ -35,19 +35,39 @@
     <disable_collisions link1="base_link" link2="link_2_joint_0" reason="default" />
     <disable_collisions link1="base_link" link2="link_3_joint_0" reason="default" />
    
+
+    <disable_collisions link1="cube1_y_axis" link2="link_0_joint_0" reason="default" />
+    <disable_collisions link1="cube2_y_axis" link2="link_1_joint_0" reason="default" />
+
+    <disable_collisions link1="cube2_y_axis" link2="link_0_joint_0" reason="default" />
+    <disable_collisions link1="cube1_y_axis" link2="link_1_joint_0" reason="default" />
+    
     <disable_collisions link1="base_link" link2="cube1_y_axis" reason="default"/>
     <disable_collisions link1="base_link" link2="cube2_y_axis" reason="default"/>
     <disable_collisions link1="link_2_joint_0" link2="cube1_y_axis" reason="default"/>
     <disable_collisions link1="link_2_joint_0" link2="cube2_y_axis" reason="default"/>
     <disable_collisions link1="link_2_joint_0" link2="room" reason="default"/>
 
+
+    <disable_collisions link1="cube1_y_axis" link2="desk" reason="default" />
+    <disable_collisions link1="cube1_y_axis" link2="shelf" reason="default" />
+    <disable_collisions link1="cube1_y_axis" link2="lock_part" reason="default" />
+    <disable_collisions link1="cube1_y_axis" link2="room" reason="default" />
+    <disable_collisions link1="cube1_y_axis" link2="sofa" reason="default" />
+
+
+
+    <disable_collisions link1="cube2_y_axis" link2="desk" reason="default" />
+    <disable_collisions link1="cube2_y_axis" link2="shelf" reason="default" />
+    <disable_collisions link1="cube2_y_axis" link2="lock_part" reason="default" />
+    <disable_collisions link1="cube2_y_axis" link2="room" reason="default" />
+    <disable_collisions link1="cube2_y_axis" link2="sofa" reason="default" />
+
     <disable_collisions link1="room" link2="cube1_y_axis" reason="default"/>
     <disable_collisions link1="room" link2="cube2_y_axis" reason="default"/>
-    
-
+    <disable_collisions link1="room" link2="lock_part" reason="default" />
     <disable_collisions link1="link_3_joint_0" link2="room" reason="default"/>
 
-    <disable_collisions link1="room" link2="lock_part" reason="default" />
     <disable_collisions link1="link_3_joint_0" link2="lock_part" reason="default" />
 
 
