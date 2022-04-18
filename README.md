@@ -131,6 +131,8 @@ source ./devel/setup.bash
 rosrun robowflex_library fetch_test
 ```
 
+**--> NEXT : FOLLOW INSTALLATION INSTRUCTIONS IN /ROBOWFLEX_DART!**
+
 ## Code Formatting
 All C++ code should be formatted with `clang-format`.
 Use the `format.sh` script to automatically format the code base.
