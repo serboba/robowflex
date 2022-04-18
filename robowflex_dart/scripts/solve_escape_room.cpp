@@ -1,3 +1,4 @@
+
 //
 // Created by serboba on 25.03.22.
 //
@@ -73,8 +74,8 @@ int main(int argc, char **argv)
     }
     else
     {
-        env_name = "room2"; // room0 or room1 / escape room, room2 limitation demonstration
-        time = 100;
+        env_name = "room0"; // room0 or room1 / escape room, room2 limitation demonstration
+        time = 300;
     }
 
     std::string fetch_name;
@@ -82,7 +83,7 @@ int main(int argc, char **argv)
     if(env_name == "room0" || env_name == "room1")
         fetch_name = "fetch3";
 
-    else if(env_name =="room2")
+    else if(env_name =="room2" || env_name == "room3")
         fetch_name = "fetch2";
 
     auto fetch_dart = robowflex::darts::loadMoveItRobot("fetch",                                         //
@@ -150,7 +151,7 @@ int main(int argc, char **argv)
         builder.initialize();
 
 
-        std::this_thread::sleep_for(std::chrono::seconds(5));
+        std::this_thread::sleep_for(std::chrono::seconds(30));
         darts::TSR::Specification goal_spec;
         goal_spec.setFrame("fetch", "base_link", "move_x_axis");
         goal_spec.setPose(input_.goal_pose);
@@ -164,7 +165,7 @@ int main(int argc, char **argv)
         auto planner = std::make_shared<ompl::geometric::RRTnew>(builder.info,input_.group_indices,true,goal_index); // last parameter is state isolation
 //      auto planner = std::make_shared<ompl::geometric::RRTstar>(builder.info);
 //      auto planner = std::make_shared<ompl::geometric::BITstar>(builder.info);
- //     auto planner = std::make_shared<ompl::geometric::RRTConnect>(builder.info,false);
+        //     auto planner = std::make_shared<ompl::geometric::RRTConnect>(builder.info,false);
 
         builder.ss->setPlanner(planner);
         builder.setup();
@@ -184,7 +185,7 @@ int main(int argc, char **argv)
             std::string file_name = abs_path +"path_result/"+env_name + ".txt";
             std::ofstream fs(file_name);
             path.printAsMatrix(fs);
-            window.animatePath(builder, path,3,1);
+            window.animatePath(builder, path,50,1);
         }
         else
             RBX_WARN("No solution found");

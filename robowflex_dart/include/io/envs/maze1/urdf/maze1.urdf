@@ -4,7 +4,7 @@
     <link name="table">
       <visual>
         <geometry>
-          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/maze1/meshes/maze1.dae" scale=" 0.50 0.50 0.50"/>
+          <mesh filename="file:///home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/maze1/meshes/maze1.dae" scale=" 0.50 0.50 0.50"/>
         </geometry>
         <origin rpy="0 0 0" xyz="0 0 0"/>
 
@@ -14,7 +14,7 @@
       </visual>
       <collision concave="yes" name="collision_mesh_2">
         <geometry>
-          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/maze1/meshes/maze1.dae" scale=" 0.50 0.50 0.50"/>
+          <mesh filename="file:///home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/maze1/meshes/maze1.dae" scale=" 0.50 0.50 0.50"/>
         </geometry>
         <origin rpy="0 0 0" xyz="0 0 0"/>       
        </collision>
@@ -73,9 +73,9 @@
 
      <link name="link_2_joint_0">
       <visual>
-      <origin rpy="0 0 0" xyz="0 -0.225 0"/>
+      <origin rpy="0 0 0" xyz="-0.225 0 0"/>
         <geometry>
-          <box size="0.03 0.5 0.173"/>
+          <box size="0.5 0.03 0.173"/>
         </geometry>
              <material name="">
           <color rgba="0.6901 0.2509 0.2509 1.0"/>
@@ -83,9 +83,9 @@
       </visual>
       <collision>       
         <geometry>  
-          <box size="0.03 0.5 0.173"/>
+          <box size="0.5 0.03 0.173"/>
         </geometry>
-        <origin rpy="0 0 0" xyz="0 -0.225 0"/>
+        <origin rpy="0 0 0" xyz="-0.225 0 0"/>
        </collision>
     </link>
 
@@ -151,7 +151,7 @@
   </joint>
 
   <joint name="link_2_joint_0" type="revolute">
-      <origin rpy="0 0 -1.57" xyz="1.25 -0.575 0.755"/>
+      <origin rpy="0 0 0" xyz="1.25 -0.575 0.755"/>
       <parent link="base_link"/>
       <child link="link_2_joint_0"/>
       <axis xyz="0 0 1"/>

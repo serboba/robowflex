@@ -126,7 +126,7 @@ void ompl::geometric::RRTnew::clear()
     distanceBetweenTrees_ = std::numeric_limits<double>::infinity();
 
     iterations_ = 0;
-    bestCost_ = base::Cost(std::numeric_limits<double>::quiet_NaN());
+    bestCost_ = base::Cost(INFINITY);
 }
 void ompl::geometric::RRTnew::getChangedIndices(const base::State* rfrom, const base::State* rto,
                                                 std::vector<int> &indices_) const{
@@ -149,20 +149,48 @@ void ompl::geometric::RRTnew::getChangedIndices(const base::State* rfrom, const 
 void ompl::geometric::RRTnew::buildIsoStates(const std::vector<double> &from_,const std::vector<double> &to_,
                                                                          std::vector<int> &changed_index_groups,
                                                                          std::vector<ompl::base::State* > &iso_ ) {
-
-    std::vector<ompl::base::State *> isolateResult;
     std::vector<double> intermediate_st(from_.size());
     intermediate_st = from_;
+
 
     for (size_t v = 0; v < changed_index_groups.size(); v++) {
         for (int i: group_indices.at(changed_index_groups.at(v))) {
             intermediate_st[i] = to_[i];
         }
-        base::State *temp = si_->allocState();
+        base::State *temp = si_->getStateSpace()->allocState(); // todo mem leak?
         si_->getStateSpace()->copyFromReals(temp, intermediate_st);
         iso_.push_back(temp);
     }
 }
+
+void ompl::geometric::RRTnew::buildIsoStates(ompl::base::State * from_, const ompl::base::State *to,
+                                             std::vector<int> &changed_index_groups,
+                                             std::vector<ompl::base::State* > &iso_ )
+{
+    std::vector<double> intermediate_st;
+    std::vector<double> to_;
+    base::State * it_ = from_;
+    si_->getStateSpace()->copyToReals(intermediate_st,from_);
+    si_->getStateSpace()->copyToReals(to_,to);
+    for (size_t v = 0; v < changed_index_groups.size(); v++) {
+        for (int i: group_indices.at(changed_index_groups.at(v))) {
+            intermediate_st[i] = to_[i];
+        }
+        ompl::base::State * newState = si_->getStateSpace()->allocState();
+        si_->getStateSpace()->copyFromReals(newState,intermediate_st);
+
+        if (si_->checkMotion(it_,newState))
+            iso_.push_back(newState);
+        else{
+            freeStates(iso_);
+            si_->freeState(newState);
+            return;
+        }
+        it_ = newState;
+    }
+
+}
+
 
 std::vector<int> ompl::geometric::RRTnew::getChangedGroups(const std::vector<double> &from_,const std::vector<double> &to_){
     std::vector<int> groups;
@@ -224,8 +252,6 @@ void ompl::geometric::RRTnew::createNewMotion(const base::State *st, ompl::geome
 }
 
 
-
-
 bool ompl::geometric::RRTnew::validMotionCheck(const bool start, const base::State *from_,const base::State *to_){
     bool validmo= start ? si_->checkMotion(from_, to_) :
                   si_->isValid(to_) && si_->checkMotion(to_, from_);
@@ -249,6 +275,7 @@ void ompl::geometric::RRTnew::getMotionVectors(Motion * mot_,std::vector<Motion 
 void ompl::geometric::RRTnew::getIntermediateState(const ompl::base::State *from,const ompl::base::State * to, ompl::base::State *state, int index_group)
 {
     std::vector<double> s_new_v,to_;
+
     si_->getStateSpace()->copyToReals(s_new_v,from);
     si_->getStateSpace()->copyToReals(to_,to);
 
@@ -302,143 +329,139 @@ std::vector<ompl::base::State * > ompl::geometric::RRTnew::getStates(std::vector
 }
 
 
-void ompl::geometric::RRTnew::reConnect(ompl::base::State *from,
+void ompl::geometric::RRTnew::freeStates(std::vector<ompl::base::State*> &states)
+{
+    for(auto &st : states)
+        si_->freeState(st);
+    states.clear();
+}
+
+void ompl::geometric::RRTnew::freeStates(std::vector<std::pair<ompl::base::State *,int >> &states)
+{
+    for(auto &st : states)
+        si_->freeState(st.first);
+    states.clear();
+}
+
+bool ompl::geometric::RRTnew::reConnect(ompl::base::State *from,
                                         std::vector<std::pair<ompl::base::State *,int >> &queue_,
                                         std::vector<ompl::base::State * > &rewireResult )
 {
     for(size_t i = 0; i < queue_.size(); i++)
     {
-        ompl::base::State * newEdge = si_->allocState();
-        getIntermediateState(from,queue_.at(i).first,newEdge,queue_.at(i).second);
-        if(!si_->checkMotion(from,newEdge))
+        ompl::base::State * newState = si_->allocState(); // todo mem leak
+        getIntermediateState(from,queue_.at(i).first,newState,queue_.at(i).second);
+        if(!si_->checkMotion(from,newState))
         {
-            /*std::cout<<"CUTTT"<<std::endl;
-            si_->printState(from);
-            si_->printState(queue_.at(i).first);
-            si_->printState(newEdge);
-            si_->freeState(newEdge);
-            std::cout<<"-CUTTT"<<std::endl;
-            */
-            /*
-            std::cout << si_->isValid(from) << ", ";
-            std::cout << si_->isValid(queue_.at(i).first) << ", ";
-            std::cout << si_->isValid(newEdge) << ", i : "<< i << std::endl;
-            */
-            if(rewireResult.size()>1)
-            {
-                for(auto &st : rewireResult)
-                    si_->freeState(st);
-                rewireResult.clear();
-            }
-            std::vector<ompl::base::State *>().swap(rewireResult); // free mem
-            return;
+            si_->freeState(newState);
+            return false;
         }
 
-        rewireResult.push_back(newEdge);
-        from = newEdge;
+        rewireResult.push_back(newState);
+        from = newState;
     }
-
+    return true;
 }
 
 
 void ompl::geometric::RRTnew::reConnect(ompl::base::State *from, std::vector<std::pair<ompl::base::State *,int >> &prio_,
                                                                      std::vector<std::pair<ompl::base::State *,int >> &stack_,
-                                                                     std::vector<ompl::base::State *> &rewireResult)
-{
+                                                                     std::vector<ompl::base::State *> &rewireResult) {
 
-    reConnect(from,prio_,rewireResult);
-    if(!rewireResult.empty())
-        reConnect(rewireResult.back(),stack_,rewireResult);
-    if(rewireResult.empty())
-    {
-        rewireResult.clear();
-    }else
-    {
-        for(auto &a : prio_)
-        {
-            si_->freeState(a.first);
-        }
+    if (reConnect(from, prio_, rewireResult)) {
+        ompl::base::State * temp_from = si_->getStateSpace()->allocState();
+        si_->getStateSpace()->copyState(temp_from,rewireResult.back());
 
-        for(auto &a : stack_)
-        {
-            si_->freeState(a.first);
+        if (reConnect(temp_from, stack_, rewireResult)) { // reconnection successful
+            si_->freeState(temp_from);
         }
-        prio_.clear();
-        stack_.clear();
+        else{ // collision during reconnection
+            si_->freeState(temp_from);
+            freeStates(rewireResult);
+        }
+    }else{ // collision during first reconnection
+        freeStates(rewireResult);
     }
+
+    // all states newly allocated delete old
+    freeStates(prio_);
+    freeStates(stack_);
 }
 
+void ompl::geometric::RRTnew::findNextFragment(int start_index, int prev_index, std::vector<ompl::base::State *> &mainPath, bool sameFragmentType,
+                                              std::vector<std::pair<ompl::base::State *, int>> &foundFragment)
+{
+    if(sameFragmentType)
+    {
+        for (size_t i = start_index; i < mainPath.size() - 1; i++) {
+            if (getChangedIndex(mainPath.at(i - 1), mainPath.at(i)) == prev_index) {
+
+                ompl::base::State *xstate = si_->getStateSpace()->allocState();
+                si_->getStateSpace()->copyState(xstate, mainPath.at(i));
+                foundFragment.push_back(std::make_pair(xstate, getChangedIndex(mainPath.at(i - 1), mainPath.at(i))));
+            }
+            else
+                return;
+        }
+    }
+    else
+    {
+        for (size_t i = start_index; i < mainPath.size() - 1; i++) {
+            if (getChangedIndex(mainPath.at(i - 1), mainPath.at(i)) != prev_index) {
+
+                ompl::base::State *xstate = si_->getStateSpace()->allocState();
+                si_->getStateSpace()->copyState(xstate, mainPath.at(i));
+                foundFragment.push_back(std::make_pair(xstate, getChangedIndex(mainPath.at(i - 1), mainPath.at(i))));
+            }
+            else
+                return;
+        }
+    }
+
+}
 
 int ompl::geometric::RRTnew::pathDefrag(std::vector<ompl::base::State *> &mainPath) {
 
     int rewireCount = 0;
     int prev_index = getChangedIndex(mainPath.at(0),mainPath.at(1));
-    /*std::cout << "--------- START" << std::endl;
-    for(auto &st : mainPath)
-    {
-        si_->printState(st);
-    }
-    std::cout << "--------- END" << std::endl;
-*/
 
     for(size_t toID = 1; toID < mainPath.size()-1; ++toID){
+
         size_t fromID = toID-1;
 
         ompl::base::State *fromState = mainPath.at(fromID);
         ompl::base::State  *toState = mainPath.at(toID);
 
-        if(getChangedIndex(fromState,toState) != prev_index){
+        if(getChangedIndex(fromState,toState) != prev_index)
+        {
             size_t subsearch_id = toID;
-            ompl::base::State *subFrom = mainPath.at(subsearch_id-1);
-            ompl::base::State  *subTo = mainPath.at(subsearch_id);
+            std::vector<std::pair<ompl::base::State *,int>> merge_fragment;
+            std::vector<std::pair<ompl::base::State *,int>> push_fragment;
 
-            std::vector<std::pair<ompl::base::State *,int>> mergeIndices;
-            std::vector<std::pair<ompl::base::State *,int>> queueIndices;
-            queueIndices.push_back(std::make_pair(subTo,getChangedIndex(subFrom,subTo)));
+            findNextFragment(subsearch_id,prev_index,mainPath,false,push_fragment);
 
-            while (getChangedIndex(subTo,subFrom) != prev_index && subsearch_id < mainPath.size()-1)
-            {
-                subsearch_id++;
-
-                subFrom = mainPath.at(subsearch_id-1);
-                subTo = mainPath.at(subsearch_id);
-
-                if(getChangedIndex(subFrom,subTo) != prev_index){
-                    queueIndices.push_back(std::make_pair(subTo,getChangedIndex(subFrom,subTo)));
-                }
-                else
-                { //start same index again done
-                    if(subsearch_id >= mainPath.size()-1) // this is the case when we re already at the end of the path, last state with diff index
-                        mergeIndices.push_back(std::make_pair(subTo,getChangedIndex(subFrom,subTo)));
-
-                    break;
-                }
+            if(!push_fragment.empty())
+                subsearch_id += push_fragment.size();
+            else{
+                prev_index = getChangedIndex(mainPath.at(toID-1),mainPath.at(toID));
+                continue;
             }
 
-            while(getChangedIndex(subTo,subFrom) == prev_index && subsearch_id < mainPath.size()-1)
-            {
-                subFrom = mainPath.at(subsearch_id-1);
-                subTo = mainPath.at(subsearch_id);
+            findNextFragment(subsearch_id,prev_index,mainPath, true, merge_fragment);
 
-                if(getChangedIndex(subFrom,subTo) == prev_index)
-                    mergeIndices.push_back(std::make_pair(subTo,getChangedIndex(subFrom,subTo)));
-                else
-                    break;
-                subsearch_id++;
+            if(merge_fragment.empty()){
+                freeStates(push_fragment);
+
+                prev_index = getChangedIndex(mainPath.at(toID-1),mainPath.at(toID));
+                continue;
             }
 
             if(subsearch_id >= mainPath.size())
-                OMPL_ERROR("SUB SEARCH ID OVER SIZE ERR");
+                OMPL_ERROR("SUB SEARCH ID OVER SIZE ERR"); // should never occur
 
             std::vector<ompl::base::State * > rewiredConnection;
 
-            if(!mergeIndices.empty() && !queueIndices.empty())
-                reConnect(fromState,mergeIndices,queueIndices,rewiredConnection);
-            else{
-                if(toID>= mainPath.size()-1)
-                    return rewireCount;
-                prev_index = getChangedIndex(mainPath.at(toID-1),mainPath.at(toID));
-            }
+            reConnect(fromState,merge_fragment,push_fragment,rewiredConnection);
 
             if(rewiredConnection.empty()){ // no rewiring possible because of invalid motion but no problem, just start with next the next state and go on
                 prev_index = getChangedIndex(mainPath.at(toID-1),mainPath.at(toID));
@@ -448,40 +471,27 @@ int ompl::geometric::RRTnew::pathDefrag(std::vector<ompl::base::State *> &mainPa
             rewireCount+=rewiredConnection.size();
             int l = 0;
 
-            //TODO FREE REWIRE FAILURE OR REPLACED PATH
-            int test2 = toID + rewiredConnection.size();
-            int behind_index = mainPath.size()-test2;
 
-//            std::cout <<"toID : " << toID << ", rewSize : " << rewiredConnection.size() << ", together : "<< test2 << " behind end: " <<behind_index << ", path size : "<< mainPath.size()<< std::endl;
+            for(size_t j = toID; j < toID+rewiredConnection.size(); j++)
+                si_->freeState(mainPath.at(j));
 
-            mainPath.erase(mainPath.begin()+toID, mainPath.end()-behind_index);
-//            std::cout <<" path size after: "<< mainPath.size()<< std::endl;
+            int end_index = mainPath.size()-toID  -rewiredConnection.size();
+            mainPath.erase(mainPath.begin()+toID, mainPath.end()-end_index);
 
-            //   std::cout<<"SUBPATH----START: "<< toID << ", toID+rewsize: "<< toID+rewiredConnection.size() << std::endl;
-            for(size_t j = toID; j <toID+rewiredConnection.size(); j++){
+            for(size_t j = toID; j <toID+rewiredConnection.size(); j++)
+            {
                 mainPath.insert(mainPath.begin()+j,rewiredConnection.at(l));
                 l++;
-                //     si_->printState(mainPath.at(j));
             }
 
-      //      std::cout <<"toID : " << toID << ", rewSize : " << rewiredConnection.size() << " path size: " <<mainPath.size() << std::endl;
-            //  std::cout<<"SUBPATH----END" << std::endl;
-            //  std::cout<<"path sub size: " << rewiredConnection.size() << ", fromID : " << fromID << ", toID : " << toID << std::endl;
-            fromID = fromID+mergeIndices.size(); //
+            fromID = fromID+merge_fragment.size(); //
             if(toID>= mainPath.size()-1)
                 return rewireCount;
             prev_index = getChangedIndex(mainPath.at(fromID),mainPath.at(fromID+1));
             toID = fromID+1;
-
-            /*si_->printState(mainPath.at(fromID));
-            si_->printState(mainPath.at(fromID+1));
-            si_->printState(mainPath.at(toID-1));
-            si_->printState(mainPath.at(toID));
-            std::cout<<"path sub size: " << rewiredConnection.size() << ", NEW fromID : " << fromID << ", toID : " << toID << std::endl;
-*/
         }
-    }
 
+    }
     return rewireCount;
 
 }
@@ -494,114 +504,225 @@ int ompl::geometric::RRTnew::getCostPath(std::vector<ompl::base::State * > &stat
     int prev_index = getChangedIndex(states_.at(0),states_.at(1));
     int cost = 1;
     for (size_t i = 1; i < states_.size()-1 ; ++i) {
-        //  si_->printState(states_.at(i));
-        //  si_->printState(states_.at(i+1));
 
         if(prev_index != getChangedIndex(states_.at(i),states_.at(i+1)))
         {
             cost++;
             prev_index = getChangedIndex(states_.at(i),states_.at(i+1));
         }
-
     }
 
     return cost;
 }
 
-void ompl::geometric::RRTnew::shortcutPath(std::vector<ompl::base::State*> &mainPath)
+void ompl::geometric::RRTnew::getFragmentIDs(std::vector<ompl::base::State*> &path,std::vector<Fragment> &fragmentIDs, bool goalFragment = false)
 {
-    std::vector<ompl::base::State *> result_;
-    std::vector<std::pair<ompl::base::State *,int>> merge1;
-    std::vector<std::pair<ompl::base::State *,int>> merge2;
-    std::vector<std::pair<ompl::base::State *,int>> merge3;
+    fragmentIDs.clear();
+    int prev_index = getChangedIndex(path.at(0),path.at(1));
 
-    bool shortcut = true;
-    while(shortcut)
+    for(size_t i = 1; i < path.size()-1; i++)
     {
-
-        for(size_t i = 1; i < mainPath.size(); i++)
+        if(prev_index != getChangedIndex(path.at(i),path.at(i+1)))
         {
-            ompl::base::State *subFrom = mainPath.at(i-1);
-            ompl::base::State  *subTo = mainPath.at(i);
+            // check for equal states, that may occur if we skip fragments
+            if(si_->equalStates(path.at(i),path.at(i+1))){
+                std::cout<<"fragment equal states!! fixed!" << std::endl;
+                path.erase(path.begin()+(i+1));
+                continue;
+            }
+            if(fragmentIDs.size()>0)
+                    fragmentIDs.push_back(Fragment(fragmentIDs.back().end_index+1,i, prev_index));
+                else
+                    fragmentIDs.push_back(Fragment(0,i, prev_index));
 
-            if(getChangedIndex(mainPath.at(i-1),mainPath.at(i)) == 0)
-                merge1.push_back(std::make_pair(subTo, getChangedIndex(subFrom,subTo)));
-            else
-                merge2.push_back(std::make_pair(subTo, getChangedIndex(subFrom,subTo)));
-
-        }
-
-        //merge3.push_back(merge1.back());
-
-        ompl::base::State * temp_from = si_->getStateSpace()->allocState();
-        std::vector<double> tx= {0.0,0.0,0.0,0.0,0.0};
-        si_->getStateSpace()->copyFromReals(temp_from,tx);
-        //std::cout<<"START"<<std::endl;
-        reConnect(temp_from,merge2,merge1,result_);
-
-        if(!result_.empty())
-        {
-            shortcut = false;
-          //  std::cout<<"success, path size : "<< result_.size() << ", main size : " << mainPath.size()<< std::endl;
-
-            result_.insert(result_.begin(),mainPath.at(0));
-
-            mainPath = result_;
-            break;
-        }else
-        {
-            shortcut = false;
-            break;
+            prev_index = getChangedIndex(path.at(i),path.at(i+1));
         }
     }
 
+    if(prev_index != fragmentIDs.back().id)
+        fragmentIDs.push_back(Fragment(fragmentIDs.back().end_index+1,path.size()-1, prev_index));
+
+    if(goalFragment)
+    {
+        std::vector<Fragment> goalfrags;
+        for(size_t i = 0; i < fragmentIDs.size(); i++)
+        {
+            if(fragmentIDs.at(i).id == goalIndex_)
+                goalfrags.push_back(fragmentIDs.at(i));
+        }
+        fragmentIDs = goalfrags;
+    }
 }
 
+void ompl::geometric::RRTnew::getFragment(int start_index, int end_index,
+                                          std::vector<ompl::base::State*> &mainPath, std::vector<std::pair<ompl::base::State *,int>> &fragment)
+{
+    for(int j = start_index; j< end_index; j++){
+        ompl::base::State * temp = si_->allocState();
+        si_->getStateSpace()->copyState(temp,mainPath.at(j));
+        fragment.push_back(std::make_pair(temp, getChangedIndex(mainPath.at(j-1),mainPath.at(j))));
+    }
+}
+
+void ompl::geometric::RRTnew::shortcutToNextGoalFragment(std::vector<ompl::base::State*> &mainPath)
+{
+    std::vector<Fragment> fragmentIDs;
+    getFragmentIDs(mainPath,fragmentIDs,true);
+
+    if(fragmentIDs.size()<2)
+        return;
+    std::vector<std::pair<ompl::base::State *,int>> subpathA;
+    std::vector<std::pair<ompl::base::State *,int>> subpathB;
+    std::vector<ompl::base::State *> result_;
+
+    getFragment(fragmentIDs.at(0).start_index+1,fragmentIDs.at(0).end_index+1,mainPath,subpathA);
+    getFragment(fragmentIDs.at(0).end_index+1,fragmentIDs.at(1).start_index,mainPath,subpathB);
+
+    ompl::base::State * temp_from = si_->getStateSpace()->allocState();
+    std::vector<double> tx(si_->getStateDimension(),0.0);
+    si_->getStateSpace()->copyFromReals(temp_from,tx);
+
+    reConnect(temp_from,subpathB,subpathA,result_);
+
+    if(result_.empty()){
+        si_->freeState(temp_from);
+        return;
+    }
+
+    ompl::base::State * start_state = si_->allocState();
+    si_->getStateSpace()->copyState(start_state,result_.at(0));
+    subpathA.push_back(std::make_pair(start_state, getChangedIndex(mainPath.at(0),result_.at(0))));
+
+    getFragment(1,result_.size(),result_,subpathA);
+    getFragment(fragmentIDs.at(1).start_index,mainPath.size(),mainPath,subpathB);
+    freeStates(result_);
+
+    reConnect(temp_from,subpathA,subpathB,result_);
+
+    if(!result_.empty())
+    {
+        freeStates(mainPath);
+        mainPath = result_;
+        mainPath.insert(mainPath.begin(),temp_from);
+        return;
+    }
+    else
+        si_->freeState(temp_from);
+
+}
+
+
+void ompl::geometric::RRTnew::trySkipFragment(std::vector<ompl::base::State*> &mainPath)
+{
+    std::vector<Fragment> fragmentIDs;
+    getFragmentIDs(mainPath,fragmentIDs);
+
+    for(size_t i = 0;  i < fragmentIDs.size()-1;  i++)
+    {
+        std::vector<std::pair<ompl::base::State *,int>> pathA;
+        std::vector<std::pair<ompl::base::State *,int>> pathB;
+        std::vector<ompl::base::State *> result_;
+
+
+        ompl::base::State *temp_from = si_->getStateSpace()->allocState();
+        std::vector<double> tx(si_->getStateDimension(), 0.0);
+        si_->getStateSpace()->copyFromReals(temp_from, tx);
+
+        if(i != 0){
+            getFragment(1, fragmentIDs.at(i).start_index, mainPath, pathA);
+            getFragment(fragmentIDs.at(i).end_index + 1, mainPath.size(), mainPath, pathB);
+
+            if (pathA.size() < 1 || pathB.size() < 1) {
+                freeStates(pathA);
+                freeStates(pathB);
+                si_->freeState(temp_from);
+                continue;
+            }
+            reConnect(temp_from, pathA, pathB, result_);
+
+        }
+        else
+        {
+            getFragment(fragmentIDs.at(i).end_index+1,mainPath.size(),mainPath,pathB);
+            if(pathB.size()<1){
+                si_->freeState(temp_from);
+                continue;
+            }
+            pathB.front().second = getChangedIndex(mainPath.at(fragmentIDs.at(i).end_index),pathB.front().first);
+
+            if(!reConnect(temp_from,pathB,result_)){ // reconnect only one path segment directly to the state
+                freeStates(pathB);
+                freeStates(result_);
+                si_->freeState(temp_from);
+                continue;
+            }
+
+        }
+
+        if(!result_.empty())
+        {
+            freeStates(mainPath);
+
+            mainPath = result_;
+            mainPath.insert(mainPath.begin(),temp_from);
+            getFragmentIDs(mainPath,fragmentIDs);
+
+        }
+        else
+            si_->freeState(temp_from);
+        // no reconnection / jump over possible
+    }
+
+
+
+}
 void ompl::geometric::RRTnew::simplifyActionIntervals(std::vector<ompl::base::State*> &mainPath) // finds intervals of same action index, builds shortcuts
 {
     int prev_index = getChangedIndex(mainPath.at(0),mainPath.at(1));
     std::vector<int> transitions;
-    std::vector<std::pair<int,int>> intervals; // pair of start and end
-    for (size_t i = 1; i < mainPath.size()-1 ; ++i) {
 
+    for (size_t i = 1; i < mainPath.size()-1 ; ++i) {
         if(prev_index != getChangedIndex(mainPath.at(i),mainPath.at(i+1)))
         {
             transitions.push_back(i);
-
             prev_index = getChangedIndex(mainPath.at(i),mainPath.at(i+1));
-        }else
-        {
-            si_->freeState(mainPath.at(i));
-            //mainPath.erase(mainPath.begin()+i);
         }
+        else
+            si_->freeState(mainPath.at(i));
     }
+
     std::vector<ompl::base::State *> simplifiedPath;
-    //simplifiedPath.reserve(transitions.size()+2);
+
     simplifiedPath.push_back(mainPath.at(0));
     for(auto &index : transitions){
-        if(!si_->equalStates(mainPath.at(index),simplifiedPath.back()))
-            simplifiedPath.push_back(mainPath.at(index));
+//        if(!si_->equalStates(mainPath.at(index),simplifiedPath.back()))
+        simplifiedPath.push_back(mainPath.at(index));
+//        else{ // should actually never occur
+//            std::cout<<"test"<<std::endl;
+//            si_->freeState(mainPath.at(index));
+//        }
     }
+
     simplifiedPath.push_back(mainPath.back());
-
-
-    for(size_t i = simplifiedPath.size()-1 ; i > 0 ; i--)
-    {
-        if(getChangedIndex(simplifiedPath.at(i),simplifiedPath.at(i-1)) != goalIndex_)
-        {
-            si_->freeState(simplifiedPath.at(i));
-            simplifiedPath.erase(simplifiedPath.begin()+i);
-        } else
-        {
-            break;
-        }
-    }
     mainPath.clear();
-    std::vector<ompl::base::State *>().swap(mainPath);
     mainPath = simplifiedPath;
 
 }
 
+
+void ompl::geometric::RRTnew::cutOffIfGoalReached(std::vector<ompl::base::State*> &mainPath)
+{
+    for(size_t i = mainPath.size()-1 ; i > 0 ; i--)
+    {
+        if(getChangedIndex(mainPath.at(i),mainPath.at(i-1)) != goalIndex_)
+        {
+            si_->freeState(mainPath.at(i));
+            mainPath.erase(mainPath.begin()+i);
+        }
+        else
+            break;
+    }
+}
 
 ompl::geometric::RRTnew::GrowState ompl::geometric::RRTnew::growTree(TreeData &tree, TreeGrowingInfo &tgi,
                                                                      Motion *rmotion)
@@ -636,16 +757,18 @@ ompl::geometric::RRTnew::GrowState ompl::geometric::RRTnew::growTree(TreeData &t
     }
 
     auto newCost = opt_->motionCost(nmotion->state,dstate);
-    //  std::cout <<"newcost : " << newCost.value() << std::endl;
-    if(newCost.value()  > 1.0){ // bestcost = 1.0, wenn mehr als 1 index verändert wurde -> TRAPPED
 
-        //    if(useIsolation_ && newCost.value() == 2.0) // erlaube cost 2 sonst alg ist stuck auch wenn cube 1 ist
-        if(useIsolation_ ) // erlaube cost 2 sonst alg ist stuck auch wenn cube 1 ist
+    if(newCost.value()  > 1.0){ // bestcost = 1.0, state transition already in only one dimension, no isolation needed
+
+        if(useIsolation_ )
         {
             std::vector<ompl::base::State *> dstates;
-           // dstates.reserve(newCost.value());
+            std::vector<double> s1,s2;
+            si_->getStateSpace()->copyToReals(s1,nmotion->state);
+            si_->getStateSpace()->copyToReals(s2,dstate);
+            std::vector<int> g1 = getChangedGroups(s1,s2);
+            buildIsoStates(nmotion->state,dstate,g1,dstates);
 
-            isolateStates(nmotion->state, dstate,dstates);
             std::vector<Motion *> stack_motion;
             if (dstates.size() == 0) { // konnte nichts isolieren
                 //     std::cout << "err " << std::endl;
@@ -654,25 +777,6 @@ ompl::geometric::RRTnew::GrowState ompl::geometric::RRTnew::growTree(TreeData &t
 
             Motion *premotion = nmotion;
             for (auto st: dstates) { // TODO FEHLER HIER
-
-                if (si_->equalStates(premotion->state, st))
-                    return TRAPPED;
-                if (!validMotionCheck(tgi.start, premotion->state, st))
-                {
-                    for(auto &fr: dstates){
-                        si_->freeState(fr);
-                    }
-                    dstates.clear();
-                    std::vector<ompl::base::State *>().swap(dstates); // free mem
-
-                    for(auto &m: stack_motion)
-                    {
-                        si_->freeState(m->state);
-                    }
-                    stack_motion.clear();
-
-                    return TRAPPED;
-                }
 
                 auto *motion = new Motion(si_);
                 createNewMotion(st, premotion,motion);
@@ -686,6 +790,7 @@ ompl::geometric::RRTnew::GrowState ompl::geometric::RRTnew::growTree(TreeData &t
                 tree->add(mot_);
                 incCost = opt_->combineCosts(incCost, base::Cost(1.0)); // todo ?
             }
+            freeStates(dstates);
 
             tgi.xmotion = stack_motion.back();
 
@@ -707,35 +812,24 @@ void ompl::geometric::RRTnew::simplifyPath(std::vector<ompl::base::State *> &pat
 {
 
     int counter =0;
-    bool count_flag = true;
     base::Cost maxCost_(getCostPath(path));
-    std::vector<ompl::base::State *> path_temp = path;
 
-    while(count_flag){
-        pathDefrag(path_temp);
-        base::Cost temp_cost(getCostPath(path_temp));
+    while(true){
+        pathDefrag(path);
+        base::Cost temp_cost(getCostPath(path));
          if(temp_cost.value() <= maxCost_.value())
         {
             if(temp_cost.value() == maxCost_.value())
                 counter++;
-            if(counter ==2)
-                count_flag = false;
+            if(counter ==2) // if the cost stays the same twice,
+                return;
             maxCost_ = temp_cost;
-
-            path = path_temp;
         }
         else
-        {
-            break;
-        }
+            return;
     }
-   // shortcutPath(path);
-    simplifyActionIntervals(path);
-  //  shortcutPath(path);
-  //  simplifyActionIntervals(path);
 
 }
-
 
 void ompl::geometric::RRTnew::checkRepairPath(std::vector<ompl::base::State *> &path_)
 {
@@ -753,13 +847,11 @@ void ompl::geometric::RRTnew::checkRepairPath(std::vector<ompl::base::State *> &
              bool check = true;
              if(check){
                  path_.insert(path_.begin()+i+1,iso_.begin(),iso_.end());
-                 //todo check collision if yes new interpolate?
+                 //(todo/further improvement)check collision if yes new interpolate?/replan sub path?
              }
          }
     }
 }
-
-
 
 
 
@@ -838,6 +930,7 @@ ompl::base::PlannerStatus ompl::geometric::RRTnew::solve(const base::PlannerTerm
     auto best_path(std::make_shared<PathGeometric>(si_));
     bestCost_ = opt_->infiniteCost();
 
+
     while (!ptc)
     {
         iterations_++;
@@ -905,39 +998,40 @@ ompl::base::PlannerStatus ompl::geometric::RRTnew::solve(const base::PlannerTerm
 
                 auto path(std::make_shared<PathGeometric>(si_));
                 constructSolutionPath(*path,startMotion,goalMotion);
-          //      std::ofstream fs("mazeREP.txt");
-          //      path->printAsMatrix(fs);
 
                 checkRepairPath(path->getStates());
 
-          //      std::ofstream fsx("mazeBF.txt");
-          //      path->printAsMatrix(fsx);
-
                 simplifyPath(path->getStates());
 
-  /*              std::ofstream f2("mazeAF.txt");
-                path->printAsMatrix(f2);
-*/
+                cutOffIfGoalReached(path->getStates());
+
+                size_t prev_size;
+                int k = 1;
+                do{
+                    k++;
+                    prev_size = path->getStateCount();
+                    trySkipFragment(path->getStates());
+                }while(path->getStateCount() < prev_size );
+
+//                shortcutToNextGoalFragment(path->getStates());
+
+                simplifyActionIntervals(path->getStates());
+
                 if(getCostPath(path->getStates()) < bestCost_.value())
                 {
                     OMPL_DEBUG("Better path found, new path cost: %d, old path cost: %d", getCostPath(path->getStates()), int(bestCost_.value()));
-                    std::vector<ompl::base::State *>().swap(best_path->getStates()); // free mem
+                    freeStates(best_path->getStates());
                     best_path = path;
-                    //bestCost_ = base::Cost(getCostPath(best_path->getStates()),0.0);
                     bestCost_ = base::Cost(getCostPath(best_path->getStates()));
-
-                   // si_->freeState(rstate);
-                }else
+                }
+                else
                 {
               //      std::cout << "worst path :" << getCostPath(path->getStates()) << ", best current : " << bestCost_.value() << std::endl;
-                    std::vector<ompl::base::State *>().swap(path->getStates()); // free mem
                 }
 
                 if(ptc)
                 {
                     pdef_->addSolutionPath(best_path, false, 0.0, getName());
-                    //std::ofstream f3("mazeRES.txt");
-                    //best_path->printAsMatrix(f3);
                     solved = true;
                     break;
                 }

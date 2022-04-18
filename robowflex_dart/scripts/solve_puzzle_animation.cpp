@@ -69,8 +69,8 @@ int main(int argc, char **argv)
     }
     else
     {
-        env_name = "maze2"; // test in cpp
-        time = 10;
+        env_name = "maze3"; // test in cpp
+        time = 60;
     }
     auto maze_dart = darts::loadMoveItRobot(env_name,
                                             abs_path +"envs/" + env_name+ "/" + "urdf/" + env_name + ".urdf",
@@ -121,6 +121,9 @@ int main(int argc, char **argv)
         builder.space->sanityChecks();
         builder.rspace->sanityChecks();
 
+
+//        std::this_thread::sleep_for(std::chrono::seconds(30));
+
         goal->startSampling();
         ompl::base::PlannerStatus solved = builder.ss->solve(time);
         goal->stopSampling();
@@ -133,7 +136,7 @@ int main(int argc, char **argv)
             std::string file_name = abs_path +"path_result/"+env_name + ".txt";
             std::ofstream fs(file_name);
             path.printAsMatrix(fs);
-            window.animatePath(builder, path,1,1);
+            window.animatePath(builder, path,10,1);
         }
         else
             RBX_WARN("No solution found");

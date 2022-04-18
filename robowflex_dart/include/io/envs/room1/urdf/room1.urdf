@@ -122,38 +122,8 @@
        </collision>
     </link>
 
+
      <link name="link_2_joint_0">
-      <visual>
-        <geometry>
-          <box size="0.1 0.7 1.1"/>
-        </geometry>
-        <origin rpy="0 0 0" xyz="0.0 0.35 0" />
-        <material name = "">
-          <color rgba="0.349019 0.470588 0.650980 1.0"/>
-      </material>
-      </visual>
-      <collision>
-        <geometry>
-          <box size="0.1 0.7 1.1"/>
-        </geometry>
-        <origin rpy="0 0 0" xyz="0.0 0.35 0" />     
-       </collision>
-    </link>
-
-
-     <link name="lock_part">
-      <visual>
-        <geometry>
-          <cylinder radius="0.03" length ="0.2"/>
-        </geometry>
-             <material name = "">
-          <color rgba="1 1 1 1.0"/>
-      </material>
-      </visual>
-    </link>
-
-
-     <link name="link_3_joint_0">
       <visual>
         <geometry>
           <box size="0.03 0.45 0.146"/>
@@ -169,6 +139,37 @@
         </geometry>
       <origin rpy="0 0 0" xyz="0 -0.15 0" />
        </collision>
+    </link>
+
+
+       <link name="link_3_joint_0">
+     <visual>
+        <geometry>
+          <box size="1.1 0.7 0.1"/>
+        </geometry>
+        <origin rpy="0 -1.57 0" xyz="0.0 0.35 0" />
+        <material name = "">
+          <color rgba="0.349019 0.470588 0.650980 1.0"/>
+      </material>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="1.1 0.7 0.1"/>
+        </geometry>
+        <origin rpy="0 -1.57 0" xyz="0.0 0.35 0" />     
+       </collision>
+    </link>
+
+
+     <link name="lock_part">
+      <visual>
+        <geometry>
+          <cylinder radius="0.03" length ="0.2"/>
+        </geometry>
+             <material name = "">
+          <color rgba="1 1 1 1.0"/>
+      </material>
+      </visual>
     </link>
 
 
@@ -213,24 +214,22 @@
   </joint>
 
 
-  <joint name="link_2_joint_0" type="revolute">
-      <origin rpy="0 0 0" xyz="1.30 -0.4 0.55"/>
-      <parent link="base_link"/>
-      <child link="link_2_joint_0"/>
-      <axis xyz="0 0 1"/>
-      <limit lower="0" upper="1.57" effort="0.05" velocity="1.57"/>
-  </joint>
-
-
-
- <joint name="link_3_joint_0" type="revolute">
+ <joint name="link_2_joint_0" type="revolute">
       <origin rpy="0 0 0" xyz="1.22 0.45 0.90"/>
       <parent link="base_link"/>
-      <child link="link_3_joint_0"/>
+      <child link="link_2_joint_0"/>
       <axis xyz="1 0 0"/>
       <limit lower="0" upper="1.57" effort="0.05" velocity="1.57"/>
   </joint>
 
+
+   <joint name="link_3_joint_0" type="revolute">
+      <origin rpy="0 0 0" xyz="1.30 -0.4 0.55"/>
+      <parent link="base_link"/>
+      <child link="link_3_joint_0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="0.0" upper="1.57" effort="0.05" velocity="1.57"/>
+  </joint>
 
 
   <joint name="desk_joint" type="fixed">

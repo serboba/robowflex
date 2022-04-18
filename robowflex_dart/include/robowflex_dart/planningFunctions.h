@@ -39,7 +39,7 @@ bool plan_to_grasp(std::shared_ptr<darts::World> &world, darts::Window &window, 
                    std::shared_ptr<darts::Robot> &robot_,Eigen::VectorXd start_config);
 
 bool plan_to_move (std::shared_ptr<darts::World> &world,darts::Window &window,Object &obj, ActionR action_,
-                            std::shared_ptr<darts::Robot> &robot_, std::shared_ptr<darts::Robot> &obj_robot_ );
+                            std::shared_ptr<darts::Robot> &robot_, std::shared_ptr<darts::Robot> &obj_robot_, int surface_no );
 
 
 void get_start_state (darts::PlanBuilder &builder_, std::vector<double> &config);

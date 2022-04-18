@@ -72,8 +72,8 @@ int main(int argc, char **argv)
         time = atof(argv[2]);
     }
     else{
-        env_name = "maze2"; // test in cpp
-        time = 10;
+        env_name = "maze3"; // test in cpp
+        time = 60;
     }
 
     auto maze_dart = darts::loadMoveItRobot(env_name,
@@ -121,6 +121,7 @@ int main(int argc, char **argv)
 
     builder.space->sanityChecks();
     builder.rspace->sanityChecks();
+
 
     goal->startSampling();
     ompl::base::PlannerStatus solved = builder.ss->solve(time);

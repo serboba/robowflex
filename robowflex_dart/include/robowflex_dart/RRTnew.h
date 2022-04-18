@@ -46,10 +46,6 @@ namespace ompl
 
             /** \brief Return true if the intermediate states generated along motions are to be added to the tree itself
              */
-            bool getIntermediateStates() const
-            {
-                return addIntermediateStates_;
-            }
 
             ompl::base::Cost bestCost() const
             {
@@ -57,10 +53,6 @@ namespace ompl
             }
             /** \brief Specify whether the intermediate states generated along motions are to be added to the tree
              * itself */
-            void setIntermediateStates(bool addIntermediateStates)
-            {
-                addIntermediateStates_ = addIntermediateStates;
-            }
 
             /** \brief Set the range the planner is supposed to use.
 
@@ -134,6 +126,16 @@ namespace ompl
                 bool start;
             };
 
+            struct Fragment
+                    {
+                int start_index;
+                int end_index;
+                int id;
+
+                Fragment(int start_, int end_, int id_) : start_index(start_), end_index(end_),id(id_){}
+
+                    };
+
             /** \brief The state of the tree after an attempt to extend it */
             enum GrowState
             {
@@ -179,7 +181,6 @@ namespace ompl
             double maxDistance_{0.};
 
             /** \brief Flag indicating whether intermediate states are added to the built tree of motions */
-            bool addIntermediateStates_;
             bool useIsolation_;
             int goalIndex_;
             /** \brief The random number generator */
@@ -229,7 +230,7 @@ namespace ompl
 
             int pathDefrag(std::vector<base::State *> &mainPath);
 
-            void
+            bool
             reConnect( base::State *from, std::vector<std::pair<ompl::base::State *, int>> &queue_,
                        std::vector<ompl::base::State *> &rewireResult);
 
@@ -257,7 +258,34 @@ namespace ompl
 
             void constructSolutionPath(PathGeometric &path, Motion *startMotion, Motion *goalMotion);
 
-            void shortcutPath(std::vector<ompl::base::State *> &mainPath);
+            void shortcutToNextGoalFragment(std::vector<ompl::base::State *> &mainPath);
+
+            void trySkipFragment(std::vector<ompl::base::State *> &mainPath);
+
+//            void getFragmentIDs(std::vector<ompl::base::State *> &path);
+//
+//            void getFragmentIDs(std::vector<ompl::base::State *> &path, std::vector<std::pair<int, int>> &fragmentIDs);
+
+            void cutOffIfGoalReached(std::vector<ompl::base::State *> &mainPath);
+
+
+            void getFragmentIDs(std::vector<ompl::base::State *> &path, std::vector<Fragment> &fragmentIDs,
+                                bool goalFragment);
+
+            void findNextFragment(int start_index, int prev_index, std::vector<ompl::base::State *> &mainPath,
+                                 bool sameFragmentType,
+                                 std::vector<std::pair<ompl::base::State *, int>> &foundFragment);
+
+
+            void buildIsoStates( base::State *from_, const base::State *to, std::vector<int> &changed_index_groups,
+                                std::vector<ompl::base::State *> &iso_);
+
+            void freeStates(std::vector<ompl::base::State *> &states);
+
+            void freeStates(std::vector<std::pair<ompl::base::State *, int>> &states);
+
+            void getFragment(int start_index, int end_index, std::vector<ompl::base::State *> &mainPath,
+                             std::vector<std::pair<ompl::base::State *, int>> &fragment);
         };
     }
 }

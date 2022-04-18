@@ -1,0 +1,5 @@
+link_0_gr,link_0_joint_0,0.1 0.1 0.1,0 0 0,0 0 0,link_0_joint_0,0.40 -0.9 0.825,0 0 0,prismatic,1 0 0,link_0_joint_1,0.0 0 0.0,0 0 0,prismatic,0 1 0;
+link_1_gr,link_1_joint_0,0.35 0.025 0.16,0 0 0,0.0 0.0 0,link_1_joint_0,0.46 -0.634 0.80,0 0 0,prismatic,1 0 0;
+link_2_gr,link_2_joint_0,0.35 0.025 0.16,0 0 0,0.0 0.0 0,link_2_joint_0,0.46 -0.166 0.80,0 0 0,prismatic,1 0 0;
+link_3_gr,link_3_joint_0,0.35 0.025 0.16,0 0 0,0.0 0.0 0,link_3_joint_0,1.24 -0.634 0.80,0 0 0,prismatic,1 0 0;
+link_4_gr,link_4_joint_0,0.35 0.025 0.16,0 0 0,0.0 0.0 0,link_4_joint_0,1.24 -0.166 0.80,0 0 0,prismatic,1 0 0;

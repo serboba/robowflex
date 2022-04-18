@@ -112,16 +112,23 @@ void benchmark(std::string robot_name,std::string urdf_name, std::string srdf_na
     b.addPlanner(rrt_new1);
 
 
- /*   b.addPlanner(std::make_shared<geometric::RRTConnect>(builder.ss->getSpaceInformation()));
-    b.addPlanner(std::make_shared<geometric::RRTstar>(builder.ss->getSpaceInformation()));
-    b.addPlanner(std::make_shared<geometric::LBTRRT>(builder.ss->getSpaceInformation()));
+//    b.addPlanner(std::make_shared<geometric::RRTstar>(builder.ss->getSpaceInformation()));
+//    b.addPlanner(std::make_shared<geometric::LBTRRT>(builder.ss->getSpaceInformation()));
+//    b.addPlanner(std::make_shared<geometric::ABITstar>(builder.ss->getSpaceInformation()));
+//    b.addPlanner(std::make_shared<geometric::AITstar>(builder.ss->getSpaceInformation()));
+//    b.addPlanner(std::make_shared<geometric::BITstar>(builder.ss->getSpaceInformation()));
 
 
-    b.addPlanner(std::make_shared<geometric::ABITstar>(builder.ss->getSpaceInformation()));
-    b.addPlanner(std::make_shared<geometric::AITstar>(builder.ss->getSpaceInformation()));
-    b.addPlanner(std::make_shared<geometric::BITstar>(builder.ss->getSpaceInformation()));
-    b.addPlanner(std::make_shared<geometric::KPIECE1>(builder.ss->getSpaceInformation()));
-*/
+    /*   b.addPlanner(std::make_shared<geometric::RRTConnect>(builder.ss->getSpaceInformation()));
+       b.addPlanner(std::make_shared<geometric::RRTstar>(builder.ss->getSpaceInformation()));
+       b.addPlanner(std::make_shared<geometric::LBTRRT>(builder.ss->getSpaceInformation()));
+
+
+       b.addPlanner(std::make_shared<geometric::ABITstar>(builder.ss->getSpaceInformation()));
+       b.addPlanner(std::make_shared<geometric::AITstar>(builder.ss->getSpaceInformation()));
+       b.addPlanner(std::make_shared<geometric::BITstar>(builder.ss->getSpaceInformation()));
+       b.addPlanner(std::make_shared<geometric::KPIECE1>(builder.ss->getSpaceInformation()));
+   */
 
  //   b.addPlanner(std::make_shared<geometric::LBTRRT>(builder.ss->getSpaceInformation()));
 
@@ -147,7 +154,7 @@ int main(int argc, char **argv)
     if(argc > 1 )
         env_name = std::string(argv[1]);
     else
-        env_name = "maze2"; // test in cpp
+        env_name = "maze3"; // test in cpp
 
     double time;
     int run_count;
@@ -159,13 +166,48 @@ int main(int argc, char **argv)
     }
     else
     {
-        time = 10.0;
-        run_count = 2;
+        time = 60.0;
+        run_count = 5;
     }
+
+
+
     benchmark(env_name,
               abs_path +"envs/" + env_name+ "/" + "urdf/" + env_name + ".urdf",
               abs_path +"envs/" + env_name+ "/" + "srdf/" + env_name + ".srdf",
-              time,run_count);
+              60.0,100);
+
+
+//
+//    benchmark("maze1",
+//              abs_path +"envs/" + "maze1"+ "/" + "urdf/" + "maze1" + ".urdf",
+//              abs_path +"envs/" + "maze1"+ "/" + "srdf/" + "maze1" + ".srdf",
+//              60.0,100);
+//
+//
+//
+//    benchmark("maze2",
+//              abs_path +"envs/" + "maze2"+ "/" + "urdf/" + "maze2" + ".urdf",
+//              abs_path +"envs/" + "maze2"+ "/" + "srdf/" + "maze2" + ".srdf",
+//              60.0,100);
+//
+//
+//    benchmark("maze3",
+//              abs_path +"envs/" + "maze3"+ "/" + "urdf/" + "maze3" + ".urdf",
+//              abs_path +"envs/" + "maze3"+ "/" + "srdf/" + "maze3" + ".srdf",
+//              60.0,100);
+//
+//
+//    benchmark("maze_vertical",
+//              abs_path +"envs/" + "maze_vertical"+ "/" + "urdf/" + "maze_vertical" + ".urdf",
+//              abs_path +"envs/" + "maze_vertical"+ "/" + "srdf/" + "maze_vertical" + ".srdf",
+//              60.0,100);
+//
+//
+////    benchmark("maze_vertical",
+////              abs_path +"envs/" + "maze_vertical"+ "/" + "urdf/" + "maze_vertical" + ".urdf",
+////              abs_path +"envs/" + "maze_vertical"+ "/" + "srdf/" + "maze_vertical" + ".srdf",
+////              60.0,100);
 
 
     return 0;

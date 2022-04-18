@@ -90,28 +90,10 @@ class IsoStateSpace : public robowflex::darts::StateSpace
         auto *rstate = state->as<StateSpace::StateType>();
 
 
-    /*     std::cout << "fromB: ";
-         for(int i = 0; i < dimension_; i++)
-             std::cout << rfrom->values[i] << ", ";
-         std::cout << std::endl;
-         std::cout << "toB: ";
-         for(int i = 0; i < dimension_; i++)
-             std::cout << rto->values[i] << ", ";
-         std::cout << std::endl;
-
-         std::cout << "t : " << t <<std::endl;
-*/
-
         if(t>= 1)
         {
             for (int i = 0; i < dimension_; i++) {
                 rstate->values[i] = rto->values[i];
-            }
-        }
-        else if(t == 0)
-        {
-            for (int i = 0; i < dimension_; i++) {
-                rstate->values[i] = rfrom->values[i];
             }
         }
         else
@@ -146,24 +128,6 @@ class IsoStateSpace : public robowflex::darts::StateSpace
             }
 
         }
-/*
-        std::cout << "t : " << t << std::endl;
-
-        std::cout << "from: ";
-        for(int i = 0; i < dimension_; i++)
-            std::cout << rfrom->values[i] << ", ";
-        std::cout << std::endl;
-        std::cout << "to: ";
-        for(int i = 0; i < dimension_; i++){
-            std::cout << rto->values[i] << ", ";
-        }
-        std::cout << std::endl;
-        std::cout << "out: ";
-        for(int i = 0; i < dimension_; i++)
-            std::cout << rstate->values[i] << ", ";
-        std::cout <<"\n" << std::endl;
-*/
-
     }
 
 

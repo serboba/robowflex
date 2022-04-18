@@ -51,5 +51,7 @@ void getActionsFromPath(std::string filename, std::vector<std::vector<int>> grou
 
 
 void translateActions(std::vector<ActionP> &actions_, std::vector<Object> objects_, std::vector<ActionR> &actions_robot);
+void translateRoomActions(std::vector<ActionP> &actions_, std::vector<Object> objects_, std::vector<ActionR> &actions_robot);
+
 
 #endif //ROBOWFLEX_DART_ACTIONROBOT_H

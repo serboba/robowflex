@@ -104,6 +104,7 @@ if (DART_LIBRARIES)
           src/isospace.cpp
           include/robowflex_dart/IsoStateSpace.h
           src/ActionRobot.cpp
+          src/PathHybridization.cpp
 
     )
   set_target_properties(${LIBRARY_NAME} PROPERTIES VERSION ${${PROJECT_NAME}_VERSION})
@@ -116,6 +117,15 @@ if (DART_LIBRARIES)
   add_script(benchmark_main)
   add_script(benchmark_room)
   add_script(solve_escape_room)
+  add_script(solve_room_debug)
+  add_script(validate_pose)
+  add_script(escape_room)
+  add_script(benchmark_room2)
+  add_script(benchmark_room02)
+  add_script(benchmark_room03)
+  add_script(benchmark_room04)
+  add_script(benchmark_room21)
+
 
   install_scripts()
   install_library()

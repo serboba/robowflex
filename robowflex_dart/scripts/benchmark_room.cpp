@@ -68,8 +68,6 @@ void postRunEvent(const base::PlannerPtr & planner, tools::Benchmark::RunPropert
 
     planner->getProblemDefinition()->getGoal()->as<base::GoalLazySamples>()->stopSampling();
 
-
-//    planner->getProblemDefinition()->getSolutionPath()->as<ompl::geometric::PathGeometric>()->interpolate();
 }
 
 
@@ -163,7 +161,7 @@ void benchmark(){
 
     double runtime_limit = 300.0;
     double memory_limit = 10000.0;  // set high because memory usage is not always estimated correctly
-    int run_count =10;
+    int run_count =100;
 
     ompl::tools::Benchmark::Request request(runtime_limit, memory_limit,run_count);
 
@@ -183,10 +181,8 @@ void benchmark(){
 
 
 //    b.addPlanner(std::make_shared<geometric::RRTConnect>(builder.ss->getSpaceInformation()));
-//    b.addPlanner(std::make_shared<geometric::RRTstar>(builder.ss->getSpaceInformation()));
 
-      //b.addPlanner(std::make_shared<geometric::LBTRRT>(builder.ss->getSpaceInformation()));
-
+//    b.addPlanner(std::make_shared<geometric::LBTRRT>(builder.ss->getSpaceInformation()));
 //    b.addPlanner(std::make_shared<geometric::ABITstar>(builder.ss->getSpaceInformation()));
 //    b.addPlanner(std::make_shared<geometric::AITstar>(builder.ss->getSpaceInformation()));
 //    b.addPlanner(std::make_shared<geometric::BITstar>(builder.ss->getSpaceInformation()));

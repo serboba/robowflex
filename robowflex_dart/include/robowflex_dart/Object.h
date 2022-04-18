@@ -57,7 +57,7 @@ class Object {
                {
 
             actual_position = link.pos + joints.pos;
-            actual_rotation = link.rpy + joints.rpy;
+            actual_rotation = link.rpy;
 
             }
 

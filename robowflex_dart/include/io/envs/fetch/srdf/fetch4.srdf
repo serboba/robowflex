@@ -43,6 +43,12 @@
         <joint name="rotate_z_joint"/>
     </group>
 
+    <group name="move_robot">
+        <joint name="move_x_axis_joint" />
+        <joint name="move_y_axis_joint" />
+        <joint name="rotate_z_joint"/>
+    </group>
+
     <group name="gripper">
         <link name="gripper_link" />
         <link name="l_gripper_finger_link" />

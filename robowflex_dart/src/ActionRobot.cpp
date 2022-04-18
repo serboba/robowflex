@@ -68,6 +68,52 @@ void translateActions(std::vector<ActionP> &actions_, std::vector<Object> object
     }
 }
 
+
+void translateRoomActions(std::vector<ActionP> &actions_, std::vector<Object> objects_, std::vector<ActionR> &actions_robot)
+{
+    for(auto &path_action : actions_)
+    {
+        if(path_action.group_index == objects_.size())
+            continue;
+        auto obj = objects_.at(path_action.group_index);
+        Vector3d pos;
+        Vector3d rpy;
+        pos << 0.0,0.0,0.0;
+        rpy << 0.0,0.0,0.0;
+
+        for(size_t i = 0; i < path_action.vals.size(); i++)
+        {
+            if(obj.joints.joints.at(i).type == prismatic)
+                pos(obj.joints.joints.at(i).direction) = path_action.vals[i];
+            else
+                rpy(obj.joints.joints.at(i).direction) = path_action.vals[i];
+        }
+        actions_robot.push_back(ActionR(pos,rpy,obj.link.name,path_action.group_index));
+    }
+
+
+    Vector3d rpy_it;
+    Vector3d pos_it;
+
+    for(size_t i = 0; i < objects_.size() ; i++)
+    {
+        rpy_it.setZero();
+        pos_it.setZero();
+        for(auto &action_ : actions_robot)
+        {
+            if(action_.obj_index == int(i))
+            {
+                action_.pos = action_.pos - pos_it;
+                action_.rpy = action_.rpy - rpy_it;
+
+                pos_it += action_.pos;
+                rpy_it += action_.rpy;
+            }
+        }
+    }
+}
+
+
 void getActionsFromPath(std::string filename,std::vector<std::vector<int>> group_indices,std::vector<ActionP> &actions_)
 {
 
