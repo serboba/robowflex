@@ -30,27 +30,11 @@ if (DART_LIBRARIES)
   find_package(ompl REQUIRED)
   if (ompl_LIBRARIES)
     include_directories(SYSTEM ${ompl_INCLUDE_DIRS})
-    include_directories(SYSTEM ${omplapp_INCLUDE_DIRS})
-    include_directories(SYSTEM ${omplappbase_INCLUDE_DIRS})
     list(APPEND LIBRARIES ${ompl_LIBRARIES})
-    list(APPEND LIBRARIES ${omplapp_LIBRARIES})
-    list(APPEND LIBRARIES ${omplappbase_LIBRARIES})
-
   else()
     include_directories(SYSTEM ${OMPL_INCLUDE_DIRS})
-    include_directories(SYSTEM ${OMPLAPP_INCLUDE_DIRS})
-    include_directories(SYSTEM ${OMPLAPPBASE_INCLUDE_DIRS})
-
     list(APPEND LIBRARIES ${OMPL_LIBRARIES})
-    list(APPEND LIBRARIES ${OMPLAPP_LIBRARIES})
-    list(APPEND LIBRARIES ${OMPLAPPBASE_LIBRARIES})
   endif (ompl_LIBRARIES)
-
-
-
-  find_package(PythonLibs REQUIRED)
-  include_directories(${PYTHON_INCLUDE_DIRS})
-  list(APPEND LIBRARIES ${PYTHON_LIBRARIES})
 
   find_package(TinyXML2 REQUIRED)
   include_directories(SYSTEM ${TINYXML2_INCLUDE_DIRS})
@@ -65,7 +49,7 @@ if (DART_LIBRARIES)
   find_package(catkin REQUIRED COMPONENTS
     robowflex_library
     )
-
+    
   catkin_package(
     LIBRARIES ${LIBRARY_NAME}
     CATKIN_DEPENDS
@@ -74,8 +58,7 @@ if (DART_LIBRARIES)
     INCLUDE_DIRS ${CMAKE_CURRENT_LIST_DIR}/include
     )
 
-  include_directories(SYSTEM ${CMAKE_CURRENT_LIST_DIR}/include ${catkin_INCLUDE_DIRS} )
-  include_directories(/home/serboba/rb_ws/src/omplapp-1.5.2-Source/src)
+  include_directories(SYSTEM ${CMAKE_CURRENT_LIST_DIR}/include ${catkin_INCLUDE_DIRS})
   link_directories(${catkin_LIBRARY_DIRS})
 
   add_library(${LIBRARY_NAME}
