@@ -8,8 +8,7 @@
 #include <stdlib.h>
 #include <Eigen/Dense>
 #include <vector>
-//#include <python2.7/Python.h>
-#include <Python.h>
+
 #ifndef ROBOWFLEX_DART_URDF_READ_H
 #define ROBOWFLEX_DART_URDF_READ_H
 
