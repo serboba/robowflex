@@ -82,12 +82,12 @@ if (DART_LIBRARIES)
           src/planningFunctions.cpp
           src/point_collector.cpp
           src/quaternion_factory.cpp
-          src/RRTnew.cpp
+          src/LARRT.cpp
           src/urdf_read.cpp
-          src/isospace.cpp
           include/robowflex_dart/IsoStateSpace.h
           src/ActionRobot.cpp
           src/PathHybridization.cpp
+          src/PathDefragmenter.cpp
 
     )
   set_target_properties(${LIBRARY_NAME} PROPERTIES VERSION ${${PROJECT_NAME}_VERSION})

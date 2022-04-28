@@ -5,7 +5,6 @@
 // Created by serboba on 21.10.21.
 //
 
-#include <Python.h>
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
