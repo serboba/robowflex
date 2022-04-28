@@ -23,7 +23,7 @@
 #include <chrono>
 #include <thread>
 
-#include <robowflex_dart/RRTnew.h>
+#include <robowflex_dart/LARRT.h>
 #include <ompl/geometric/planners/kpiece/KPIECE1.h>
 #include <ompl/geometric/planners/rrt/RRTstar.h>
 #include <ompl/geometric/planners/rrt/RRTConnect.h>
@@ -162,7 +162,7 @@ int main(int argc, char **argv)
 
 
         builder.ss->setOptimizationObjective(std::make_shared<ompl::base::IsoManipulationOptimization>(builder.info,input_.group_indices));
-        auto planner = std::make_shared<ompl::geometric::RRTnew>(builder.info,input_.group_indices,true,goal_index); // last parameter is state isolation
+        auto planner = std::make_shared<ompl::geometric::LARRT>(builder.info, input_.group_indices, true, goal_index); // last parameter is state isolation
 //      auto planner = std::make_shared<ompl::geometric::RRTstar>(builder.info);
 //      auto planner = std::make_shared<ompl::geometric::BITstar>(builder.info);
         //     auto planner = std::make_shared<ompl::geometric::RRTConnect>(builder.info,false);

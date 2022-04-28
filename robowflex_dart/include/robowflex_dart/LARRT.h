@@ -2,12 +2,13 @@
 // Created by serboba on 22.01.22.
 //
 
-#ifndef ROBOWFLEX_DART_RRTNEW_H
-#define ROBOWFLEX_DART_RRTNEW_H
+#ifndef ROBOWFLEX_DART_LARRT_H
+#define ROBOWFLEX_DART_LARRT_H
 
 #include <ompl/datastructures/NearestNeighbors.h>
 #include <ompl/geometric/planners/PlannerIncludes.h>
 #include <robowflex_dart/IsoManipulationOptimization.h>
+#include <robowflex_dart/PathDefragmenter.h>
 
 //#include <robowflex_dart/space.h>
 #include <fstream>
@@ -29,14 +30,14 @@ namespace ompl
         */
 
         /** \brief RRT-Connect (RRTConnect) */
-        class RRTnew : public base::Planner
+        class LARRT : public base::Planner
         {
         public:
             /** \brief Constructor */
-            RRTnew(const base::SpaceInformationPtr &si, std::vector<std::vector<int>> group_indices,
-                   bool useIsolation = false, int goalIndex = 0);
+            LARRT(const base::SpaceInformationPtr &si, std::vector<std::vector<int>> group_indices,
+                  bool useIsolation = false, int goalIndex = 0);
 
-            ~RRTnew() override;
+            ~LARRT() override;
 
             void getPlannerData(base::PlannerData &data) const override;
 
@@ -126,15 +127,6 @@ namespace ompl
                 bool start;
             };
 
-            struct Fragment
-                    {
-                int start_index;
-                int end_index;
-                int id;
-
-                Fragment(int start_, int end_, int id_) : start_index(start_), end_index(end_),id(id_){}
-
-                    };
 
             /** \brief The state of the tree after an attempt to extend it */
             enum GrowState
@@ -162,8 +154,6 @@ namespace ompl
 
             void getMotionVectors(Motion * mot_,std::vector<Motion*> &vec);
 
-            void
-            getIntermediateState(const base::State *from, const base::State *to, base::State *state, int index_group);
 
             /** \brief State sampler */
             base::StateSamplerPtr sampler_;
@@ -204,7 +194,7 @@ namespace ompl
 
             std::vector<std::vector<int>> group_indices;
             void createNewMotion(const base::State *st, Motion *premotion,
-                                    ompl::geometric::RRTnew::Motion *newmotion);
+                                    ompl::geometric::LARRT::Motion *newmotion);
 
             bool validMotionCheck(const bool start, const base::State *from_, const base::State *to_);
 
@@ -214,25 +204,8 @@ namespace ompl
 
             int getChangedIndex(const base::State *from, const base::State *to);
 
-            std::vector<base::State *> getStates(std::vector<Motion *>);
-
-
-            void reConnect(ompl::base::State *from,
-                                                        std::vector<std::pair<ompl::base::State *,int >> &prio_,
-                                                        std::vector<std::pair<ompl::base::State *,int >> &stack_,
-                                                        std::vector<ompl::base::State *> &rewireResult);
-
-
             std::vector<int>
             getChangedGroups(const std::vector<double> &from_, const std::vector<double> &to_);
-
-            void getChangedIndices(const base::State *rfrom, const base::State *rto, std::vector<int> &indices_) const;
-
-            int pathDefrag(std::vector<base::State *> &mainPath);
-
-            bool
-            reConnect( base::State *from, std::vector<std::pair<ompl::base::State *, int>> &queue_,
-                       std::vector<ompl::base::State *> &rewireResult);
 
 
             int getCostPath(std::vector<base::State *> &states_);
@@ -243,38 +216,7 @@ namespace ompl
             }
 
 
-            std::vector<int> getChangedGroups(const base::State *rfrom, const base::State *rto);
-
-            void simplifyActionIntervals(std::vector<ompl::base::State *> &mainPath);
-
-            void isolateStates(const base::State *rfrom, const base::State *rto,std::vector<ompl::base::State *> &iso_);
-
-            void buildIsoStates(const std::vector<double> &from_, const std::vector<double> &to_,
-                                                      std::vector<int> &changed_index_groups,std::vector<ompl::base::State *> &iso_);
-
-            void simplifyPath(std::vector<ompl::base::State *> &path);
-
-            void checkRepairPath(std::vector<ompl::base::State *> &path_);
-
             void constructSolutionPath(PathGeometric &path, Motion *startMotion, Motion *goalMotion);
-
-            void shortcutToNextGoalFragment(std::vector<ompl::base::State *> &mainPath);
-
-            void trySkipFragment(std::vector<ompl::base::State *> &mainPath);
-
-//            void getFragmentIDs(std::vector<ompl::base::State *> &path);
-//
-//            void getFragmentIDs(std::vector<ompl::base::State *> &path, std::vector<std::pair<int, int>> &fragmentIDs);
-
-            void cutOffIfGoalReached(std::vector<ompl::base::State *> &mainPath);
-
-
-            void getFragmentIDs(std::vector<ompl::base::State *> &path, std::vector<Fragment> &fragmentIDs,
-                                bool goalFragment);
-
-            void findNextFragment(int start_index, int prev_index, std::vector<ompl::base::State *> &mainPath,
-                                 bool sameFragmentType,
-                                 std::vector<std::pair<ompl::base::State *, int>> &foundFragment);
 
 
             void buildIsoStates( base::State *from_, const base::State *to, std::vector<int> &changed_index_groups,
@@ -282,12 +224,8 @@ namespace ompl
 
             void freeStates(std::vector<ompl::base::State *> &states);
 
-            void freeStates(std::vector<std::pair<ompl::base::State *, int>> &states);
-
-            void getFragment(int start_index, int end_index, std::vector<ompl::base::State *> &mainPath,
-                             std::vector<std::pair<ompl::base::State *, int>> &fragment);
         };
     }
 }
 
-#endif //ROBOWFLEX_DART_RRTNEW_H
+#endif //ROBOWFLEX_DART_LARRT_H

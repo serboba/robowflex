@@ -31,7 +31,7 @@
 #include <ompl/geometric/planners/prm/PRMstar.h>
 #include <ompl/geometric/PathGeometric.h>
 
-#include <robowflex_dart/RRTnew.h>
+#include <robowflex_dart/LARRT.h>
 #include <robowflex_dart/urdf_read.h>
 #include <ompl/tools/benchmark/Benchmark.h>
 #include <robowflex_dart/IsoStateSpace.h>
@@ -107,7 +107,7 @@ void benchmark(std::string robot_name,std::string urdf_name, std::string srdf_na
             [](const base::PlannerPtr &planner, tools::Benchmark::RunProperties &run) { postRunEvent(planner, run); });
 
 
-    auto rrt_new1 =std::make_shared<geometric::RRTnew>(builder.ss->getSpaceInformation(),input_.group_indices,true);
+    auto rrt_new1 =std::make_shared<geometric::LARRT>(builder.ss->getSpaceInformation(), input_.group_indices, true);
     rrt_new1->setName("LA-RRT");
     b.addPlanner(rrt_new1);
 
@@ -149,7 +149,7 @@ void benchmark(std::string robot_name,std::string urdf_name, std::string srdf_na
 
 int main(int argc, char **argv)
 {
-    //TODO get multiple puzzles to benchmark as argument
+    //(maybe TODO get multiple puzzles to benchmark as argument, or config as the list of planners that will be used)
     std::string env_name;
     if(argc > 1 )
         env_name = std::string(argv[1]);
@@ -175,7 +175,7 @@ int main(int argc, char **argv)
     benchmark(env_name,
               abs_path +"envs/" + env_name+ "/" + "urdf/" + env_name + ".urdf",
               abs_path +"envs/" + env_name+ "/" + "srdf/" + env_name + ".srdf",
-              60.0,100);
+              time,run_count);
 
 
 //

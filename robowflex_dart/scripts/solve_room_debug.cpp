@@ -51,7 +51,7 @@
 #include <ompl/geometric/planners/prm/PRMstar.h>
 #include <ompl/geometric/PathGeometric.h>
 
-#include <robowflex_dart/RRTnew.h>
+#include <robowflex_dart/LARRT.h>
 #include <robowflex_dart/urdf_read.h>
 #include <ompl/tools/benchmark/Benchmark.h>
 #include <robowflex_dart/IsoStateSpace.h>
@@ -186,7 +186,7 @@ void benchmark(){
 //    b.addPlanner(std::make_shared<geometric::BFMT>(builder.ss->getSpaceInformation()));
 
 
-     auto rrt_new1 =std::make_shared<geometric::RRTnew>(builder.ss->getSpaceInformation(),input_.group_indices,true,4);
+     auto rrt_new1 =std::make_shared<geometric::LARRT>(builder.ss->getSpaceInformation(), input_.group_indices, true, 4);
      rrt_new1->setName("LA-RRT");
      b.addPlanner(rrt_new1);
 
