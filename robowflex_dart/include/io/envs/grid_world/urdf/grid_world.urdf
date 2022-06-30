@@ -1,0 +1,226 @@
+<?xml version="1.0"?>
+<!-- created with Phobos 1.0.1 "Capricious Choutengan" -->
+  <robot name="grid_world">
+
+    <link name="base_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+    </link>
+
+    <link name="goal">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_box_0_link_0.001">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="1.43778 0.44277 0.44277"/>
+        </geometry>
+        <material name="green_translucent"/>
+      </visual>
+    </link>
+
+    <link name="link_0_joint_0">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_box_0_link_0">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="1.445 0.445 0.445"/>
+        </geometry>
+        <material name="green"/>
+      </visual>
+      <collision name="collision_box_0_link_0">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="1.445 0.445 0.445"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_1_joint_0">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_box_2_link_1">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.945 0.445 0.445"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+      <collision name="collision_box_2_link_1">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.945 0.445 0.445"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_2_joint_0">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_box_3_link_2">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="1.445 0.445 0.445"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+      <collision name="collision_box_3_link_2">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="1.445 0.445 0.445"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_3_joint_0">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_box_5_link_3">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.945 0.445 0.445"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+      <collision name="collision_box_5_link_3">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.945 0.445 0.445"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_4_joint_0">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_box_6_link_4">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.945 0.445 0.445"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+      <collision name="collision_box_6_link_4">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.945 0.445 0.445"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_5_joint_0">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_box_7_link_5">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.445 0.945 0.445"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+      <collision name="collision_box_7_link_5">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.445 0.945 0.445"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="goal" type="fixed">
+      <origin xyz="-2.75 0.25 0.225" rpy="0 0 1.5708"/>
+      <parent link="base_link"/>
+      <child link="goal"/>
+      <limit effort="0" velocity="0"/>
+    </joint>
+
+    <joint name="link_0_joint_0" type="revolute">
+      <origin xyz="-2.75 0.25 0.225" rpy="0 0 0"/>
+      <parent link="base_link"/>
+      <child link="link_0_joint_0"/>
+      <axis xyz="0 0 1.0"/>
+      <limit lower="0" upper="1.5708" effort="0" velocity="0"/>
+    </joint>
+
+    <joint name="link_1_joint_0" type="prismatic">
+      <origin xyz="-3.0 0.75 0.225" rpy="0 0 0"/>
+      <parent link="base_link"/>
+      <child link="link_1_joint_0"/>
+      <axis xyz="1.0 0 0"/>
+      <limit lower="-0.5" upper="0.0" effort="0" velocity="0"/>
+    </joint>
+
+    <joint name="link_2_joint_0" type="revolute">
+      <origin xyz="-3.75 -0.25 0.225" rpy="0 0 0"/>
+      <parent link="base_link"/>
+      <child link="link_2_joint_0"/>
+      <axis xyz="0 0 1.0"/>
+      <limit lower="-1.5708" upper="0" effort="0" velocity="0"/>
+    </joint>
+
+    <joint name="link_3_joint_0" type="prismatic">
+      <origin xyz="-2.0 0.75 0.225" rpy="0 0 0"/>
+      <parent link="base_link"/>
+      <child link="link_3_joint_0"/>
+      <axis xyz="1.0 0 0"/>
+      <limit lower="0" upper="0.5" effort="0" velocity="0"/>
+    </joint>
+
+    <joint name="link_4_joint_0" type="prismatic">
+      <origin xyz="-2.5 -0.25 0.225" rpy="0 0 0"/>
+      <parent link="base_link"/>
+      <child link="link_4_joint_0"/>
+      <axis xyz="1.0 0 0"/>
+      <limit lower="0" upper="0.5" effort="0" velocity="0"/>
+    </joint>
+
+    <joint name="link_5_joint_0" type="prismatic">
+      <origin xyz="-3.75 1.0 0.225" rpy="0 0 0"/>
+      <parent link="base_link"/>
+      <child link="link_5_joint_0"/>
+      <axis xyz="0 1.0 0"/>
+      <limit lower="0" upper="0.5" effort="0" velocity="0"/>
+    </joint>
+
+
+    <material name="gray">
+      <color rgba="0.5 0.5 0.5 1.0"/>
+    </material>
+
+    <material name="green">
+      <color rgba="0 1.0 0 1.0"/>
+    </material>
+
+    <material name="green_translucent">
+      <color rgba="0 1.0 0 0.25"/>
+    </material>
+
+    <material name="red">
+      <color rgba="1.0 0 0 1.0"/>
+    </material>
+
+  </robot>

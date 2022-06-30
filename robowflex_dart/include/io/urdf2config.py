@@ -29,7 +29,6 @@ def translate_into_txt(filename):
     srdf_name = 'envs/'+ filename + '/srdf/'+filename +'.srdf'
     urdf_name = 'envs/'+ filename + '/urdf/'+filename +'.urdf'
     txt_file = []
-
     res = parse_srdf_file(ET.parse(srdf_name).getroot())
     for r in res:
         txt_file.append(r)
@@ -48,19 +47,20 @@ def write_into_txt(file,name):
             f.write("%s\n" % item)
 
 
-if len(sys.argv) == 1:
-     sys.exit("NOT ENOUGH ARGS")
+# if len(sys.argv) == 1:
+#      sys.exit("NOT ENOUGH ARGS")
 
 
 os.chdir("../../..")
 os.chdir(os.getcwd()+"/src/robowflex/robowflex_dart/include/io/")
-
+print(str(sys.argv[1]))
 translate_into_txt(str(sys.argv[1]))
 
+#translate_into_txt("envs/grid_world")
 
 # def main():
-#     translate_into_txt("maze2")
+#     translate_into_txt("grid_world")
 #
 # if __name__ == '__main__':
-#      main()
-#
+#     main()
+

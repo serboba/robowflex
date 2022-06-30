@@ -21,29 +21,15 @@
 #include <chrono>
 #include <thread>
 
-#include <ompl/geometric/planners/rrt/RRTConnect.h>
-#include <ompl/geometric/planners/kpiece/KPIECE1.h>
-//#include <ompl/geometric/planners/rrt/RRT.h>
-//#include <ompl/geometric/planners/sst/SST.h>
 #include <robowflex_dart/ActionRobot.h>
 #include <robowflex_dart/urdf_read.h>
 
-#include <robowflex_library/builder.h>
-#include <robowflex_library/log.h>
-#include <robowflex_library/robot.h>
-#include <robowflex_library/scene.h>
 #include <robowflex_library/util.h>
-#include <ompl/base/goals/GoalLazySamples.h>
 #include <robowflex_library/class_forward.h>
 #include <robowflex_dart/gui.h>
 #include <robowflex_dart/planning.h>
 #include <robowflex_dart/robot.h>
-#include <robowflex_dart/tsr.h>
 #include <robowflex_dart/world.h>
-
-#include <robowflex_dart/point_collector.h>
-#include <robowflex_dart/conversion_functions.h>
-#include <robowflex_dart/quaternion_factory.h>
 #include <robowflex_dart/Object.h>
 #include <robowflex_dart/planningFunctions.h>
 
@@ -66,12 +52,12 @@ int main(int argc, char **argv)
     if(argc > 1 )
         env_name = std::string(argv[1]);
     else
-        env_name = "maze_vertical"; // test in cpp
+        env_name = "grid_world"; // test in cpp
 
 
     /* NEVER CHANGE THIS ROBOT LOADING STRUCTURE */
     auto fetch_dart = darts::loadMoveItRobot("fetch",                                         //
-                                             abs_path +"envs/fetch/urdf/fetch5.urdf",  //
+                                             abs_path +"envs/fetch/urdf/fetch6.urdf",  //
                                              abs_path +"envs/fetch/srdf/fetch4.srdf");
 
 
@@ -85,7 +71,7 @@ int main(int argc, char **argv)
     world->addRobot(fetch_dart);
     world->addRobot(maze_dart);
 
-    //create_txt_from_urdf(env_name);
+    create_txt_from_urdf(env_name);
     std::vector<Object> obj_;
     read_obj_txt_file(env_name,obj_);
 
@@ -114,12 +100,12 @@ int main(int argc, char **argv)
         Eigen::VectorXd start_config = builder.getStartConfiguration();
 
 
-        int surface_no = 4; //maze vertical surface number
-       // int surface_no = 5; // regular mazes
+//        int surface_no = 4; //maze vertical surface number
+        int surface_no = 5; // regular mazes
 
 //        world->getRobot("fetch")->setJoint("move_x_axis_joint",1.0);
 //        world->getRobot("fetch")->setJoint("move_y_axis_joint",1.1);
-        std::this_thread::sleep_for(std::chrono::milliseconds(10000));
+      //  std::this_thread::sleep_for(std::chrono::milliseconds(10000));
         size_t i = 0;
 
         Eigen::VectorXd backup_state_fetch(int(world->getRobot(fetch_dart->getName())->getGroupJoints(GROUP_X).size()));

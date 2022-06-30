@@ -1,0 +1,6 @@
+link_0_gr,link_0_joint_0,1.445 0.445 0.445,0 0 0,0 0 0,link_0_joint_0,-2.75 0.25 0.225,0 0 0,revolute,0 0 1.0;
+link_1_gr,link_1_joint_0,0.945 0.445 0.445,0 0 0,0 0 0,link_1_joint_0,-3.0 0.75 0.225,0 0 0,prismatic,1.0 0 0;
+link_2_gr,link_2_joint_0,1.445 0.445 0.445,0 0 0,0 0 0,link_2_joint_0,-3.75 -0.25 0.225,0 0 0,revolute,0 0 1.0;
+link_3_gr,link_3_joint_0,0.945 0.445 0.445,0 0 0,0 0 0,link_3_joint_0,-2.0 0.75 0.225,0 0 0,prismatic,1.0 0 0;
+link_4_gr,link_4_joint_0,0.945 0.445 0.445,0 0 0,0 0 0,link_4_joint_0,-2.5 -0.25 0.225,0 0 0,prismatic,1.0 0 0;
+link_5_gr,link_5_joint_0,0.445 0.945 0.445,0 0 0,0 0 0,link_5_joint_0,-3.75 1.0 0.225,0 0 0,prismatic,0 1.0 0;

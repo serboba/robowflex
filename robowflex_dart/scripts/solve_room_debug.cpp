@@ -30,7 +30,7 @@
 #include <robowflex_dart/space.h>
 #include <robowflex_dart/tsr.h>
 #include <robowflex_dart/world.h>
-#include <robowflex_dart/IsoManipulationOptimization.h>
+#include <ompl/base/objectives/MinimalActionsObjective.h>
 
 
 #include <ompl/geometric/planners/kpiece/BKPIECE1.h>
@@ -45,18 +45,18 @@
 #include <ompl/geometric/planners/sbl/SBL.h>
 #include <ompl/geometric/planners/fmt/FMT.h>
 #include <ompl/geometric/planners/fmt/BFMT.h>
-#include <ompl/geometric/planners/informedtrees/BITstar.h>
-#include <ompl/geometric/planners/informedtrees/AITstar.h>
-#include <ompl/geometric/planners/informedtrees/ABITstar.h>
+// #include <ompl/geometric/planners/informedtrees/BITstar.h>
+// #include <ompl/geometric/planners/informedtrees/AITstar.h>
+// #include <ompl/geometric/planners/informedtrees/ABITstar.h>
 #include <ompl/geometric/planners/prm/PRMstar.h>
 #include <ompl/geometric/PathGeometric.h>
+#include <ompl/base/goals/GoalLazySamples.h>
 
-#include <robowflex_dart/LARRT.h>
+#include <ompl/geometric/planners/rrt/LARRT.h>
 #include <robowflex_dart/urdf_read.h>
 #include <ompl/tools/benchmark/Benchmark.h>
-#include <robowflex_dart/IsoStateSpace.h>
+#include <ompl/base/spaces/FragmentedStateSpace.h>
 
-#include <ompl/base/samplers/UniformValidStateSampler.h>
 
 
 boost::filesystem::path p(boost::filesystem::current_path().parent_path().parent_path().parent_path());

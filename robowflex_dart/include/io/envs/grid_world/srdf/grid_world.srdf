@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<robot name="grid_world">
+
+  <group name="link_0_gr">
+    <joint name="link_0_joint_0"/>
+  </group>
+  <group name="link_1_gr">
+    <joint name="link_1_joint_0"/>
+  </group>
+  <group name="link_2_gr">
+    <joint name="link_2_joint_0"/>
+  </group>
+  <group name="link_3_gr">
+    <joint name="link_3_joint_0"/>
+  </group>
+  <group name="link_4_gr">
+    <joint name="link_4_joint_0"/>
+  </group>
+  <group name="link_5_gr">
+    <joint name="link_5_joint_0"/>
+  </group>
+
+
+
+<disable_collisions link1="goal" link2="link_0_joint_0" reason="default" />
+
+
+<disable_collisions link1="goal" link2="link_1_joint_0" reason="default" />
+
+<disable_collisions link1="goal" link2="link_2_joint_0" reason="default" />
+
+<disable_collisions link1="goal" link2="link_3_joint_0" reason="default" />
+
+<disable_collisions link1="goal" link2="link_4_joint_0" reason="default" />
+
+<disable_collisions link1="goal" link2="link_5_joint_0" reason="default" />
+
+</robot>

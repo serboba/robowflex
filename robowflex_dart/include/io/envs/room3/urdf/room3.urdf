@@ -4,7 +4,7 @@
     <link name="room">
       <visual>
         <geometry>
-          <mesh filename="file:///home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room2/meshes/room.dae" scale=" 0.4 0.4 0.3"/>
+          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room3/meshes/room.dae" scale=" 0.4 0.4 0.3"/>
         </geometry>
         <origin rpy="0 0 0" xyz="0 0 0"/>
       <material name="">
@@ -14,7 +14,7 @@
 
       <collision>
         <geometry>
-          <mesh filename="file:///home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room2/meshes/room.dae" scale=" 0.4 0.4 0.3"/>
+          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room3/meshes/room.dae" scale=" 0.4 0.4 0.3"/>
         </geometry>
         <origin rpy="0 0 0" xyz="0 0 0"/>       
        </collision>
@@ -124,9 +124,9 @@
 
   <link name="goal">
   <visual>
-         <origin xyz="0 0 0" rpy="0 0 0" />
+         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder radius="0.25" length="0.001" />
+          <cylinder radius="0.25" length="0.001"/>
         </geometry>
         <material name="">
           <color rgba="0 1 0 1.0"/>
@@ -134,8 +134,8 @@
       </visual>
 </link>
 
-<joint name = "goal" type="fixed">
-  <origin rpy ="0 0 0" xyz="-0.7 0.7 0" />
+<joint name="goal" type="fixed">
+  <origin rpy="0 0 0" xyz="-0.7 0.7 0"/>
   <parent link="base_link"/>
     <child link="goal"/>
 </joint>

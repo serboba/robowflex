@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<!-- created with Phobos 1.0.1 "Capricious Choutengan" -->
-  <robot name="lockbox2017_0">
+<!-- created with Phobos 1.0.1 "Capricious Choutengan" --><robot name="lockbox2017_0">
 
     <link name="base_link">
       <inertial>

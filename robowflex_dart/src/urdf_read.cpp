@@ -12,7 +12,7 @@ const std::string abs_path_ = p_.string() + "/src/robowflex/robowflex_dart/inclu
 
 void create_txt_file(std::string filename){
 
-    std::string script = "python " + abs_path_ + "urdf2config.py " + filename;
+    std::string script = "python3.6 " + abs_path_ + "urdf2config.py " + filename;
     std::system(script.c_str());
 }
 

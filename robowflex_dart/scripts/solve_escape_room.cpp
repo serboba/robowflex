@@ -23,33 +23,21 @@
 #include <chrono>
 #include <thread>
 
-#include <robowflex_dart/LARRT.h>
-#include <ompl/geometric/planners/kpiece/KPIECE1.h>
-#include <ompl/geometric/planners/rrt/RRTstar.h>
-#include <ompl/geometric/planners/rrt/RRTConnect.h>
-#include <ompl/geometric/planners/fmt/FMT.h>
-#include <ompl/geometric/planners/fmt/BFMT.h>
-#include <ompl/geometric/planners/prm/PRMstar.h>
-#include <ompl/geometric/planners/informedtrees/BITstar.h>
-#include <ompl/geometric/planners/informedtrees/ABITstar.h>
-#include <ompl/geometric/planners/informedtrees/AITstar.h>
+// #include <robowflex_dart/LARRT.h>
+
+#include <ompl/geometric/planners/rrt/LARRT.h>
+#include <ompl/base/objectives/MinimalActionsObjective.h>
+
 #include <robowflex_library/builder.h>
-#include <robowflex_library/detail/fetch.h>
 #include <robowflex_library/log.h>
-#include <robowflex_library/planning.h>
 #include <robowflex_library/robot.h>
 #include <robowflex_library/scene.h>
-#include <robowflex_library/tf.h>
 #include <robowflex_library/util.h>
-
 #include <robowflex_dart/gui.h>
 #include <robowflex_dart/planning.h>
 #include <robowflex_dart/robot.h>
-#include <robowflex_dart/space.h>
 #include <robowflex_dart/tsr.h>
 #include <robowflex_dart/world.h>
-#include <robowflex_dart/solution_parser.h>
-#include <robowflex_dart/IsoManipulationOptimization.h>
 #include <robowflex_dart/point_collector.h>
 #include <robowflex_dart/urdf_read.h>
 
@@ -161,11 +149,11 @@ int main(int argc, char **argv)
         builder.setGoal(goal);
 
 
-        builder.ss->setOptimizationObjective(std::make_shared<ompl::base::IsoManipulationOptimization>(builder.info,input_.group_indices));
+        builder.ss->setOptimizationObjective(std::make_shared<ompl::base::MinimalActionsObjective>(builder.info,input_.group_indices));
         auto planner = std::make_shared<ompl::geometric::LARRT>(builder.info, input_.group_indices, true, goal_index); // last parameter is state isolation
 //      auto planner = std::make_shared<ompl::geometric::RRTstar>(builder.info);
 //      auto planner = std::make_shared<ompl::geometric::BITstar>(builder.info);
-        //     auto planner = std::make_shared<ompl::geometric::RRTConnect>(builder.info,false);
+//     auto planner = std::make_shared<ompl::geometric::RRTConnect>(builder.info,false);
 
         builder.ss->setPlanner(planner);
         builder.setup();

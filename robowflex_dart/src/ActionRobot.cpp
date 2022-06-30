@@ -81,7 +81,7 @@ void translateRoomActions(std::vector<ActionP> &actions_, std::vector<Object> ob
         pos << 0.0,0.0,0.0;
         rpy << 0.0,0.0,0.0;
 
-        for(size_t i = 0; i < path_action.vals.size(); i++)
+        for(size_t i = 0; i < path_action.vals.size(); i++) //todo: update n_times
         {
             if(obj.joints.joints.at(i).type == prismatic)
                 pos(obj.joints.joints.at(i).direction) = path_action.vals[i];

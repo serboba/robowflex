@@ -3,18 +3,16 @@
 //
 
 #include <robowflex_dart/planningFunctions.h>
-#include <ompl/geometric/planners/fmt/FMT.h>
-#include <ompl/geometric/planners/fmt/BFMT.h>
-#include <ompl/geometric/planners/informedtrees/BITstar.h>
-#include <ompl/geometric/planners/kpiece/LBKPIECE1.h>
-#include <ompl/geometric/planners/kpiece/BKPIECE1.h>
 
 #include <ompl/base/objectives/PathLengthOptimizationObjective.h>
 #include <ompl/base/objectives/MinimaxObjective.h>
 #include <ompl/base/objectives/StateCostIntegralObjective.h>
-#include <robowflex_dart/PathHybridization.h>
+
 
 #include <ompl/geometric/PathSimplifier.h>
+#include <ompl/geometric/PathGeometric.h>
+
+#include <ompl/geometric/PathHybridization.h>
 using namespace robowflex;
 
 static const std::string GROUP_X = "arm_with_x_move";
@@ -264,7 +262,7 @@ bool plan_to_grasp(std::shared_ptr<darts::World> &world, darts::Window &window, 
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
     goal->startSampling();
-    solved = builder.ss->solve(2.0);
+    solved = builder.ss->solve(30.0);
     goal->stopSampling();
 
     if (solved == ompl::base::PlannerStatus::EXACT_SOLUTION){
@@ -395,10 +393,22 @@ bool plan_to_move (std::shared_ptr<darts::World> &world,darts::Window &window,Ob
 
     builder.initialize();
 
-//    std::vector<double> solution_config;
-    std::vector<std::vector<ompl::base::State *>> solutions;
+    darts::TSR::Specification pos_spec;
+    pos_spec.setFrame(robot_->getName(),"gripper_link", "move_x_axis");
+    pos_spec.setPoseFromWorld(world);
+    auto rotation = pos_spec.getRotation();
+    Eigen::Vector3d position = pos_spec.getPosition();
 
-    ompl::geometric::PathGeometric path_(builder.info);
+    std::cout << position << std::endl;
+    std::cout << rotation.w() << std::endl;
+
+    translateActionToGoalRegion(position,rotation,action_,obj,surface_no);
+
+
+    /*
+//    std::vector<std::vector<ompl::base::State *>> solutions;
+
+    ompl::geometric::PathGeometric path_(builder.info);  // TO APPY PATH HYBRIDIZATION
     int i = 0;
     while (i < 10){
         std::vector<ompl::base::State *> solution_states;
@@ -414,92 +424,51 @@ bool plan_to_move (std::shared_ptr<darts::World> &world,darts::Window &window,Ob
             i++;
         }
     }
-    std::cout << "i : " << i << std::endl;
-    ompl::geometric::PathHybridization pathhyb(builder.info);
+     */
+//    auto goal = builder.getGoalConfiguration(solution_config);
+
+    auto goal = builder.getGoalTSR(create_goalTSR(eigen_quaternion_to_matrix(rotation),position,robot_->getName(),world));
+
+    goal->setThreshold(0.001);
+    builder.setGoal(goal);
+
+    auto planner = std::make_shared<ompl::geometric::KPIECE1>(builder.info);
+    builder.ss->setPlanner(planner);
+
+    builder.setup();
+
+    ompl::base::PlannerStatus solved = builder.ss->solve(30.0);
+
+    OMPL_DEBUG("HAVE EXACT SOLUTION PATH: ");
+    std::cout << builder.ss->haveExactSolutionPath() << std::endl;
 
 
-    for(auto &path_states : solutions )
+    if (solved == ompl::base::PlannerStatus::EXACT_SOLUTION )
     {
-        ompl::geometric::PathGeometricPtr path_;
-        path_ = std::make_shared<ompl::geometric::PathGeometric>(builder.info);
-        for(auto &st: path_states){
-            path_->append(st);
+        ompl::geometric::PathGeometric path(builder.getSolutionPath(true,false));
+
+        if(path.getStateCount() > 4 && builder.info->getStateDimension() ==12 ){
+
+            world->getRobot(obj_robot_->getName())->setGroupState(obj.group_name,backup_state);
+            world->getRobot(robot_->getName())->setGroupState(GROUP_X,backup_state_fetch);
+            return false;
         }
+        else
+            path.interpolate();
 
-        pathhyb.recordPath(path_,true);
-
-        std::cout << "PATH COUNT : " << pathhyb.pathCount() << std::endl;
-    }
-
-    pathhyb.computeHybridPath();
-    pathhyb.print();
-    auto solpath = pathhyb.getHybridPath();
-    ompl::geometric::PathGeometric ppa(builder.info);
-    for(auto &st : solpath->getStates())
-        ppa.append(st);
-//
-//    builder.ss->getPathSimplifier()->simplify(ppa,true);
-//    builder.ss->getPathSimplifier()->simplify(ppa,true);
-//    builder.ss->getPathSimplifier()->simplify(ppa,true);
-    ppa.interpolate();
-    window.animatePath(builder, ppa);
+        window.animatePath(builder, path);
         obj.actual_position += action_.pos;
         obj.actual_rotation += action_.rpy;
 
         return true;
+    }
+    else{
+        RBX_WARN("No solution found");
+        world->getRobot(obj_robot_->getName())->setGroupState(obj.group_name,backup_state); // TODO
+        world->getRobot(robot_->getName())->setGroupState(GROUP_X,backup_state_fetch); // TODO
 
-//    auto goal = builder.getGoalConfiguration(solution_config);
-//    goal->setThreshold(0.001);
-//    builder.setGoal(goal);
-//
-//    auto planner = std::make_shared<ompl::geometric::KPIECE1>(builder.info);
-//    builder.ss->setPlanner(planner);
-//
-//    builder.setup();
-//
-//    ompl::base::PlannerStatus solved = builder.ss->solve(20.0);
-//
-//    OMPL_DEBUG("HAVE EXACT SOLUTION PATH: ");
-//    std::cout << builder.ss->haveExactSolutionPath() << std::endl;
-//
-//
-//    if (solved == ompl::base::PlannerStatus::EXACT_SOLUTION )
-//    {
-//        ompl::geometric::PathGeometric path(builder.getSolutionPath(true,false));
-//
-//        ompl::geometric::PathHybridization pathhyb(builder.info,builder.ss->getOptimizationObjective());
-//
-//        ompl::geometric::PathGeometricPtr path_;
-//        path_ = std::make_shared<ompl::geometric::PathGeometric>(builder.info,path.getStates().front());
-//        pathhyb.recordPath(path_,true);
-//
-//        std::cout<<"path size : " << path.getStateCount() << std::endl;
-//        builder.ss->getPathSimplifier()->simplifyMax(path);
-//        builder.ss->getPathSimplifier()->simplifyMax(path);
-//        builder.ss->getPathSimplifier()->simplifyMax(path);
-//
-//        if(path.getStateCount() > 4 && builder.info->getStateDimension() ==12 ){
-//
-//            world->getRobot(obj_robot_->getName())->setGroupState(obj.group_name,backup_state);
-//            world->getRobot(robot_->getName())->setGroupState(GROUP_X,backup_state_fetch);
-//            return false;
-//        }
-//        else
-//            path.interpolate();
-//
-//        window.animatePath(builder, path);
-//        obj.actual_position += action_.pos;
-//        obj.actual_rotation += action_.rpy;
-//
-//        return true;
-//    }
-//    else{
-//        RBX_WARN("No solution found");
-//        world->getRobot(obj_robot_->getName())->setGroupState(obj.group_name,backup_state); // TODO
-//        world->getRobot(robot_->getName())->setGroupState(GROUP_X,backup_state_fetch); // TODO
-//
-//        return false;
-//    }
+        return false;
+    }
 }
 
 bool plan_to_move_robot (std::shared_ptr<darts::World> &world,darts::Window &window,Vector3d new_position) {

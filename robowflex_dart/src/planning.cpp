@@ -15,6 +15,7 @@
 #include <robowflex_dart/planning.h>
 #include <robowflex_dart/tsr.h>
 #include <robowflex_dart/world.h>
+//#include <ompl/base/spaces/FragmentedStateSpace.h>
 #include <robowflex_dart/IsoStateSpace.h>
 
 #include <fstream>
@@ -243,9 +244,8 @@ double JointRegionGoal::distanceGoal(const ompl::base::State *state) const
 ///
 /// PlanBuilder
 ///
-
 PlanBuilder::PlanBuilder(WorldPtr world, std::vector<std::vector<int>> grouped_indices) :
-rspace(std::make_shared<IsoStateSpace>(world,grouped_indices)), world(world),grouped_indices(grouped_indices)
+        rspace(std::make_shared<IsoStateSpace>(world,grouped_indices)), world(world),grouped_indices(grouped_indices)
 {
 }
 

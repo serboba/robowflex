@@ -23,8 +23,6 @@
 
 #include <ompl/geometric/planners/rrt/RRTConnect.h>
 #include <ompl/geometric/planners/kpiece/KPIECE1.h>
-//#include <ompl/geometric/planners/rrt/RRT.h>
-//#include <ompl/geometric/planners/sst/SST.h>
 #include <robowflex_dart/ActionRobot.h>
 #include <robowflex_dart/urdf_read.h>
 

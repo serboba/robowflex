@@ -18,33 +18,20 @@
 #include <chrono>
 #include <thread>
 
-#include <robowflex_dart/LARRT.h>
-#include <ompl/geometric/planners/kpiece/KPIECE1.h>
-#include <ompl/geometric/planners/rrt/RRTstar.h>
-#include <ompl/geometric/planners/rrt/RRTConnect.h>
-#include <ompl/geometric/planners/fmt/FMT.h>
-#include <ompl/geometric/planners/fmt/BFMT.h>
-#include <ompl/geometric/planners/prm/PRMstar.h>
-#include <ompl/geometric/planners/informedtrees/BITstar.h>
-#include <ompl/geometric/planners/informedtrees/ABITstar.h>
-#include <ompl/geometric/planners/informedtrees/AITstar.h>
+#include <ompl/base/objectives/MinimalActionsObjective.h>
+#include <ompl/base/spaces/FragmentedStateSpace.h>
+#include <ompl/geometric/planners/rrt/LARRT.h>
+
 #include <robowflex_library/builder.h>
-#include <robowflex_library/detail/fetch.h>
 #include <robowflex_library/log.h>
-#include <robowflex_library/planning.h>
 #include <robowflex_library/robot.h>
 #include <robowflex_library/scene.h>
-#include <robowflex_library/tf.h>
 #include <robowflex_library/util.h>
-
 #include <robowflex_dart/gui.h>
 #include <robowflex_dart/planning.h>
 #include <robowflex_dart/robot.h>
-#include <robowflex_dart/space.h>
 #include <robowflex_dart/tsr.h>
 #include <robowflex_dart/world.h>
-#include <robowflex_dart/solution_parser.h>
-#include <robowflex_dart/IsoManipulationOptimization.h>
 #include <robowflex_dart/point_collector.h>
 #include <robowflex_dart/urdf_read.h>
 
@@ -52,8 +39,6 @@ boost::filesystem::path p(boost::filesystem::current_path().parent_path().parent
 const std::string abs_path = p.string() + "/src/robowflex/robowflex_dart/include/io/";
 
 using namespace robowflex;
-
-static const std::string GROUP = "arm_with_torso";
 
 int main(int argc, char **argv)
 {
@@ -69,7 +54,7 @@ int main(int argc, char **argv)
     }
     else
     {
-        env_name = "maze2"; // test in cpp
+        env_name = "grid_world"; // test in cpp
         time = 30;
     }
     auto maze_dart = darts::loadMoveItRobot(env_name,
@@ -87,9 +72,9 @@ int main(int argc, char **argv)
 
         URDF_IO input_(env_name);
 
-        darts::PlanBuilder builder(world,input_.group_indices); // using my statespace
+        darts::PlanBuilder builder(world); // using my statespace
 
-
+        builder.space = std::make_shared<ompl::base::FragmentedStateSpace>(input_.group_indices);
         for(std::string group : input_.group_names) {
             builder.addGroup(maze_name,group);
         }
@@ -109,11 +94,8 @@ int main(int argc, char **argv)
         builder.setGoal(goal);
 
 
-        builder.ss->setOptimizationObjective(std::make_shared<ompl::base::IsoManipulationOptimization>(builder.info,input_.group_indices));
+        builder.ss->setOptimizationObjective(std::make_shared<ompl::base::MinimalActionsObjective>(builder.info,input_.group_indices));
         auto planner = std::make_shared<ompl::geometric::LARRT>(builder.info, input_.group_indices, true); // last parameter is state isolation
-        //auto planner = std::make_shared<ompl::geometric::RRTstar>(builder.info);
-        //auto planner = std::make_shared<ompl::geometric::BITstar>(builder.info);
-        //auto planner = std::make_shared<ompl::geometric::RRTConnect>(builder.info,false);
 
         builder.ss->setPlanner(planner);
         builder.setup();
@@ -121,13 +103,11 @@ int main(int argc, char **argv)
         builder.space->sanityChecks();
         builder.rspace->sanityChecks();
 
-
-//        std::this_thread::sleep_for(std::chrono::seconds(30));
-
         goal->startSampling();
         ompl::base::PlannerStatus solved = builder.ss->solve(time);
         goal->stopSampling();
 
+        builder.getSpace()->printSettings(std::cout);
         if (solved)
         {
             ompl::geometric::PathGeometric path(builder.getSolutionPath(false,false));

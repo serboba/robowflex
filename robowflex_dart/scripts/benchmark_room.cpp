@@ -26,31 +26,21 @@
 #include <robowflex_dart/space.h>
 #include <robowflex_dart/tsr.h>
 #include <robowflex_dart/world.h>
-#include <robowflex_dart/IsoManipulationOptimization.h>
 
+//#include <ompl/geometric/planners/rrt/RRT.h>
+//#include <ompl/geometric/planners/rrt/RRTConnect.h>
+//#include <ompl/geometric/planners/rrt/RRTstar.h>
+//#include <ompl/geometric/planners/rrt/LBTRRT.h>
 
-#include <ompl/geometric/planners/kpiece/BKPIECE1.h>
-#include <ompl/geometric/planners/kpiece/KPIECE1.h>
-#include <ompl/geometric/planners/kpiece/LBKPIECE1.h>
-#include <ompl/geometric/planners/prm/PRM.h>
-#include <ompl/geometric/planners/rrt/RRT.h>
-#include <ompl/geometric/planners/rrt/RRTConnect.h>
-#include <ompl/geometric/planners/rrt/RRTstar.h>
-#include <ompl/geometric/planners/rrt/LBTRRT.h>
+// #include <ompl/geometric/planners/informedtrees/BITstar.h>
+// #include <ompl/geometric/planners/informedtrees/AITstar.h>
+// #include <ompl/geometric/planners/informedtrees/ABITstar.h>
 
-#include <ompl/geometric/planners/sbl/SBL.h>
-#include <ompl/geometric/planners/fmt/FMT.h>
-#include <ompl/geometric/planners/fmt/BFMT.h>
-#include <ompl/geometric/planners/informedtrees/BITstar.h>
-#include <ompl/geometric/planners/informedtrees/AITstar.h>
-#include <ompl/geometric/planners/informedtrees/ABITstar.h>
-#include <ompl/geometric/planners/prm/PRMstar.h>
 #include <ompl/geometric/PathGeometric.h>
-
-#include <robowflex_dart/LARRT.h>
+#include <ompl/geometric/planners/rrt/LARRT.h>
+#include <ompl/base/objectives/MinimalActionsObjective.h>
 #include <robowflex_dart/urdf_read.h>
 #include <ompl/tools/benchmark/Benchmark.h>
-#include <robowflex_dart/IsoStateSpace.h>
 
 #include <ompl/base/samplers/UniformValidStateSampler.h>
 
@@ -155,7 +145,7 @@ void benchmark(){
     builder.space->sanityChecks();
     builder.rspace->sanityChecks();
 
-    builder.ss->setOptimizationObjective(std::make_shared<ompl::base::IsoManipulationOptimization>(builder.info,input_.group_indices));
+    builder.ss->setOptimizationObjective(std::make_shared<ompl::base::MinimalActionsObjective>(builder.info,input_.group_indices));
 
     builder.setup();
 

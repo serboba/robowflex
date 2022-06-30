@@ -8,6 +8,7 @@ set(CMAKE_MODULE_PATH
   "${CMAKE_ROOT_DIR}/cmake/Modules"
   "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules")
 
+
 include(CompileOptions)
 include(HelperFunctions)
 
@@ -27,7 +28,7 @@ if (DART_LIBRARIES)
   include_directories(SYSTEM ${EIGEN3_INCLUDE_DIRS})
   list(APPEND LIBRARIES ${EIGEN3_LIBRARIES})
 
-  find_package(ompl REQUIRED)
+  find_package(ompl REQUIRED PATHS /usr/local/share/ompl/cmake)
   if (ompl_LIBRARIES)
     include_directories(SYSTEM ${ompl_INCLUDE_DIRS})
     list(APPEND LIBRARIES ${ompl_LIBRARIES})
@@ -49,7 +50,9 @@ if (DART_LIBRARIES)
   find_package(catkin REQUIRED COMPONENTS
     robowflex_library
     )
-    
+
+
+
   catkin_package(
     LIBRARIES ${LIBRARY_NAME}
     CATKIN_DEPENDS
@@ -77,17 +80,12 @@ if (DART_LIBRARIES)
     src/joints/so2joint.cpp
     src/joints/so3joint.cpp
           src/conversion_functions.cpp
-          src/IsoManipulationOptimization.cpp
           src/Object.cpp
           src/planningFunctions.cpp
           src/point_collector.cpp
           src/quaternion_factory.cpp
-          src/LARRT.cpp
           src/urdf_read.cpp
-          include/robowflex_dart/IsoStateSpace.h
           src/ActionRobot.cpp
-          src/PathHybridization.cpp
-          src/PathDefragmenter.cpp
 
     )
   set_target_properties(${LIBRARY_NAME} PROPERTIES VERSION ${${PROJECT_NAME}_VERSION})

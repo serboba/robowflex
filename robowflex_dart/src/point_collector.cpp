@@ -195,6 +195,7 @@ Eigen::MatrixXd get_pose_object(Object &obj, int surface_no){
     MatrixXd rpy_matrix= vec_to_matrix(obj.link.rpy+obj.joints.rpy);
     MatrixXd random_pose = get_random_point_from_surface(surface_equation,rpy_matrix,normals, surface_no);
 
+    random_pose(2) -= 0.15; // SCALING FACTOR TO GRASP BETTER, CLOSER TO THE OBJECT
     return random_pose;
 }
 
