@@ -4,7 +4,7 @@
     <link name="room">
       <visual>
         <geometry>
-          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room2/meshes/room.dae" scale=" 0.4 0.4 0.3"/>
+          <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/room2/meshes/room.dae" scale=" 0.4 0.4 0.3"/>
         </geometry>
         <origin rpy="0 0 0" xyz="0 0 0"/>
       <material name="">
@@ -14,7 +14,7 @@
 
       <collision>
         <geometry>
-          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room2/meshes/room.dae" scale=" 0.4 0.4 0.3"/>
+          <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/room2/meshes/room.dae" scale=" 0.4 0.4 0.3"/>
         </geometry>
         <origin rpy="0 0 0" xyz="0 0 0"/>       
        </collision>

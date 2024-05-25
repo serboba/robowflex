@@ -8,7 +8,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/base_link.dae"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/base_link.dae"/>
       </geometry>
       <material name="">
         <color rgba="0.356 0.361 0.376 1"/>
@@ -17,7 +17,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/base_link_collision.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/base_link_collision.STL"/>
       </geometry>
     </collision>
   </link>
@@ -30,7 +30,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/r_wheel_link.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/r_wheel_link.STL"/>
       </geometry>
       <material name="">
         <color rgba="0.086 0.506 0.767 1"/>
@@ -39,7 +39,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/r_wheel_link_collision.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/r_wheel_link_collision.STL"/>
       </geometry>
     </collision>
   </link>
@@ -58,7 +58,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/l_wheel_link.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/l_wheel_link.STL"/>
       </geometry>
       <material name="">
         <color rgba="0.086 0.506 0.767 1"/>
@@ -67,7 +67,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/l_wheel_link_collision.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/l_wheel_link_collision.STL"/>
       </geometry>
     </collision>
   </link>
@@ -86,7 +86,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/torso_lift_link.dae"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/torso_lift_link.dae"/>
       </geometry>
       <material name="">
         <color rgba="1 1 1 1"/>
@@ -95,7 +95,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/torso_lift_link_collision.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/torso_lift_link_collision.STL"/>
       </geometry>
     </collision>
   </link>
@@ -115,7 +115,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/head_pan_link.dae"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/head_pan_link.dae"/>
       </geometry>
       <material name="">
         <color rgba="0.356 0.361 0.376 1"/>
@@ -124,7 +124,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/head_pan_link_collision.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/head_pan_link_collision.STL"/>
       </geometry>
     </collision>
   </link>
@@ -143,7 +143,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/head_tilt_link.dae"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/head_tilt_link.dae"/>
       </geometry>
       <material name="">
         <color rgba="0.086 0.506 0.767 1"/>
@@ -152,7 +152,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/head_tilt_link_collision.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/head_tilt_link_collision.STL"/>
       </geometry>
     </collision>
   </link>
@@ -172,7 +172,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/shoulder_pan_link.dae"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/shoulder_pan_link.dae"/>
       </geometry>
       <material name="">
         <color rgba="1 1 1 1"/>
@@ -181,7 +181,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/shoulder_pan_link_collision.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/shoulder_pan_link_collision.STL"/>
       </geometry>
     </collision>
   </link>
@@ -202,7 +202,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/shoulder_lift_link.dae"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/shoulder_lift_link.dae"/>
       </geometry>
       <material name="">
         <color rgba="0.086 0.506 0.767 1"/>
@@ -211,7 +211,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/shoulder_lift_link_collision.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/shoulder_lift_link_collision.STL"/>
       </geometry>
     </collision>
   </link>
@@ -232,7 +232,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/upperarm_roll_link.dae"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/upperarm_roll_link.dae"/>
       </geometry>
       <material name="">
         <color rgba="1 1 1 1"/>
@@ -241,7 +241,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/upperarm_roll_link_collision.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/upperarm_roll_link_collision.STL"/>
       </geometry>
     </collision>
   </link>
@@ -262,7 +262,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/elbow_flex_link.dae"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/elbow_flex_link.dae"/>
       </geometry>
       <material name="">
         <color rgba="0.086 0.506 0.767 1"/>
@@ -271,7 +271,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/elbow_flex_link_collision.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/elbow_flex_link_collision.STL"/>
       </geometry>
     </collision>
   </link>
@@ -292,7 +292,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/forearm_roll_link.dae"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/forearm_roll_link.dae"/>
       </geometry>
       <material name="">
         <color rgba="1 1 1 1"/>
@@ -301,7 +301,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/forearm_roll_link_collision.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/forearm_roll_link_collision.STL"/>
       </geometry>
     </collision>
   </link>
@@ -322,7 +322,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/wrist_flex_link.dae"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/wrist_flex_link.dae"/>
       </geometry>
       <material name="">
         <color rgba="0.086 0.506 0.767 1"/>
@@ -331,7 +331,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/wrist_flex_link_collision.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/wrist_flex_link_collision.STL"/>
       </geometry>
     </collision>
   </link>
@@ -352,7 +352,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/wrist_roll_link.dae"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/wrist_roll_link.dae"/>
       </geometry>
       <material name="">
         <color rgba="1 1 1 1"/>
@@ -361,7 +361,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/wrist_roll_link_collision.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/wrist_roll_link_collision.STL"/>
       </geometry>
     </collision>
   </link>
@@ -382,13 +382,13 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/gripper_link.dae"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/gripper_link.dae"/>
       </geometry>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/gripper_link.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/gripper_link.STL"/>
       </geometry>
     </collision>
   </link>
@@ -409,7 +409,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0.101425 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/r_gripper_finger_link.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/r_gripper_finger_link.STL"/>
       </geometry>
       <material name="">
         <color rgba="0.356 0.361 0.376 1"/>
@@ -419,7 +419,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0.101425 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/r_gripper_finger_link.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/r_gripper_finger_link.STL"/>
       </geometry>
     </collision>
   </link>
@@ -441,7 +441,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 -0.101425 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/l_gripper_finger_link.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/l_gripper_finger_link.STL"/>
       </geometry>
       <material name="">
         <color rgba="0.356 0.361 0.376 1"/>
@@ -450,7 +450,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 -0.101425 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/l_gripper_finger_link.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/l_gripper_finger_link.STL"/>
       </geometry>
     </collision>
   </link>
@@ -469,7 +469,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/bellows_link.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/bellows_link.STL"/>
       </geometry>
       <material name="">
         <color rgba="0 0 0 1"/>
@@ -478,7 +478,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/bellows_link_collision.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/bellows_link_collision.STL"/>
       </geometry>
     </collision>
   </link>
@@ -497,7 +497,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/bellows_link.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/bellows_link.STL"/>
       </geometry>
       <material name="">
         <color rgba="0 0 0 1"/>
@@ -506,7 +506,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/bellows_link_collision.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/bellows_link_collision.STL"/>
       </geometry>
     </collision>
   </link>
@@ -524,7 +524,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/estop_link.dae"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/estop_link.dae"/>
       </geometry>
       <material name="">
         <color rgba="0.8 0 0 1"/>
@@ -533,7 +533,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/estop_link.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/estop_link.STL"/>
       </geometry>
     </collision>
   </link>
@@ -552,7 +552,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/laser_link.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/laser_link.STL"/>
       </geometry>
       <material name="">
         <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
@@ -561,7 +561,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/laser_link.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/laser_link.STL"/>
       </geometry>
     </collision>
   </link>
@@ -580,7 +580,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/torso_fixed_link.dae"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/torso_fixed_link.dae"/>
       </geometry>
       <material name="">
         <color rgba="0.086 0.506 0.767 1"/>
@@ -589,7 +589,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/fetch/meshes/torso_fixed_link.STL"/>
+        <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/fetch/meshes/torso_fixed_link.STL"/>
       </geometry>
     </collision>
   </link>

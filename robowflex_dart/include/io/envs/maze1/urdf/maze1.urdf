@@ -4,7 +4,7 @@
     <link name="table">
       <visual>
         <geometry>
-          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/maze1/meshes/maze1.dae" scale=" 0.50 0.50 0.50"/>
+          <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/maze1/meshes/maze1.dae" scale=" 0.50 0.50 0.50"/>
         </geometry>
         <origin rpy="0 0 0" xyz="0 0 0"/>
 
@@ -14,7 +14,7 @@
       </visual>
       <collision concave="yes" name="collision_mesh_2">
         <geometry>
-          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/maze1/meshes/maze1.dae" scale=" 0.50 0.50 0.50"/>
+          <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/maze1/meshes/maze1.dae" scale=" 0.50 0.50 0.50"/>
         </geometry>
         <origin rpy="0 0 0" xyz="0 0 0"/>       
        </collision>

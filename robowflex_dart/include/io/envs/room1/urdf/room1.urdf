@@ -4,7 +4,7 @@
     <link name="room">
       <visual>
         <geometry>
-          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room1/meshes/room.dae" scale=" 0.4 0.4 0.3"/>
+          <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/room1/meshes/room.dae" scale=" 0.4 0.4 0.3"/>
         </geometry>
         <origin rpy="0 0 0" xyz="0 0 0"/>
       <material name="">
@@ -14,7 +14,7 @@
 
       <collision>
         <geometry>
-          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room1/meshes/room.dae" scale=" 0.4 0.4 0.3"/>
+          <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/room1/meshes/room.dae" scale=" 0.4 0.4 0.3"/>
         </geometry>
         <origin rpy="0 0 0" xyz="0 0 0"/>       
        </collision>
@@ -24,7 +24,7 @@
         <link name="shelf">
       <visual>
         <geometry>
-          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room1/meshes/shelf.dae" scale="0.042 0.05 0.04"/>
+          <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/room1/meshes/shelf.dae" scale="0.042 0.05 0.04"/>
         </geometry>
         <origin rpy="0 0 0" xyz="0 0 0"/>
       
@@ -35,7 +35,7 @@
       </visual>
       <collision>
         <geometry>
-          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room1/meshes/shelf.dae" scale="0.042 0.05 0.04"/>
+          <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/room1/meshes/shelf.dae" scale="0.042 0.05 0.04"/>
         </geometry>
         <origin rpy="0 0 0" xyz="0 0 0"/>       
        </collision>
@@ -45,7 +45,7 @@
     <link name="desk">
       <visual>
         <geometry>
-          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room1/meshes/desk2.dae" scale="0.01 0.01 0.020"/>
+          <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/room1/meshes/desk2.dae" scale="0.01 0.01 0.020"/>
         </geometry>
         <origin rpy="0 0 0" xyz="0 0 0"/>
       
@@ -56,7 +56,7 @@
       </visual>
       <collision>
         <geometry>
-          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room1/meshes/desk2.dae" scale="0.01 0.01 0.020"/>
+          <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/room1/meshes/desk2.dae" scale="0.01 0.01 0.020"/>
         </geometry>
         <origin rpy="0 0 0" xyz="0 0 0"/>       
        </collision>
@@ -67,7 +67,7 @@
     <link name="sofa">
       <visual>
         <geometry>
-          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room1/meshes/sofa.dae" scale="0.9 0.7 1"/>
+          <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/room1/meshes/sofa.dae" scale="0.9 0.7 1"/>
         </geometry>
         <origin rpy="0 0 0" xyz="0 0 0"/>
       
@@ -78,7 +78,7 @@
       </visual>
       <collision>
         <geometry>
-          <mesh filename="/home/serboba/rb_ws/src/robowflex/robowflex_dart/include/io/envs/room1/meshes/sofa.dae" scale="0.9 0.7 1"/>
+          <mesh filename="/home/serboba/rb_ws/robowflex/robowflex_dart/include/io/envs/room1/meshes/sofa.dae" scale="0.9 0.7 1"/>
         </geometry>
         <origin rpy="0 0 0" xyz="0 0 0"/>       
        </collision>

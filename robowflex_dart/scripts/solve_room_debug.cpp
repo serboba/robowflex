@@ -144,7 +144,8 @@ void benchmark(){
     builder.space->sanityChecks();
     builder.rspace->sanityChecks();
 
-    builder.ss->setOptimizationObjective(std::make_shared<ompl::base::IsoManipulationOptimization>(builder.info,input_.group_indices));
+
+    //builder.ss->setOptimizationObjective(std::make_shared<ompl::base::IsoManipulationOptimization>(builder.info,input_.group_indices));
 
     builder.setup();
 

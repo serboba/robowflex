@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<!-- created with Phobos 1.0.1 "Capricious Choutengan" -->
-  <robot name="grid_world">
+<!-- created with Phobos 1.0.1 "Capricious Choutengan" --><robot name="grid_world">
 
     <link name="base_link">
       <inertial>

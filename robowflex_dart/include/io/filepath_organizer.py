@@ -5,7 +5,7 @@ from lxml import etree as ET
 
 def fix_paths():
 
-    envs = os.getcwd() + '/envs/'
+    envs = os.path.dirname(os.path.abspath(__file__)) + '/envs/'
     for folder in os.listdir(envs):
         urdf_folder = envs + folder + '/urdf/'
         for urdf in os.listdir(urdf_folder):
